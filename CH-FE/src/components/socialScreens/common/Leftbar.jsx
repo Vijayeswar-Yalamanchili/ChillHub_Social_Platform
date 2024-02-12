@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 function Leftbar() {
   return <>
-    <div className="leftBar ">
+    <div className="leftBar">
         <div className="list-group list-group-flush mt-3">
             <Link to={'/home'} className="list-group-item list-group-item-action">
               <span className='d-flex align-items-center' style={{gap:"5px"}}>

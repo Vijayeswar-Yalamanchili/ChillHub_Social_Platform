@@ -1,11 +1,12 @@
 import React from "react";
-import Login from "../components/signup/Login";
-import Register from "../components/signup/Register";
+import Login from "../components/signup-signIn-frgtPwd/Login";
+import Register from "../components/signup-signIn-frgtPwd/Register";
+import ForgotPassword from "../components/signup-signIn-frgtPwd/ForgotPassword"
 import Home from "../components/socialScreens/Home"
 import Events from "../components/socialScreens/Events"
 import FindFriends from "../components/socialScreens/FindFriends"
 import Messages from "../components/socialScreens//Messages"
-import ForgotPassword from "../components/signup/ForgotPassword"
+
 import { Navigate } from "react-router-dom";
 
 const AppRoutes = [
