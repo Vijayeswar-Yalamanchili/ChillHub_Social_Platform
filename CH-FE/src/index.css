@@ -10,7 +10,8 @@
 
 .anime{
     width: 100%;
-    height: 564px;
+    height: 250px;
+    /* height: 564px; */
     object-fit: fill;
     background-color: rgb(246, 230, 230);
 }
@@ -31,8 +32,10 @@
     text-decoration: none;
 }
 
-.rightbar{
-    margin-left: 20rem;
+@media screen and (max-width: 768px) and (min-width: 426px){
+    .anime{
+        width: 100%;
+    }
 }
 
 /* NAVBAR BEFORE & AFTER LOGIN */
@@ -189,6 +192,7 @@
 /* RIGHTBAR COMPONENT */
 
 .rightBar{
+    margin-left: 20rem;
     height: 100%;
     border-left: 1px solid grey;
     padding: 0 10px;

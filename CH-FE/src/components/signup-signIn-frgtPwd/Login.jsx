@@ -30,9 +30,9 @@ function Login() {
             let res = await AxiosService.post(`${ApiRoutes.LOGIN.path}`,formProps)
             // console.log(res);
             if(res.status === 200){
-                sessionStorage.setItem('token',res.data.token)
-                sessionStorage.setItem('role',res.data.role)
-                sessionStorage.setItem('id',res.data.id)
+                localStorage.setItem('token',res.data.token)
+                localStorage.setItem('role',res.data.role)
+                localStorage.setItem('id',res.data.id)
                 navigate('/home')
             }
         } catch (error) {
