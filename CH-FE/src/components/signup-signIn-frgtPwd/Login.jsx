@@ -25,13 +25,13 @@ function Login() {
             e.preventDefault()
             const formData = new FormData(e.target)
             const formProps = Object.fromEntries(formData)
-            console.log(formProps);
+            // console.log(formProps);
       
             let res = await AxiosService.post(`${ApiRoutes.LOGIN.path}`,formProps)
             // console.log(res);
             if(res.status === 200){
                 sessionStorage.setItem('token',res.data.token)
-                sessionStorage.setItem('role',res.data.firstName)
+                sessionStorage.setItem('role',res.data.role)
                 sessionStorage.setItem('id',res.data.id)
                 navigate('/home')
             }
