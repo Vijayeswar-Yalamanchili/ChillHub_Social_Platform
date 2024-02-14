@@ -25,7 +25,7 @@ const login = async(req,res) => {
             }
         }else{
             res.status(400).send({
-                message: "Incorrect Emailid"
+                message: "Emailid not found"
             })
         }
         

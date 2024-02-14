@@ -10,6 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import AxiosService from '../../utils/AxiosService';
 import ApiRoutes from '../../utils/ApiRoutes';
 import { toast } from 'react-toastify';
+import { useFormik } from 'formik';
+import * as Yup from 'yup'
 
 function Login() {
 
@@ -19,26 +21,31 @@ function Login() {
         navigate('/register')
     }
 
-    const handleLogin = async(e) => {
-        // navigate('/home')
-        try {
-            e.preventDefault()
-            const formData = new FormData(e.target)
-            const formProps = Object.fromEntries(formData)
-            // console.log(formProps);
-      
-            let res = await AxiosService.post(`${ApiRoutes.LOGIN.path}`,formProps)
-            // console.log(res);
-            if(res.status === 200){
-                localStorage.setItem('token',res.data.token)
-                localStorage.setItem('role',res.data.role)
-                localStorage.setItem('id',res.data.id)
-                navigate('/home')
+    let formik = useFormik({
+        initialValues:{
+          email:'',
+          password:''
+        },
+        validationSchema:Yup.object({          
+          email:Yup.string().required('Email is required').email('Enter a valid email'),
+          password:Yup.string().required('Password is required').matches(/^[a-zA-Z0-9!@#$%^&*]{8,15}$/,'Enter a valid Password')
+        }),
+        onSubmit : async(values) => {
+            try {
+                // console.log(values);          
+                let res = await AxiosService.post(`${ApiRoutes.LOGIN.path}`,values)
+                // console.log(res);
+                if(res.status === 200){
+                    localStorage.setItem('token',res.data.token)
+                    localStorage.setItem('role',res.data.role)
+                    localStorage.setItem('id',res.data.id)
+                    navigate('/home')
+                }
+            } catch (error) {
+                toast.error(error.response.data.message || error.message)
             }
-        } catch (error) {
-            toast.error(error.response.data.message || error.message)
         }
-    }
+    })
 
     return <>
         <NavbarBeforeLogin/>
@@ -50,14 +57,16 @@ function Login() {
                         <img src={loginAnime} alt='loginAnime' className='anime loginAnime rounded-4'/>
                     </Col>
                     <Col md xs={12}>
-                        <Form onSubmit={handleLogin} className='formData loginFormdata p-5 rounded-4'>
-                            <Form.Group className="mb-4" controlId="formGroupEmail">
+                        <Form onSubmit={formik.handleSubmit} className='formData loginFormdata p-5 rounded-4'>
+                            <Form.Group className="mb-4">
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email"  name='email'/>
+                                <Form.Control type="email" placeholder="Enter email" id='email' name='email' onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur}/>
+                                {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null}
                             </Form.Group>
-                            <Form.Group className="mb-4" controlId="formGroupPassword">
+                            <Form.Group className="mb-4">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Enter Password" name='password'/>
+                                <Form.Control type="password" placeholder="Enter Password" id='password' name='password' onChange={formik.handleChange} value={formik.values.password} onBlur={formik.handleBlur}/>
+                                {formik.touched.password && formik.errors.password ? (<div style={{color:"red"}}>{formik.errors.password}</div>) : null}
                             </Form.Group>
                             <div className='mb-4'>
                                 <Link to={'/forgotpassword'} className='loginTextLink'>Forgot Password</Link>
