@@ -44,13 +44,13 @@ function Login() {
         <NavbarBeforeLogin/>
 
         <div className='formArea py-5'>
-            <Container>
-                <Row>
-                    <Col lg xs={12} className='mb-3'>
+            <Container fluid>
+                <Row className='rowArea'>
+                    <Col md xs={12} className='mb-3'>
                         <img src={loginAnime} alt='loginAnime' className='anime loginAnime rounded-4'/>
                     </Col>
-                    <Col lg xs={12}>
-                        <Form onSubmit={handleLogin} className='formData p-5 rounded-4'>
+                    <Col md xs={12}>
+                        <Form onSubmit={handleLogin} className='formData loginFormdata p-5 rounded-4'>
                             <Form.Group className="mb-4" controlId="formGroupEmail">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control type="email" placeholder="Enter email"  name='email'/>

@@ -44,12 +44,32 @@ const authenticate = async(req,res,next) => {
         res.status(402).send({
             message :"Unauthorised access"
         })
+        alert("qwe")
     } 
+}
+
+const userGuard = async(req,res,next) => {
+    let token  = req?.headers?.authorization?.split(' ')[1]
+    if(token){
+        let payload = await decodeToken(token)
+        if(payload.role === "user"){
+            next()
+        }else{
+            res.status(402).send({
+                message :"Only Users are allowed"
+            })
+        }        
+    }else{
+        res.status(402).send({
+            message :"Unauthorised access"
+        })
+    }    
 }
 
 export default {
     createHash,
     hashCompare,
     createToken,
-    authenticate
+    authenticate,
+    userGuard
 }

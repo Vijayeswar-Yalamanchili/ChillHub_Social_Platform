@@ -41,12 +41,12 @@ function Register() {
         <NavbarBeforeLogin/>
 
         <div className='formArea py-5'>
-            <Container>
-                <Row>
-                    <Col lg xs={12} className='mb-3'>
+            <Container fluid>
+                <Row className='rowArea'>
+                    <Col md xs={12} className='mb-3'>
                         <img src={signupAnime} alt='signupAnime' className='anime rounded-4'/>
                     </Col>
-                    <Col lg xs={12}>
+                    <Col md xs={12}>
                         <Form onSubmit={handleRegister} className='formData p-5 rounded-4'>
                             <Row className="mb-3">
                               <Col lg xs={12} className='mb-3'>

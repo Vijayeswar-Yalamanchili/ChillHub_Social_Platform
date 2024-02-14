@@ -6,7 +6,7 @@ import Home from "../components/socialScreens/Home"
 import Events from "../components/socialScreens/Events"
 import FindFriends from "../components/socialScreens/FindFriends"
 import Messages from "../components/socialScreens//Messages"
-
+import UserProtectedRoute from "./UserProtectedRoute";
 import { Navigate } from "react-router-dom";
 
 const AppRoutes = [
@@ -27,7 +27,7 @@ const AppRoutes = [
     },
     {
         path:'/home',
-        element : <Home/>,
+        element : <UserProtectedRoute><Home/></UserProtectedRoute>,
         exact:true
     },
     {

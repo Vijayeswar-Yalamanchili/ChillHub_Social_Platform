@@ -11,13 +11,8 @@
 .anime{
     width: 100%;
     height: 250px;
-    /* height: 564px; */
     object-fit: fill;
     background-color: rgb(246, 230, 230);
-}
-
-.loginAnime{
-    height: 520px;
 }
 
 .formData{
@@ -31,10 +26,55 @@
     color: rgb(99, 98, 104);
     text-decoration: none;
 }
+@media screen and (max-width : 576px){
+    .rowArea{
+        padding: 0 3%;
+    }
+}
 
-@media screen and (max-width: 768px) and (min-width: 426px){
+@media screen and (max-width: 768px) and (min-width: 576px){
     .anime{
         width: 100%;
+        height: 400px;
+    } 
+    .rowArea{
+        padding: 0 3%;
+    }   
+}
+
+@media screen and (max-width: 992px) and (min-width: 768px){
+    .rowArea{
+        padding: 0 3%;
+    }
+    .anime{
+        height: 700px;
+    }
+    .loginAnime{
+        height: 543px;
+    }
+    .loginFormdata{
+        height: 543px;
+    }
+    .forgtpwdAmnime{
+        height: 445px;
+    }
+}
+
+@media screen and (min-width: 992px){
+    .rowArea{
+        padding: 0 5%;
+    }
+    .anime{
+        height: 564px;
+    }
+    .loginAnime{
+        height: 543px;
+    }
+    .loginFormdata{
+        height: 543px;
+    }
+    .forgtpwdAmnime{
+        height: 446px;
     }
 }
 
@@ -192,7 +232,7 @@
 /* RIGHTBAR COMPONENT */
 
 .rightBar{
-    margin-left: 20rem;
+    /* margin-left: 20rem; */
     height: 100%;
     border-left: 1px solid grey;
     padding: 0 10px;
