@@ -11,13 +11,13 @@ function Home() {
   return <>
     <NavbarAfterLogin/>
 
-    <Container fluid>
+    {/* <Container fluid>
       <Row>
         <Col ><Leftbar/></Col>
         <Col xs lg={8}><Feedbar/></Col>
         <Col><Rightbar/></Col>
       </Row>
-    </Container>
+    </Container> */}
   </>
 }
 
