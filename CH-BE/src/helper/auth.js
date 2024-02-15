@@ -44,7 +44,6 @@ const authenticate = async(req,res,next) => {
         res.status(402).send({
             message :"Unauthorised access"
         })
-        alert("qwe")
     } 
 }
 

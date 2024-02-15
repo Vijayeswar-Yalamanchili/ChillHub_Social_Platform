@@ -86,7 +86,7 @@ function Register() {
                     <Col md xs={12}>
                         <Form onSubmit={formik.handleSubmit} className='formData p-5 rounded-4'>
                             <Row className="mb-3">
-                              <Col lg xs={12} className='aa'>
+                              <Col lg xs={12} className='fieldBottom'>
                                 <Form.Label>Firstname</Form.Label>
                                 <Form.Control type='text' placeholder="Enter Firstname" id='firstName' name='firstName'onChange={formik.handleChange} value={formik.values.firstName} onBlur={formik.handleBlur}/>
                                 {formik.touched.firstName && formik.errors.firstName ? (<div style={{color:"red"}}>{formik.errors.firstName}</div>) : null}
@@ -108,7 +108,7 @@ function Register() {
                                 {formik.touched.mobile && formik.errors.mobile ? (<div style={{color:"red"}}>{formik.errors.mobile}</div>) : null}
                             </Form.Group>
                             <Row className="mb-4">
-                              <Col lg xs={12} className='aa'>
+                              <Col lg xs={12} className='fieldBottom'>
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control type='password' placeholder="Enter password" id="password" name='password'onChange={formik.handleChange} value={formik.values.password} onBlur={formik.handleBlur}/>
                                 {formik.touched.password && formik.errors.password ? (<div style={{color:"red"}}>{formik.errors.password}</div>) : null}
