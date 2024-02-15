@@ -33,6 +33,7 @@ const authenticate = async(req,res,next) => {
     if(token){
         let payload = await decodeToken(token)
         let currentTime = +new Date()
+        console.log(payload.role);
         if(Math.floor(currentTime/1000)<payload.exp){
             next()
         }else{

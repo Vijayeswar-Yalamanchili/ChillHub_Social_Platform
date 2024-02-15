@@ -1,5 +1,6 @@
 import express from 'express'
 import registerLoginController from '../controller/registerLogin_controller.js'
+import screenController from '../controller/screenController.js'
 import auth from '../helper/auth.js'
 
 const router = express.Router()
@@ -9,6 +10,6 @@ const router = express.Router()
 // })
 router.post('/',registerLoginController.login)
 router.post('/register',registerLoginController.register)
-router.get('/home',auth.authenticate,auth.userGuard,registerLoginController.register)
+router.get('/home',auth.authenticate,auth.userGuard,screenController.home)
 
 export default router 
