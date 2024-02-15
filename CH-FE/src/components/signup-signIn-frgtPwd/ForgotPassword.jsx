@@ -1,14 +1,11 @@
 import React from 'react'
+import {Container,Row, Col,Form,Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import NavbarBeforeLogin from './NavbarBeforeLogin';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
 import forgotpwdAnime from '../../assets/forgotpwd-anime.svg'
-import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom';
+
 
 function ForgotPassword() {
     return <>

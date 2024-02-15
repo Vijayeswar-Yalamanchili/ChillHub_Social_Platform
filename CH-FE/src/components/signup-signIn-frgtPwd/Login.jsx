@@ -1,17 +1,14 @@
 import React from 'react'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import NavbarBeforeLogin from './NavbarBeforeLogin'
-import loginAnime from '../../assets/loginAnime.svg'
-import Button from 'react-bootstrap/Button';
+import {Container,Row, Col,Form,Button} from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import AxiosService from '../../utils/AxiosService';
-import ApiRoutes from '../../utils/ApiRoutes';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
+import NavbarBeforeLogin from './NavbarBeforeLogin'
+import loginAnime from '../../assets/loginAnime.svg'
+import AxiosService from '../../utils/AxiosService';
+import ApiRoutes from '../../utils/ApiRoutes';
+
 
 function Login() {
 

@@ -1,11 +1,9 @@
 import React from 'react'
+import {Container,Row,Col} from 'react-bootstrap';
 import NavbarAfterLogin from './common/NavbarAfterLogin'
 import Leftbar from './common/Leftbar';
 import Rightbar from './common/Rightbar'
 import EventBar from './middlebars/EventBar';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 function Events() {
   return <>
