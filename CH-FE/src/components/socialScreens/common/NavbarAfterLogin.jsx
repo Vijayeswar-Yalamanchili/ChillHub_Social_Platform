@@ -8,9 +8,11 @@ import { faPlus, faBell, faUser, faU, faL} from '@fortawesome/free-solid-svg-ico
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom'
+import {useLogout} from '../../../hooks/UseLogout'
 
 function NavbarAfterLogin() {
 
+    let logout = useLogout()
     let notifications = ["Notification 1","Notification 2","Notification 3","Notification 4","Notification 5"]
     // let myProfileOptions = ["My Profile", "Logout"]
 
@@ -117,7 +119,7 @@ function NavbarAfterLogin() {
                             <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>My Profile
                         </span>
                     </Link>
-                    <Link to={'/'} className="list-group-item list-group-item-action">
+                    <Link to={'/'} className="list-group-item list-group-item-action" onClick={logout}>
                         <span className='d-flex align-items-center' style={{gap:"5px"}}>
                             <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Logout
                         </span>

@@ -104,7 +104,7 @@ function Register() {
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Label>Mobile</Form.Label>
-                                <Form.Control type="text" placeholder="Enter Mobile number" id="mobile" name='mobile' onChange={formik.handleChange} value={formik.values.mobile} onBlur={formik.handleBlur}/>
+                                <Form.Control type="text" placeholder="Enter Mobile number" maxLength={10} id="mobile" name='mobile' onChange={formik.handleChange} value={formik.values.mobile} onBlur={formik.handleBlur}/>
                                 {formik.touched.mobile && formik.errors.mobile ? (<div style={{color:"red"}}>{formik.errors.mobile}</div>) : null}
                             </Form.Group>
                             <Row className="mb-4">

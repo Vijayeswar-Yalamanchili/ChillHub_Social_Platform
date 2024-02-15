@@ -37,8 +37,8 @@ function Login() {
                 // console.log(res);
                 if(res.status === 200){
                     localStorage.setItem('token',res.data.token)
-                    localStorage.setItem('role',res.data.role)
-                    localStorage.setItem('id',res.data.id)
+                    // localStorage.setItem('role',res.data.role)
+                    // localStorage.setItem('id',res.data.id)
                     navigate('/home')
                 }
             } catch (error) {
