@@ -83,6 +83,7 @@
 }
 
 /* ------------------------------------------------------------------------------------------------ */
+
 /* NAVBAR BEFORE & AFTER LOGIN */
 
 .navbarBg{
@@ -108,14 +109,12 @@
 .navToogle{
     border: 1px solid white !important;
 }
-.navbar-toggler-icon{
-    color: red !important;
-}
 
 .rightbarNofication{
     display: flex;
     justify-content: end;
     float: right !important;
+    z-index: 1;
 }
 
 .navbarMenu{
@@ -354,14 +353,6 @@
 .friendNameArea{
     width: 100%;
 }
-
-/* .addBlock img{
-    width: 100%;
-    height: 10rem;
-    object-fit: contain;
-    border: none;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-} */
 
 .user i{
     margin-right: 5%;
