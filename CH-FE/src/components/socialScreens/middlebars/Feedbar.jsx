@@ -16,6 +16,7 @@ function Feedbar() {
             <Col>
               <Card className='mb-5 postFeed mx-auto' style={{ width: '95%' }}>
                 <Card.Img variant="top" src={e}/>
+                <Card.Text className='ms-2'>0 Likes</Card.Text>
                 <div className='d-flex flex-row'>
                   <Card.Text className='ms-2'>0 Likes</Card.Text>
                   <Card.Text className='ms-3'>0 Comments</Card.Text>

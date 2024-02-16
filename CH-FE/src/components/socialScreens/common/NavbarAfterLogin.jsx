@@ -1,14 +1,18 @@
 import React, {useState, useEffect} from 'react'
 import {Nav,Navbar,Button,Container,Form,Modal} from 'react-bootstrap'
-import logo from '../../../assets/ChillHub.png'
+import { Link } from 'react-router-dom'
+// import { useFormik } from 'formik';
+// import * as Yup from 'yup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faBell, faUser, faMagnifyingGlass, faU, faL} from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import logo from '../../../assets/ChillHub.png'
 import {useLogout} from '../../../hooks/UseLogout'
 
 function NavbarAfterLogin() {
 
     let logout = useLogout()
+
+    // let formik = useFormik()
     let notifications = ["Notification 1","Notification 2","Notification 3","Notification 4","Notification 5"]
     // let myProfileOptions = ["My Profile", "Logout"]
 
@@ -96,53 +100,24 @@ function NavbarAfterLogin() {
             </Container>
         </Navbar>
 
-        {/* <Navbar expand="md" className="navbarBg">
-            <Navbar.Brand href="">
-                <span className='text-white d-flex justify-content-between align-items-center px-3 logospan'>
-                    <img src={logo} alt="Logo" className="logoImg d-inline-block align-top"/>
-                    <Link to={'/home'} className="brandTitle"> ChillHub</Link>
-                </span>
-            </Navbar.Brand>
-
-                <div>
-                    <input type="search" name="search" id="searchbar" placeholder='Type here to search...'/>
-                </div>
-
-            <Navbar.Toggle/>
-                
-            <Navbar.Collapse className="rightbarNofication me-3 ">                
-                <div className='d-flex'>
-                
-                <Nav.Link>
-                    <Button className='NavIcon mx-2' onClick={()=>handleShow()}>
-                        <FontAwesomeIcon icon={faPlus} size='xl' style={{color: "#EB8D8D"}}/>
-                    </Button>
-                    <Button className='navText'>Add Post</Button> 
-                </Nav.Link>
-                <Nav.Link>
-                    <Button className='NavIcon mx-2' onClick={()=>handleNotify()}>
-                        <FontAwesomeIcon icon={faBell} size='xl' style={{color: "#EB8D8D"}}/>
-                    </Button>
-                     <Button className='navText'>Notifications</Button>
-                </Nav.Link>
-                <Nav.Link>
-                    <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()} onMouseOver={()=>{handleOut()}}>
-                        <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D"}}/>
-                    </Button>
-                    <Button className='navText'>MyProfile</Button> 
-                </Nav.Link>
-                </div>
-            </Navbar.Collapse>
-        </Navbar> */}
-
         {/* Add post modal */}
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Add Post Feed</Modal.Title>
+                <Modal.Title>Add Feed</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Control as="textarea" rows={3} />
+                    <Form.Group className='mb-4'>
+                        <Form.Label>Add Image</Form.Label>
+                        <Form.Control type="file"  id='file' name='file' multiple/>
+                        {/* {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null} */}
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Add Description</Form.Label>
+                        <Form.Control as="textarea" rows={3} />
+                        {/* {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null} */}
+                    </Form.Group>
+                    
                 </Form>
             </Modal.Body>
             <Modal.Footer>
