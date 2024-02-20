@@ -29,11 +29,11 @@ const registerLoginSchema = new mongoose.Schema({
     password:{
         type: String,
         required:[true,"Password is required"]
+    },    
+    randomString:{
+        type: String,
+        required:[false,"RandomString is required"]
     },
-    // confirmPassword:{
-    //     type: String,
-    //     required:[true,"Confirm Password is required"]
-    // },
     status:{
         type:Boolean,
         default:true
@@ -52,6 +52,6 @@ const registerLoginSchema = new mongoose.Schema({
     versionKey:false
 })
 
-const registerLoginModel = mongoose.model('user', registerLoginSchema)
+const RegisterLoginModel = mongoose.model('user', registerLoginSchema)
 
-export default registerLoginModel
+export default RegisterLoginModel

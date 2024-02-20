@@ -8,6 +8,7 @@ import FindFriends from "../components/socialScreens/FindFriends"
 import Messages from "../components/socialScreens//Messages"
 import UserProtectedRoute from "./UserProtectedRoute";
 import { Navigate } from "react-router-dom";
+import ResetPassword from "../components/signup-signIn-frgtPwd/ResetPassword";
 
 const AppRoutes = [
     {
@@ -24,6 +25,11 @@ const AppRoutes = [
         path:'/forgotpassword',
         element : <ForgotPassword/>,
         exact:true
+    },
+    {
+        path : '/resetpassword',
+        element : <ResetPassword/>,
+        exact: true
     },
     {
         path:'/home',

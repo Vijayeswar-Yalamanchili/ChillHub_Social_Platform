@@ -17,9 +17,14 @@
 
 .formData{
     width: 100%;
+    min-height: 446px;
     height: max-content;
     color: white;
     background-color: #EB8D8D;
+}
+
+.passwordArea{
+    height: 100% !important;
 }
 
 .loginTextLink:hover, .loginTextLink:visited, .loginTextLink:active, .loginTextLink:link{
