@@ -1,7 +1,7 @@
 import Randomstring from 'randomstring'
 import auth from '../helper/auth.js'
-import forgotPasswordMailVerification from '../helper/emailService.js'
 import RegisterLoginModel from '../models/registerLogin_model.js'
+import forgotPasswordMail from '../helper/emailService.js'
 
 const login = async(req,res) => {
     try {
@@ -63,68 +63,70 @@ const register = async(req,res) => {
     }
 }
 
-// const forgotPassword = async(req, res) => {
-//     try {
-//         const {email} = req.body
-//         const user = await RegisterLoginModel.find({email:email})
-//         console.log(user);
-//         if(user){console.log("a"); 
-//             req.body.randomString = await Randomstring.generate(20)     
-//             console.log("b");               
-//             let updateUser = await RegisterLoginModel.updateOne({email:email},{$set: {randomString : req.body.randomString}})
-//             // console.log(updateUser);
-//             console.log("c"); 
-//             res.status(200).send({
-//                 message:"Check email for code",
-//                 name:user.name,
-//                 email :user.email,
-//                 role:user.role,
-//                 randomString: user.randomString
-//             })
-//             await forgotPasswordMailVerification(req.body.email,req.body.randomString)
-//         }else{
-//             res.status(400).send({
-//                 message:`User with ${req.body.email} does not exists!!!`
-//             })
-//         }        
-//     } catch (error) {
-//         res.status(500).send({
-//             message : "Internal server error in fetching email",
-//             error : error.message
-//         })
-//     }
-// }
+const forgotPassword = async(req,res) => {
+    try {
+        const {email} = req.body
+        const user = await RegisterLoginModel.find({email:email})
+        if(user){
+            req.body.randomString = await Randomstring.generate(25)
+            let updatedUser = await RegisterLoginModel.updateOne({email:email},{$set : {randomString:req.body.randomString }})
+            // console.log(updatedUser);
+            res.status(200).send({
+                message : "Email exits",
+                email: email,
+                randomString : req.body.randomString
+            })
+        }
+        await forgotPasswordMail(email,req.body.randomString)        
+    } catch (error) {
+        res.status(500).send({
+            message : "Internal server error in fetching email",
+            error : error.message
+        })
+    }
+}
 
-// const verifyCode = async(req, res) => {
-//     try {
-//         const {randomString} = req.body
-//         const user = await RegisterLoginModel.findOne({randomString:randomString})
-//         // const user = await RegisterLoginModel.findOne({randomString:randomString})
-//         console.log(user);
-//         if(user.randomString === req.body.randomString){
-//                 res.status(200).send({
-//                     message:"RandomString Matches",
-//                     role:user.role,
-//                     id :user._id,
-//                     randomString : user.randomString
-//                 })
-//         }else{
-//             res.status(400).send({
-//                 message:`User with code does not exists`
-//             })
-//         }        
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).send({
-//             message : "Internal server error in logging in",
-//             error : error.message
-//         })
-//     }
-// }
+const verifyCode = async(req,res) => {
+    try {
+        const {randomString} = req.body
+        const user = await RegisterLoginModel.find({randomString:randomString},{email:1})
+        console.log(user.email);
+        if(randomString === req.body.randomString){
+            console.log(user,randomString);
+                res.status(200).send({
+                    message:"RandomString Matches",
+                    user
+                })
+        }else{
+            res.status(400).send({
+                message:`User with code does not exists`
+            })
+        } 
+    } catch (error) {
+        res.status(500).send({
+            message : "Internal server error in verifing code",
+            error : error.message
+        })
+    }
+}
+
+const updatePassword = async(req,res) => {
+    try {
+        const {password,updatePassword} = req.body
+        const user = await RegisterLoginModel.find({email:email})
+        
+    } catch (error) {
+        res.status(500).send({
+            message : "Internal server error in Updating password",
+            error : error.message
+        })
+    }
+}
 
 export default {
     register,
     login,
-    // forgotPassword,
-    // verifyCode
+    forgotPassword,
+    verifyCode,
+    updatePassword
 }
