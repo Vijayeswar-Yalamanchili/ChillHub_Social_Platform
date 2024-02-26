@@ -9,7 +9,7 @@ const login = async(req,res) => {
         const user = await RegisterLoginModel.findOne({email:email})
         if(user){
             if(await auth.hashCompare(password,user.password)){
-                const token = await auth.createToken({
+                const token = await auth.createLoginToken({
                     name:`${user.firstName} ${user.lastName}`,
                     email:user.email,
                     role:user.role
@@ -42,19 +42,19 @@ const login = async(req,res) => {
 const register = async(req,res) => {
     try {
         const {email, password} = req.body
-            const user = await RegisterLoginModel.findOne({email : email})
-            if(!user){
-                req.body.password = await auth.createHash(password)
-                let newUser = await RegisterLoginModel.create(req.body)
-                res.status(200).send({
-                    message : "User created successfully",
-                    newUser
-                }) 
-            }else{
-                res.status(400).send({
-                    message : `User with ${req.body.email} already exists`
-                })
-            } 
+        const user = await RegisterLoginModel.findOne({email : email})
+        if(!user){
+            req.body.password = await auth.createHash(password)
+            let newUser = await RegisterLoginModel.create(req.body)
+            res.status(200).send({
+                message : "User created successfully",
+                newUser
+            }) 
+        }else{
+            res.status(400).send({
+                message : `User with ${req.body.email} already exists`
+            })
+        } 
     } catch (error) {
         res.status(500).send({
             message : "Internal server error in creating user",

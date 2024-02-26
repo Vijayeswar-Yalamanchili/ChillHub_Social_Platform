@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 import Jwt from 'jsonwebtoken'
 
-//hashing the pwd
+//hashing the datas
 const SALT = 10
 const createHash = async(data) => {
     let salt = await bcrypt.genSalt(SALT)
@@ -13,12 +13,12 @@ const hashCompare = async(data, hash) => {
     return await bcrypt.compare(data,hash)
 }
 
-//generating jwt
+//generating jwt's
 
-const createToken = async(payload) => {
-    // console.log(process.env.JWT_SECRET);
-    let token = await Jwt.sign(payload,process.env.JWT_SECRET,{
-        expiresIn : process.env.JWT_EXPIRY 
+const createLoginToken = async(payload) => {
+    // console.log(process.env.JWT_SECRET_LOGIN);
+    let token = await Jwt.sign(payload,process.env.JWT_SECRET_LOGIN,{
+        expiresIn : process.env.JWT_EXPIRY_LOGIN 
     })
     return token
 }
@@ -29,7 +29,7 @@ const decodeToken = async(token) => {
 
 const authenticate = async(req,res,next) => {
     let token = req?.headers?.authorization?.split(' ')[1]
-    // console.log(token);
+    console.log(token);
     if(token){
         let payload = await decodeToken(token)
         let currentTime = +new Date()
@@ -69,7 +69,7 @@ const userGuard = async(req,res,next) => {
 export default {
     createHash,
     hashCompare,
-    createToken,
+    createLoginToken,
     authenticate,
     userGuard
 }
