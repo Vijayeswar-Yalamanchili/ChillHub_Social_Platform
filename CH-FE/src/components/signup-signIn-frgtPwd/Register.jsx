@@ -14,28 +14,6 @@ function Register() {
 
     const navigate = useNavigate();
 
-    // const handleRegister = async(e) => {
-    //   try {
-    //     e.preventDefault()
-    //     const formData = new FormData(e.target)
-    //     const formProps = Object.fromEntries(formData)
-    //     // console.log(formProps);
-
-    //     if(formProps.password === formProps.confirmPassword){
-    //       // console.log("matched");
-    //       let res = await AxiosService.post(`${ApiRoutes.REGISTER.path}`,formProps)
-    //       // console.log(res);
-    //       if(res.status === 200){
-    //         navigate('/') 
-    //       }     
-    //     }else{
-    //       toast.error("Passwords doesnt match! Please enter the same passwords")
-    //     }
-    //   } catch (error) {
-    //     toast.error(error.response.data.message || error.message)
-    //   }
-    // }
-
     let formik = useFormik({
       initialValues:{
         firstName:'',

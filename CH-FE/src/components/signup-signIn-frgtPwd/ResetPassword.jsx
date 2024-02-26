@@ -28,7 +28,7 @@ function ResetPassword() {
         }),
         onSubmit : async(values) => {
             try {
-                
+                localStorage.setItem('email',res.data.email)
             } catch (error) {
                 toast.error(error.response.data.message || error.message)
             }
