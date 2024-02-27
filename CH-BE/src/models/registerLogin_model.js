@@ -29,11 +29,19 @@ const registerLoginSchema = new mongoose.Schema({
     password:{
         type: String,
         required:[true,"Password is required"]
-    },    
-    randomString:{
-        type: String,
-        required:[false,"RandomString is required"]
+    }, 
+    forgotPassToken:{
+        type : String,
+        required:[false,"required"]
+    }, 
+    emailHash:{
+        type:String,
+        required:[false,"required"]
     },
+    // randomString:{
+    //     type: String,
+    //     required:[false,"RandomString is required"]
+    // },
     status:{
         type:Boolean,
         default:true

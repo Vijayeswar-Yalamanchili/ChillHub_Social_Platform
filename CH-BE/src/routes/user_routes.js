@@ -11,8 +11,8 @@ const router = express.Router()
 router.post('/',registerLoginController.login)
 router.post('/register',registerLoginController.register)
 router.put('/forgotPassword',registerLoginController.forgotPassword)
-router.post('/verifyCode',registerLoginController.verifyCode)
+router.get('/forgotPassword/:id/verify/:token',registerLoginController.verifyCode)
 router.put('/updatePassword',registerLoginController.updatePassword)
 // router.get('/home',auth.authenticate,auth.userGuard,screenController.home)
 
-export default router 
+export default router

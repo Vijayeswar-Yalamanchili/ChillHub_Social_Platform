@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import NavbarBeforeLogin from './NavbarBeforeLogin';
-import resetpwdAnime from '../../assets/resetpwd-anime.svg'
+import resetpwdAnime from '../../assets/svg/resetpwdAnime.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 

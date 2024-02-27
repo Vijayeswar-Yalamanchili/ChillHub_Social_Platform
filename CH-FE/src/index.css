@@ -1,4 +1,4 @@
-/* REGISTER,LOGIN,FORGOT PASSWORD */
+/* REGISTER,LOGIN,FORGOT PASSWORD,VERIFY PASSWORD */
 .logoImg{
     width: 4rem;
     height: 100%;
@@ -30,6 +30,17 @@
 .loginTextLink:hover, .loginTextLink:visited, .loginTextLink:active, .loginTextLink:link{
     color: rgb(99, 98, 104);
     text-decoration: none;
+}
+
+.forgotPassForm{
+    height: 15rem;
+}
+
+.verifyPassBtn{
+    cursor: pointer;
+    width: 10rem;
+    height: 3.5rem;
+    border-radius: 2rem !important;
 }
 
 @media screen and (max-width : 576px){

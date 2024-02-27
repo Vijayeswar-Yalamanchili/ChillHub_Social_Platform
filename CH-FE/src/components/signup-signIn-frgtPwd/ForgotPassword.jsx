@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import NavbarBeforeLogin from './NavbarBeforeLogin';
-import forgotpwdAnime from '../../assets/forgotpwd-anime.svg'
+import forgotpwdAnime from '../../assets/svg/forgotpwdAnime.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import AxiosService from '../../utils/AxiosService';
@@ -31,9 +31,9 @@ function ForgotPassword() {
                 if(res.status === 200){
                     toast.success(res.data.message)
                     toast.success("Random string created")
-                    console.log(res);
-                    localStorage.setItem('email',res.data.email)
-                    localStorage.setItem('randomString',res.data.randomString)
+                    // console.log(res);
+                    // localStorage.setItem('email',res.data.email)
+                    // localStorage.setItem('randomString',res.data.randomString)
                 }
             } catch (error) {
                 toast.error(error.response.data.message || error.message)
@@ -41,31 +41,31 @@ function ForgotPassword() {
         }
     })
 
-    let verificationCodeFormik = useFormik({
-        initialValues:{
-            text : ''
-        },
-        validationSchema:Yup.object({          
-            text:Yup.string().required('Verification code is required').matches(/^[a-zA-Z0-9.]{25}$/,'Enter a valid Verification code')
-        }),
-        onSubmit : async(values) => {
-            try{
-                // console.log(values);                
-                let res = await AxiosService.post(`${ApiRoutes.VERIFYCODE.path}`,values)
-                // console.log(res.data);
-                if(res.status === 200){
-                    console.log(res);
-                    toast.success(res.data.message)
-                    localStorage.setItem('email',res.data.email)
-                    navigate('/resetpassword')        
-                }
+    // let verificationCodeFormik = useFormik({
+    //     initialValues:{
+    //         text : ''
+    //     },
+    //     validationSchema:Yup.object({          
+    //         text:Yup.string().required('Verification code is required').matches(/^[a-zA-Z0-9.]{25}$/,'Enter a valid Verification code')
+    //     }),
+    //     onSubmit : async(values) => {
+    //         try{
+    //             // console.log(values);                
+    //             let res = await AxiosService.post(`${ApiRoutes.VERIFYCODE.path}`,values)
+    //             // console.log(res.data);
+    //             if(res.status === 200){
+    //                 console.log(res);
+    //                 toast.success(res.data.message)
+    //                 localStorage.setItem('email',res.data.email)
+    //                 navigate('/resetpassword')        
+    //             }
                
-              } catch (error) {
-                // console.log(error);
-                toast.error(error.response.data.message || error.message)
-              }
-        }
-    })
+    //           } catch (error) {
+    //             // console.log(error);
+    //             toast.error(error.response.data.message || error.message)
+    //           }
+    //     }
+    // })
 
     return <>
         <NavbarBeforeLogin/>
@@ -79,26 +79,26 @@ function ForgotPassword() {
                             <img src={forgotpwdAnime} alt='loginAnime' className='anime forgtpwdAmnime rounded-4'/>
                         </Col>
                         <Col md xs={12} className=''>
-                            <div className='formData rounded-4 p-5 d-flex justify-content-between flex-column'>
+                            <div className='formData rounded-4 p-5 d-flex justify-content-around flex-column'>
                                 <h3 className='text-white text-center'>Forgot Password</h3>
 
-                                <Form onSubmit={emailFormik.handleSubmit}>                                
+                                <Form onSubmit={emailFormik.handleSubmit} className='forgotPassForm d-flex justify-content-around flex-column'>                                
                                     <Form.Group className="mb-3">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control type="email" placeholder="Enter registered email" id='email' name='email' onChange={emailFormik.handleChange} value={emailFormik.values.email} onBlur={emailFormik.handleBlur}/>
                                         {emailFormik.touched.email && emailFormik.errors.email ? (<div style={{color:"red"}}>{emailFormik.errors.email}</div>) : null}
                                     </Form.Group>
-                                    <Button variant="primary" type="submit" className='col-12'>Send Code</Button>
+                                    <Button variant="primary" type="submit" className='col-12'>Submit</Button>
                                 </Form>
 
-                                <Form onSubmit={verificationCodeFormik.handleSubmit}>
+                                {/* <Form onSubmit={verificationCodeFormik.handleSubmit}>
                                     <Form.Group className="mb-4">
                                         <Form.Label>Enter Verification code</Form.Label>
                                         <Form.Control type="text" placeholder="Enter code" name="text" id='text' onChange={verificationCodeFormik.handleChange} value={verificationCodeFormik.values.text} onBlur={verificationCodeFormik.handleBlur}/>
                                         {verificationCodeFormik.touched.text && verificationCodeFormik.errors.text ? (<div style={{color:"red"}}>{verificationCodeFormik.errors.text}</div>) : null}
                                     </Form.Group>
                                     <Button variant="primary" type="submit" className='col-12'>Submit</Button>  
-                                </Form>
+                                </Form> */}
 
                             </div>
                         </Col>

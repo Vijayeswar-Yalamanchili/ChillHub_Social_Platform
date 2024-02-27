@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from 'react-bootstrap/Navbar';
-import logo from '../../assets/ChillHub.png'
+import logo from '../../assets/png/ChillHub.png'
 
 function NavbarBeforeLogin() {
   return <>

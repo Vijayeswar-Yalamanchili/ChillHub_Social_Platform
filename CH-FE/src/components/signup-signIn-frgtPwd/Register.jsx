@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import NavbarBeforeLogin from './NavbarBeforeLogin'
-import signupAnime from '../../assets/register_anime.svg'
+import signupAnime from '../../assets/svg/registerAnime.svg'
 import AxiosService from '../../utils/AxiosService'
 import ApiRoutes from '../../utils/ApiRoutes'
 

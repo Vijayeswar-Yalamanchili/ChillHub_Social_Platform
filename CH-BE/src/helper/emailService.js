@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
       }
 });
 
-let forgotPasswordMail = async(to,randomString) => {
+let forgotPasswordMail = async(to,emailVerifyURL) => {
     try {
         let mailContent = await transporter.sendMail({
             from: 'vijayeswarybe@gmail.com',
@@ -20,8 +20,8 @@ let forgotPasswordMail = async(to,randomString) => {
             subject: 'Code to reset password',
             html: `<div><h3>Hi sir/mam</h3></div>
             <div>
-              <p>To reset your password, Kindly copy the below code and paste it in respective column in our website</p>
-              <a href="#">${randomString}</a>     
+              <p>To reset your password,click the below link</p>
+              <a href="${emailVerifyURL}">${emailVerifyURL}</a>     
               <p>Thanks!!!</p>       
             </div>
             `

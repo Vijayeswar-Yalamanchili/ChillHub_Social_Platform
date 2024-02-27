@@ -9,6 +9,11 @@ const createHash = async(data) => {
     return hash
 }
 
+const verifySalt = async(SALT) => {
+    let saltVerify = await bcrypt.genSalt(SALT)
+    return saltVerify
+} 
+
 const hashCompare = async(data, hash) => {
     return await bcrypt.compare(data,hash)
 }
@@ -16,14 +21,25 @@ const hashCompare = async(data, hash) => {
 //generating jwt's
 
 const createLoginToken = async(payload) => {
-    // console.log(process.env.JWT_SECRET_LOGIN);
-    let token = await Jwt.sign(payload,process.env.JWT_SECRET_LOGIN,{
+    // console.log(process.env.JWT_SECRETKEY_LOGIN);
+    let token = await Jwt.sign(payload,process.env.JWT_SECRETKEY_LOGIN,{
         expiresIn : process.env.JWT_EXPIRY_LOGIN 
     })
     return token
 }
 
-const decodeToken = async(token) => {
+const decodeLoginToken = async(token) => {
+    return await Jwt.decode(token)
+}
+
+const createForgotPassToken = async(payload) => {
+    let token = await Jwt.sign(payload,process.env.JWT_SECRETKEY_FP,{
+        expiresIn : process.env.JWT_EXPIRY_FP
+    })
+    return token
+}
+
+const decodeForgotPassToken = async(token) => {
     return await Jwt.decode(token)
 }
 
@@ -31,7 +47,7 @@ const authenticate = async(req,res,next) => {
     let token = req?.headers?.authorization?.split(' ')[1]
     console.log(token);
     if(token){
-        let payload = await decodeToken(token)
+        let payload = await decodeLoginToken(token)
         let currentTime = +new Date()
         console.log(payload.role);
         if(Math.floor(currentTime/1000)<payload.exp){
@@ -68,8 +84,10 @@ const userGuard = async(req,res,next) => {
 
 export default {
     createHash,
+    verifySalt,
     hashCompare,
     createLoginToken,
+    createForgotPassToken,
     authenticate,
     userGuard
 }

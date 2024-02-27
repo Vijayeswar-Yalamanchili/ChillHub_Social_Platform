@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {Nav,Navbar,Button,Container,Form,Modal} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-// import { useFormik } from 'formik';
-// import * as Yup from 'yup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faBell, faUser, faMagnifyingGlass, faU, faL} from '@fortawesome/free-solid-svg-icons'
-import logo from '../../../assets/ChillHub.png'
+import logo from '../../../assets/png/ChillHub.png'
 import {useLogout} from '../../../hooks/UseLogout'
 
 function NavbarAfterLogin() {

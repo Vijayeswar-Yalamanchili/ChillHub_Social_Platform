@@ -7,6 +7,7 @@ const login = async(req,res) => {
     try {
         const {email,password} = req.body
         const user = await RegisterLoginModel.findOne({email:email})
+        // console.log(user.email);
         if(user){
             if(await auth.hashCompare(password,user.password)){
                 const token = await auth.createLoginToken({
@@ -27,7 +28,7 @@ const login = async(req,res) => {
             }
         }else{
             res.status(400).send({
-                message: "Emailid not found"
+                message: "Email-Id not found"
             })
         }
         
@@ -66,18 +67,32 @@ const register = async(req,res) => {
 const forgotPassword = async(req,res) => {
     try {
         const {email} = req.body
-        const user = await RegisterLoginModel.find({email:email})
-        if(user){
-            req.body.randomString = await Randomstring.generate(25)
-            let updatedUser = await RegisterLoginModel.updateOne({email:email},{$set : {randomString:req.body.randomString }})
-            // console.log(updatedUser);
+        const userEmail = await RegisterLoginModel.findOne({email:req.body.email})
+        // console.log(userEmail.email);
+        if(userEmail){
+            // console.log(userEmail._id); 
+            req.body.email = await auth.createHash(email)
+            let hashedEmail = await RegisterLoginModel.updateOne({emailHash : req.body.email})
+            const forgotPassToken = await auth.createForgotPassToken({
+                email:userEmail.email,
+                _id : userEmail._id
+            })
             res.status(200).send({
                 message : "Email exits",
-                email: email,
-                randomString : req.body.randomString
+                email: userEmail.email,
+                forgotPassToken
+            })        
+            // console.log(forgotPassToken);
+            const result = await RegisterLoginModel.findOneAndUpdate({email:email},{$set : {forgotPassToken : forgotPassToken}})
+            const getUserData = await RegisterLoginModel.findById(result._id)
+            // console.log(result,getEntry)
+            const emailVerifyURL = `${process.env.BASE_URL}/forgotPassword/${getUserData.emailHash}/verify/${getUserData.forgotPassToken}`
+            await forgotPasswordMail(email, emailVerifyURL) 
+        }else{
+            res.status(400).send({
+                message: "Emailid not found"
             })
-        }
-        await forgotPasswordMail(email,req.body.randomString)        
+        }              
     } catch (error) {
         res.status(500).send({
             message : "Internal server error in fetching email",
@@ -88,20 +103,25 @@ const forgotPassword = async(req,res) => {
 
 const verifyCode = async(req,res) => {
     try {
-        const {randomString} = req.body
-        const user = await RegisterLoginModel.find({randomString:randomString},{email:1})
-        console.log(user.email);
-        if(randomString === req.body.randomString){
-            console.log(user,randomString);
-                res.status(200).send({
-                    message:"RandomString Matches",
-                    user
-                })
+        const dataToVerify = await RegisterLoginModel.findOne({emailHash: req.params.id,forgotPassToken: req.params.token})
+        console.log(dataToVerify)
+        //   if (!dataToVerify) return res.status(400).json({ message: "invalid link" });
+        if(dataToVerify){
+            await RegisterLoginModel.findOneAndUpdate({ _id: dataToVerify._id },
+                { $set: {  userPassID: "", userPassToken: "" } }
+            );
+            await RegisterLoginModel.findOneAndUpdate({ _id: dataToVerify._id },
+                { $unset: { userPassID: "", userPassToken: "" } }
+            );
+            res.status(200).send({
+                message : "Email verified Successfully"
+            })
         }else{
             res.status(400).send({
-                message:`User with code does not exists`
+                message: "Invalid Link",
+                error : error.message
             })
-        } 
+        }
     } catch (error) {
         res.status(500).send({
             message : "Internal server error in verifing code",
