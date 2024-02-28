@@ -332,6 +332,21 @@
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}   /* Change the background color of the dropdown button when the dropdown content is shown */
 
+/* RIGHTBAR COMPONENT */
+
+.rightBar{
+    height: 100%;
+    border-left: 1px solid grey;
+    padding: 0 10px;
+}
+
+.friendNameArea{
+    width: 100%;
+}
+
+.user i{
+    margin-right: 5%;
+}
 
 /* FEEDBAR COMPONENT */
 
@@ -364,21 +379,4 @@
     border-bottom-right-radius: 15px !important;
     border-left: 1px solid rgba(0, 0, 0, 0.338) !important;
     border-top-right-radius: 0px !important;
-}
-
-
-/* RIGHTBAR COMPONENT */
-
-.rightBar{
-    height: 100%;
-    border-left: 1px solid grey;
-    padding: 0 10px;
-}
-
-.friendNameArea{
-    width: 100%;
-}
-
-.user i{
-    margin-right: 5%;
 }
