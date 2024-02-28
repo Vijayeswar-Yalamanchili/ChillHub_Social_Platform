@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
+import ErrorScreen from '../ErrorScreen';
 import AxiosService from '../../utils/AxiosService';
+import verifyEmailAnime from '../../assets/svg/verifyEmailAnime.svg'
 // import ApiRoutes from '../../utils/ApiRoutes';
 
 function VerifyPassword() {
@@ -33,15 +35,14 @@ function VerifyPassword() {
   return (
     <>
       {validUrl ? (
-        <div className='d-flex justify-content-center flex-column align-items-center' style={{width: "100vw",height: "100vh"}}>
-          <img src="https://raw.githubusercontent.com/cyber-wolve/AuthInMern/Email-Verify-In-MERN/client/src/images/success.png" alt="success_img"/>
+        <div className='d-flex justify-content-center flex-column align-items-center verifyEmailBg' style={{width: "100vw",height: "100vh", backgroundImage : `url(${verifyEmailAnime})`}}>
           <h1>Click the below button to reset Your password</h1>
           <Link to="/resetpass">
             <Button variant='success' type='button' className='verifyPassBtn p-3'>Reset password</Button>
           </Link>
         </div>
       ) : (
-        <h1>404 Not Found</h1>
+        <ErrorScreen/>
       )}
     </>
   )

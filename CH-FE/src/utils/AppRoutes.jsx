@@ -10,6 +10,7 @@ import FindFriends from "../components/socialScreens/FindFriends"
 import Messages from "../components/socialScreens//Messages"
 import UserProtectedRoute from "./UserProtectedRoute";
 import { Navigate } from "react-router-dom";
+import ErrorScreen from "../components/ErrorScreen";
 
 const AppRoutes = [
     {
@@ -55,6 +56,11 @@ const AppRoutes = [
     {
         path:'/messages',
         element : <Messages/>,
+        exact:true
+    },
+    {
+        path:'/error',
+        element : <ErrorScreen/>,
         exact:true
     },
     {

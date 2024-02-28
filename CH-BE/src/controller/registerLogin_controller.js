@@ -70,8 +70,8 @@ const forgotPassword = async(req,res) => {
         const userEmail = await RegisterLoginModel.findOne({email:req.body.email})
         // console.log(userEmail.email);
         if(userEmail){
-            // console.log(userEmail._id); 
             req.body.email = await auth.createHash(email)
+            let emailToHash = req.body.email
             let hashedEmail = await RegisterLoginModel.updateOne({emailHash : req.body.email})
             const forgotPassToken = await auth.createForgotPassToken({
                 email:userEmail.email,
@@ -83,7 +83,7 @@ const forgotPassword = async(req,res) => {
                 forgotPassToken
             })        
             // console.log(forgotPassToken);
-            const result = await RegisterLoginModel.findOneAndUpdate({email:email},{$set : {forgotPassToken : forgotPassToken}})
+            const result = await RegisterLoginModel.findOneAndUpdate({email:email},{$set : {forgotPassToken : forgotPassToken,emailHash : req.body.email}})
             const getUserData = await RegisterLoginModel.findById(result._id)
             // console.log(result,getEntry)
             const emailVerifyURL = `${process.env.BASE_URL}/forgotPassword/${getUserData.emailHash}/verify/${getUserData.forgotPassToken}`

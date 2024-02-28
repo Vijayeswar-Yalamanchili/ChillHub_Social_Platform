@@ -66,7 +66,7 @@ function NavbarAfterLogin() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
                     <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>
                         <Nav className='ms-auto'>
-                            <Nav.Link>
+                            {/* <Nav.Link>
                                 <Button className='NavIcon mx-2' onClick={()=>handleShow()}>
                                     <FontAwesomeIcon icon={faPlus} size='xl' style={{color: "#EB8D8D"}}/>
                                 </Button>
@@ -75,7 +75,7 @@ function NavbarAfterLogin() {
                                         <FontAwesomeIcon icon={faPlus} size='xl' style={{color: "white"}}/>Add Post
                                     </div>                                
                                 </Button> 
-                            </Nav.Link> 
+                            </Nav.Link>  */}
                             <Nav.Link>
                                 <Button className='NavIcon mx-2' onClick={()=>handleNotify()}>
                                     <FontAwesomeIcon icon={faBell} size='xl' style={{color: "#EB8D8D"}}/>
@@ -99,7 +99,7 @@ function NavbarAfterLogin() {
         </Navbar>
 
         {/* Add post modal */}
-        <Modal show={show} onHide={handleClose}>
+        {/* <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Add Feed</Modal.Title>
             </Modal.Header>
@@ -108,12 +108,12 @@ function NavbarAfterLogin() {
                     <Form.Group className='mb-4'>
                         <Form.Label>Add Image</Form.Label>
                         <Form.Control type="file"  id='file' name='file' multiple/>
-                        {/* {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null} */}
+                        {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null}
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Add Description</Form.Label>
                         <Form.Control as="textarea" rows={3} />
-                        {/* {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null} */}
+                        {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null}
                     </Form.Group>
                     
                 </Form>
@@ -122,7 +122,7 @@ function NavbarAfterLogin() {
                 <Button variant="secondary" onClick={handleClose}>Cancel</Button>
               <Button variant="primary" onClick={handleClose}>Post</Button>
             </Modal.Footer>
-        </Modal>
+        </Modal> */}
 
         {/* Notification Dropdown */}
         <div>
