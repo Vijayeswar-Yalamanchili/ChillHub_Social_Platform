@@ -12,8 +12,8 @@ function Home() {
 
     <Container fluid>
       <Row>
-        <Col ><Leftbar/></Col>
-        <Col xs lg={8}><Feedbar/></Col>
+        <Col><Leftbar/></Col>
+        <Col xs md={6}><Feedbar/></Col>
         <Col><Rightbar/></Col>
       </Row>
     </Container>

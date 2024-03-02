@@ -30,7 +30,7 @@ function ForgotPassword() {
                 let res = await AxiosService.put(`${ApiRoutes.FORGOTPASSWORD.path}`,values)
                 if(res.status === 200){
                     toast.success(res.data.message)
-                    toast.success("Random string created")
+                    // toast.success("Random string created")
                     // console.log(res);
                     // localStorage.setItem('email',res.data.email)
                     // localStorage.setItem('randomString',res.data.randomString)

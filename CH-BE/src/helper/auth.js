@@ -71,12 +71,12 @@ const userGuard = async(req,res,next) => {
         if(payload.role === "user"){
             next()
         }else{
-            res.status(402).send({
+            res.status(401).send({
                 message :"Only Users are allowed"
             })
         }        
     }else{
-        res.status(402).send({
+        res.status(500).send({
             message :"Unauthorised access"
         })
     }    

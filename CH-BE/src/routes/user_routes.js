@@ -13,6 +13,8 @@ router.post('/register',registerLoginController.register)
 router.put('/forgotPassword',registerLoginController.forgotPassword)
 router.get('/forgotPassword/:id/verify/:token',registerLoginController.verifyCode)
 router.put('/updatePassword',registerLoginController.updatePassword)
-// router.get('/home',auth.authenticate,auth.userGuard,screenController.home)
+
+router.get('/home',auth.authenticate,auth.userGuard,screenController.home)
+router.post('/home/addpost',screenController.postFeed)
 
 export default router

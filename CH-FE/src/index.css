@@ -276,9 +276,13 @@
     }
 }
 
-@media screen and (min-width: 992px){
+@media screen and (min-width: 1025px){
+    #searchbar{
+        display: block !important;
+        width: 25rem !important;
+    }
     .navbarMenu{
-        width: 70%;
+        width: 65%;
     }
 }
 
@@ -349,6 +353,29 @@
 }
 
 /* FEEDBAR COMPONENT */
+
+.openAddFeedBtn{
+    background-color: rgba(135, 129, 129, 0.14);
+    height: 2.5rem;
+    width: 100%;
+    border: none;
+    border-radius: 1.25rem;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.feedInputArea{
+    border: 1px;
+    outline: #EB8D8D;
+    min-height: 10rem;
+    width: 100%;
+    overflow-wrap: break-word;
+}
+
+.smileIcon{
+    background-color: white !important;
+    border: none !important;
+}
 
 .postFeed{
     border-radius: 15px !important;

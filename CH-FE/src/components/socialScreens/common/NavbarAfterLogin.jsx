@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Nav,Navbar,Button,Container,Form,Modal} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { jwtDecode } from "jwt-decode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faBell, faUser, faMagnifyingGlass, faU, faL} from '@fortawesome/free-solid-svg-icons'
 import logo from '../../../assets/png/ChillHub.png'
@@ -9,39 +10,21 @@ import {useLogout} from '../../../hooks/UseLogout'
 function NavbarAfterLogin() {
 
     let logout = useLogout()
+    let isLoggedIn = true
 
     // let formik = useFormik()
     let notifications = ["Notification 1","Notification 2","Notification 3","Notification 4","Notification 5"]
     // let myProfileOptions = ["My Profile", "Logout"]
 
-    const [show, setShow] = useState(false);
     const [notify,setNotify] = useState(false);
     const [myProfile, setMyProfile] = useState(false)
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleNotify = () => setNotify(!notify)
+    const handleMyProfile = () => setMyProfile(!myProfile)
 
-    const handleNotify = () => {
-        setNotify(!notify)
-    }
-
-    const handleMyProfile = () => {
-        setMyProfile(!myProfile)
-    }
-
-    // const handleOut = () => {
-    //     setMyProfile(myProfile)
-    // }
-    // <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
-
-    // useEffect(()=>{
-    //     document.addEventListener("mousedown",()=>{
-    //         setNotify(false)
-    //     })
-    //     document.addEventListener("mousedown")
-    //     setMyProfile(false)
-    // })
-
+    
+    let tokenForUsername = localStorage.getItem('token')
+    const decodedUsernameToken = jwtDecode(tokenForUsername)
 
     return <>
         <Navbar expand="lg" className="navbarBg">
@@ -63,37 +46,33 @@ function NavbarAfterLogin() {
                         </Button>
                     </Form>
 
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
-                    <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>
-                        <Nav className='ms-auto'>
-                            {/* <Nav.Link>
-                                <Button className='NavIcon mx-2' onClick={()=>handleShow()}>
-                                    <FontAwesomeIcon icon={faPlus} size='xl' style={{color: "#EB8D8D"}}/>
-                                </Button>
-                                <Button className='navText ' onClick={()=>handleShow()} >
-                                    <div className='d-flex justify-content-between'>
-                                        <FontAwesomeIcon icon={faPlus} size='xl' style={{color: "white"}}/>Add Post
-                                    </div>                                
-                                </Button> 
-                            </Nav.Link>  */}
-                            <Nav.Link>
-                                <Button className='NavIcon mx-2' onClick={()=>handleNotify()}>
-                                    <FontAwesomeIcon icon={faBell} size='xl' style={{color: "#EB8D8D"}}/>
-                                </Button>
-                                 <Button className='navText ' onClick={()=>handleNotify()} >
-                                    <div className='d-flex justify-content-between'><FontAwesomeIcon icon={faBell} size='xl' style={{color: "white"}}/>Notifications</div>
-                                 </Button>
-                            </Nav.Link>
-                            <Nav.Link>
-                                <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()} onMouseOver={()=>{handleOut()}}>
-                                    <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D"}}/>
-                                </Button>
-                                <Button className='navText' onClick={()=>handleMyProfile()} >
-                                    <div className='d-flex justify-content-between'><FontAwesomeIcon icon={faUser} size='xl' style={{color: "white"}}/>MyProfile</div>
-                                </Button> 
-                            </Nav.Link>          
-                        </Nav>          
-                    </Navbar.Collapse> 
+                    <div className=' d-flex justify-content-between flex-row align-items-center'>
+                        <div style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div>
+                        
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
+                        <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>
+                            <Nav className='ms-auto'>
+                                <Nav.Link>
+                                    <Button className='NavIcon mx-2' onClick={()=>handleNotify()}>
+                                        <FontAwesomeIcon icon={faBell} size='xl' style={{color: "#EB8D8D"}}/>
+                                    </Button>
+                                     <Button className='navText ' onClick={()=>handleNotify()} >
+                                        <div className='d-flex justify-content-between'><FontAwesomeIcon icon={faBell} size='xl' style={{color: "white"}}/>Notifications</div>
+                                     </Button>
+                                </Nav.Link>
+                                <Nav.Link>
+                                    <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()} onMouseOver={()=>{handleOut()}}>
+                                        <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D"}}/>
+                                    </Button>
+                                    <Button className='navText' onClick={()=>handleMyProfile()} >
+                                        <div className='d-flex justify-content-between'><FontAwesomeIcon icon={faUser} size='xl' style={{color: "white"}}/>MyProfile</div>
+                                    </Button> 
+                                </Nav.Link>          
+                            </Nav>          
+                        </Navbar.Collapse> 
+                    </div>
+
+                    
                 </div>       
             </Container>
         </Navbar>

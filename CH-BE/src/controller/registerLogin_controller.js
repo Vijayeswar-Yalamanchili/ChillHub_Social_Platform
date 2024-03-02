@@ -49,7 +49,6 @@ const register = async(req,res) => {
             let newUser = await RegisterLoginModel.create(req.body)
             res.status(200).send({
                 message : "User created successfully",
-                newUser
             }) 
         }else{
             res.status(400).send({

@@ -11,6 +11,14 @@ const ApiRoutes = {
         path : '/forgotPassword',
         authenticate : false
     },
+    HOME : {
+        path : '/home',
+        authenticate : false
+    },
+    ADDPOST : {
+        path : '/home/addpost',
+        authenticate : false
+    },
     GETALLUSERS : {
         path : '/user',
         authenticate : true
