@@ -16,5 +16,6 @@ router.put('/updatePassword',registerLoginController.updatePassword)
 
 router.get('/home',auth.authenticate,auth.userGuard,screenController.home)
 router.post('/home/addpost',screenController.postFeed)
+router.get('/home/getpost', screenController.getFeed)
 
 export default router

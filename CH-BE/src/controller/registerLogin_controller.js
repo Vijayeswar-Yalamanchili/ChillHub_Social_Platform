@@ -11,6 +11,7 @@ const login = async(req,res) => {
         if(user){
             if(await auth.hashCompare(password,user.password)){
                 const token = await auth.createLoginToken({
+                    id : user._id,
                     name:`${user.firstName} ${user.lastName}`,
                     email:user.email,
                     role:user.role

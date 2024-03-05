@@ -14,13 +14,50 @@ const datasSchema = new mongoose.Schema({
             message : props => `${props.value} is not a valid email`
         }
     },
-    postBody: {
-        type: String,
-        trim: true,
-        maxlength: 500,
-        required: true,
+    feededData : {
+        required : true,
+        type : [{
+            _id: { 
+                type: mongoose.Schema.Types.ObjectId,
+                default: mongoose.Types.ObjectId
+            },
+            feededData : {
+                type : String,
+                required : true
+            },
+            postedAt : {
+                type : Date,
+                default : Date.now()
+            }                    
+        }]
     },
-    // postComments : {
+    // feededData:{
+    //     // type: [{feedInputData: String}],  
+    //     type : String,
+    //     maxlength: 500,
+    //     required: true,
+    // },
+    createdAt:{
+        type:Date,
+        default:Date.now()
+    },
+    status:{
+        type:Boolean,
+        default:true,
+    },
+    
+},
+{
+    collection:'feedData',
+    versionKey:false,
+})
+
+const FeedDatasModel = mongoose.model('feedData', datasSchema)
+
+export default FeedDatasModel
+
+
+// postComments : {
     //     required : true,
     //     type : [
     //         {
@@ -36,23 +73,3 @@ const datasSchema = new mongoose.Schema({
     //     type : String,
     //     required : [true]
     // },
-    status:{
-        type:Boolean,
-        default:true,
-        required : [true]
-    },
-    createdAt:{
-        type:Date,
-        default:Date.now(),
-        required : [true]
-    }
-},
-{
-    collection:'feedData',
-    versionKey:false,
-    timestamps : true
-})
-
-const FeedDatasModel = mongoose.model('feedData', datasSchema)
-
-export default FeedDatasModel

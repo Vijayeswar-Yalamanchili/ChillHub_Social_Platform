@@ -4,6 +4,7 @@ import EmojiPicker from 'emoji-picker-react'
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFaceSmile} from '@fortawesome/free-regular-svg-icons'
+import { faPaperclip} from '@fortawesome/free-solid-svg-icons'
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
 
@@ -27,6 +28,8 @@ function Feedbar() {
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps)
 
       if(res.status === 200){
+        console.log(res);
+        sessionStorage.setItem('addPostToken',res.data.addPostToken)
         toast.success(res.data.message)
       }
     } catch (error) {
@@ -50,7 +53,7 @@ function Feedbar() {
           feedCards.map((e,i)=>{
             return <div key={i}>
               <Col>
-                <Card className='mb-5 postFeed mx-auto' style={{ width: '100%' }}>
+                <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                   <Card.Img variant="top" src={e}/>
                   <Card.Text className='ms-2'>hkbjkkjnkjkjnknkjnkjnkjnkkjk</Card.Text>
                   <div className='d-flex flex-row'>
@@ -78,19 +81,23 @@ function Feedbar() {
         <Modal.Header closeButton>
           <Modal.Title>Add Feed</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{minHeight:"13rem"}} className='d-flex justify-content-between flex-column'>
             <Form.Group>
-              <Form.Control as='textarea' rows='5' className='feedInputArea' name='text' placeholder='Put your thoughts here ....' 
+              <Form.Control as='textarea' rows='5' className='feedInputArea' name='feededData' placeholder='Put your thoughts here ....' 
                       defaultValue={inputStr} onChange={(e)=>setInputStr(e.target.value)}/>
             </Form.Group>
             <div>
-              <Button className='smileIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
+              <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
                 <FontAwesomeIcon icon={faFaceSmile} style={{color: "black"}}/>
-              </Button>                 
+              </Button> 
+              
+              <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
+                <FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/>
+              </Button>
             {
               showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
                 setInputStr((prevMsg)=> prevMsg + emojiObject.emoji) 
-                setShowEmojis(false); 
+                setShowEmojis(false);
                 // console.log(emojiObject.emoji)
               }}/>
             }

@@ -366,15 +366,18 @@
 
 .feedInputArea{
     border: 1px;
-    outline: #EB8D8D;
     min-height: 10rem;
     width: 100%;
     overflow-wrap: break-word;
 }
 
-.smileIcon{
+.attachIcon{
     background-color: white !important;
     border: none !important;
+}
+
+.attachIcon:hover {
+    background-color: #EB8D8D !important;
 }
 
 .postFeed{
