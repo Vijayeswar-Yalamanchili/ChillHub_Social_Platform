@@ -26,9 +26,9 @@ function Feedbar() {
       console.log(formProps);
 
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps)
-
+      console.log("res");
       if(res.status === 200){
-        console.log(res);
+        // console.log(res);
         sessionStorage.setItem('addPostToken',res.data.addPostToken)
         toast.success(res.data.message)
       }

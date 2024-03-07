@@ -54,31 +54,42 @@ const decodeAddPostToken = async(token) => {
     return await Jwt.decode(token)
 }
 
+// ------------------------------------MIDDLEWARES-----------------------------------------------------------------------------------
+
+//mailid based authentication
 const authenticate = async(req,res,next) => {
-    let token = req?.headers?.authorization?.split(' ')[1]
-    console.log(token);
-    if(token){
-        let payload = await decodeLoginToken(token)
-        let currentTime = +new Date()
-        console.log(payload.role);
-        if(Math.floor(currentTime/1000)<payload.exp){
-            next()
+    if(!req.headers.authorization) 
+        return res.status(403).send({
+            msg: 'Not authorized. No token'
+        })
+
+    if(req.headers.authorization && req.headers.authorization.startsWith("Bearer ")){
+        let token = req?.headers?.authorization?.split(' ')[1]
+        console.log(token,);
+        if(token){
+            let payload = await decodeLoginToken(token)
+            let currentTime = +new Date()
+            console.log(payload);
+            if(Math.floor(currentTime/1000)<payload.exp){
+                next()
+            }else{
+                res.status(402).send({
+                    message :"Session expired"
+                })
+            }
         }else{
             res.status(402).send({
-                message :"Session expired"
+                message :"Session is no longer available"
             })
         }
-    }else{
-        res.status(402).send({
-            message :"Unauthorised access"
-        })
     } 
 }
 
+//role based authenticate
 const userGuard = async(req,res,next) => {
     let token  = req?.headers?.authorization?.split(' ')[1]
     if(token){
-        let payload = await decodeToken(token)
+        let payload = await decodeLoginToken(token)
         if(payload.role === "user"){
             next()
         }else{
@@ -93,6 +104,22 @@ const userGuard = async(req,res,next) => {
     }    
 }
 
+//middleware logintoken decode
+
+const getUserEmail = async(req,res,next) => {
+    let token  = req?.headers?.authorization?.split(' ')[1]
+    if(token){
+        let payload = await decodeLoginToken(token)
+        req.userEmail = payload.email
+        next()        
+    }else{
+        res.status(500).send({
+            message :"Expired Token"
+        })
+    }
+}
+
+
 export default {
     createHash,
     verifySalt,
@@ -101,5 +128,6 @@ export default {
     createForgotPassToken,
     createAddPostToken,
     authenticate,
-    userGuard
+    userGuard,
+    getUserEmail
 }
