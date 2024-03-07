@@ -43,33 +43,27 @@ const decodeForgotPassToken = async(token) => {
     return await Jwt.decode(token)
 }
 
-const createAddPostToken = async(payload) => {
-    let token = await Jwt.sign(payload,process.env.JWT_SECRETKEY_ADDPOST,{
-        expiresIn : process.env.JWT_EXPIRY_ADDPOST
-    })
-    return token
-}
+// const createAddPostToken = async(payload) => {
+//     let token = await Jwt.sign(payload,process.env.JWT_SECRETKEY_ADDPOST,{
+//         expiresIn : process.env.JWT_EXPIRY_ADDPOST
+//     })
+//     return token
+// }
 
-const decodeAddPostToken = async(token) => {
-    return await Jwt.decode(token)
-}
+// const decodeAddPostToken = async(token) => {
+//     return await Jwt.decode(token)
+// }
 
 // ------------------------------------MIDDLEWARES-----------------------------------------------------------------------------------
 
 //mailid based authentication
 const authenticate = async(req,res,next) => {
-    if(!req.headers.authorization) 
-        return res.status(403).send({
-            msg: 'Not authorized. No token'
-        })
-
-    if(req.headers.authorization && req.headers.authorization.startsWith("Bearer ")){
         let token = req?.headers?.authorization?.split(' ')[1]
-        console.log(token,);
+        // console.log(token,);
         if(token){
             let payload = await decodeLoginToken(token)
             let currentTime = +new Date()
-            console.log(payload);
+            // console.log(payload);
             if(Math.floor(currentTime/1000)<payload.exp){
                 next()
             }else{
@@ -82,7 +76,6 @@ const authenticate = async(req,res,next) => {
                 message :"Session is no longer available"
             })
         }
-    } 
 }
 
 //role based authenticate
@@ -111,6 +104,7 @@ const getUserEmail = async(req,res,next) => {
     if(token){
         let payload = await decodeLoginToken(token)
         req.userEmail = payload.email
+        req.userid = payload.id
         next()        
     }else{
         res.status(500).send({
@@ -126,7 +120,7 @@ export default {
     hashCompare,
     createLoginToken,
     createForgotPassToken,
-    createAddPostToken,
+    // createAddPostToken,
     authenticate,
     userGuard,
     getUserEmail

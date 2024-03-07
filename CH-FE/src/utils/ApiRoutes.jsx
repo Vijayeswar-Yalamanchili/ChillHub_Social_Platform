@@ -19,10 +19,14 @@ const ApiRoutes = {
         path : '/home/addpost',
         authenticate : false
     },
-    GETALLUSERS : {
-        path : '/user',
+    GETUSERPOST :{
+        path : '/home/getuserposts',
         authenticate : true
-    }
+    },
+    GETPOST : {
+        path : '/home/getposts',
+        authenticate : true
+    },
 }
 
 export default ApiRoutes

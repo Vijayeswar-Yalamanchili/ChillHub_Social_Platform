@@ -15,7 +15,9 @@ router.get('/forgotPassword/:id/verify/:token',registerLoginController.verifyCod
 router.put('/updatePassword',registerLoginController.updatePassword)
 
 router.get('/home',auth.authenticate,auth.userGuard,screenController.home)
-router.post('/home/addpost',auth.authenticate,auth.getUserEmail ,screenController.postFeed)
-router.get('/home/getpost', screenController.getFeed)
+router.post('/home/addpost',auth.authenticate,auth.getUserEmail ,screenController.createPost)
+router.get('/home/getposts/:id', auth.authenticate, screenController.getPosts)
+router.get('/home/getuserposts/:id', auth.authenticate, screenController.getUserPosts)
+
 
 export default router
