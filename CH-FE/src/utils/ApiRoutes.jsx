@@ -27,6 +27,10 @@ const ApiRoutes = {
         path : '/home/getposts',
         authenticate : true
     },
+    DELETEUSERPOST : {
+        path : '/home/deleteuserpost',
+        authenticate : true
+    },
 }
 
 export default ApiRoutes

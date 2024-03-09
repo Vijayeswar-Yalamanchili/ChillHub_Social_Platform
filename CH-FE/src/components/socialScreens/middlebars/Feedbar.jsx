@@ -3,7 +3,7 @@ import {Row, Col,Button,Card,Modal,Form} from 'react-bootstrap';
 import EmojiPicker from 'emoji-picker-react'
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFaceSmile} from '@fortawesome/free-regular-svg-icons'
+import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
 import { faPaperclip} from '@fortawesome/free-solid-svg-icons'
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
@@ -41,7 +41,7 @@ function Feedbar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
-      console.log(res);
+      // console.log(res);
       if(res.status === 200){
         // toast.success(res.data.message)
         setPosts(res.data.getpost)
@@ -49,6 +49,21 @@ function Feedbar() {
     } catch (error) {
         toast.error(error.response.data.message || error.message)
     }
+  }
+
+  const handleDeletePost = async() => {
+      try {
+        let getToken = localStorage.getItem('token')
+        const decodedToken = jwtDecode(getToken)
+        const id = decodedToken.id
+        let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
+        console.log(res);
+        if(res.status === 200){
+          toast.success(res.data.message)
+        }
+      } catch (error) {
+          toast.error(error.response.data.message || error.message)
+      }
   }
 
   useEffect(() => {
@@ -65,6 +80,11 @@ function Feedbar() {
             return <div key={i}>
               <Col>
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
+                  <div>
+                    <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost()}>
+                      <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
+                    </Button>
+                  </div>
                   {/* <Card.Img variant="top" src={e}/> */}
                   <Card.Text className='ms-2'>{e.feededData}</Card.Text>
                   <div className='d-flex flex-row'>

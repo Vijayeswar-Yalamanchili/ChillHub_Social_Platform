@@ -1,6 +1,6 @@
 import express from 'express'
 import registerLoginController from '../controller/registerLogin_controller.js'
-import screenController from '../controller/screenController.js'
+import postController from '../controller/postController.js'
 import auth from '../helper/auth.js'
 
 const router = express.Router()
@@ -14,10 +14,11 @@ router.put('/forgotPassword',registerLoginController.forgotPassword)
 router.get('/forgotPassword/:id/verify/:token',registerLoginController.verifyCode)
 router.put('/updatePassword',registerLoginController.updatePassword)
 
-router.get('/home',auth.authenticate,auth.userGuard,screenController.home)
-router.post('/home/addpost',auth.authenticate,auth.getUserEmail ,screenController.createPost)
-router.get('/home/getposts/:id', auth.authenticate, screenController.getPosts)
-router.get('/home/getuserposts/:id', auth.authenticate, screenController.getUserPosts)
+router.get('/home',auth.authenticate,auth.userGuard,postController.home)
+router.post('/home/addpost',auth.authenticate,auth.getUserEmail ,postController.createPost)
+router.get('/home/getposts/:id', auth.authenticate, postController.getPosts)
+router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPosts)
+router.delete('/home/deleteuserpost/:id', postController.deleteUserPost)
 
 
 export default router

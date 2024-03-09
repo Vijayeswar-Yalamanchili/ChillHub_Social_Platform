@@ -75,9 +75,49 @@ const getUserPosts = async(req,res) => {
 
 }
 
+const deleteUserPost = async(req,res) => {
+    try {
+        let userPost = await FeedDatasModel.find({_id:req.params.id})
+        console.log(userPost,"hi");
+        if(userPost._id === req.params._id){
+            // await FeedDatasModel.delete()
+            let deletedPost = await FeedDatasModel.deleteOne({_id:req.params.id})
+            console.log(deletedPost); 
+            res.status(200).send({
+                message:"Post deleted",
+                deletedPost
+            })
+        }else{
+            res.status(400).send({
+                message:`You can only delete your own posts`
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            message:"Internal Server Error"
+        })
+    }
+    // try {
+    //     const deleteuserpost = await FeedDatasModel.findById({_id : req.params.id})
+    //     console.log(deleteuserpost.ownerEmail,"hi");
+    //     if(deleteuserpost._id === req.body.id){
+    //         console.log("deleted");
+    //     }else{
+    //         console.log("failed");
+    //     }
+    // } catch (error) {
+    //     res.status(500).send({
+    //         message:"Internal Server Error in deleting Userpost"
+    //     })
+        
+    // }
+}
+
 export default {
     home,
     createPost,
     getPosts,
-    getUserPosts
+    getUserPosts,
+    deleteUserPost
 }
