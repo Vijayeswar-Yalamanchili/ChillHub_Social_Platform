@@ -1,6 +1,5 @@
 import React from 'react'
 import {Container,Row, Col,Form,Button} from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -15,14 +14,12 @@ import ApiRoutes from '../../utils/ApiRoutes';
 
 function ForgotPassword() {
 
-    let navigate = useNavigate()
-
     let emailFormik = useFormik({
         initialValues:{
             email : ''
         },
         validationSchema:Yup.object({          
-            email:Yup.string().required('Email is required').email('Enter a valid email')            
+            email:Yup.string().required('Email is required').email('Enter a valid email')
         }),
         onSubmit : async(values) => {
             try {
@@ -30,42 +27,13 @@ function ForgotPassword() {
                 let res = await AxiosService.put(`${ApiRoutes.FORGOTPASSWORD.path}`,values)
                 if(res.status === 200){
                     toast.success(res.data.message)
-                    // toast.success("Random string created")
-                    // console.log(res);
-                    // localStorage.setItem('email',res.data.email)
-                    // localStorage.setItem('randomString',res.data.randomString)
+                    localStorage.setItem('forgotPassToken',res.data.forgotPassToken)
                 }
             } catch (error) {
                 toast.error(error.response.data.message || error.message)
             }
         }
     })
-
-    // let verificationCodeFormik = useFormik({
-    //     initialValues:{
-    //         text : ''
-    //     },
-    //     validationSchema:Yup.object({          
-    //         text:Yup.string().required('Verification code is required').matches(/^[a-zA-Z0-9.]{25}$/,'Enter a valid Verification code')
-    //     }),
-    //     onSubmit : async(values) => {
-    //         try{
-    //             // console.log(values);                
-    //             let res = await AxiosService.post(`${ApiRoutes.VERIFYCODE.path}`,values)
-    //             // console.log(res.data);
-    //             if(res.status === 200){
-    //                 console.log(res);
-    //                 toast.success(res.data.message)
-    //                 localStorage.setItem('email',res.data.email)
-    //                 navigate('/resetpassword')        
-    //             }
-               
-    //           } catch (error) {
-    //             // console.log(error);
-    //             toast.error(error.response.data.message || error.message)
-    //           }
-    //     }
-    // })
 
     return <>
         <NavbarBeforeLogin/>

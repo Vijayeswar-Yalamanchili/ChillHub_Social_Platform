@@ -113,6 +113,24 @@ const getUserEmail = async(req,res,next) => {
     }
 }
 
+//for resetpwd with id route
+// const validateUserEmail = async(req,res,next) => {
+//     let token  = req?.headers?.authorization?.split(' ')[1]
+//     if(token){
+//         let payload = await decodeLoginToken(token)
+//         let email = payload.email
+//         let id = payload._id
+//         // console.log(email, id);
+//         if(email && id){
+//             next()
+//         }        
+//     }else{
+//         res.status(500).send({
+//             message :"Expired Token"
+//         })
+//     }
+// }
+
 
 export default {
     createHash,
@@ -120,8 +138,8 @@ export default {
     hashCompare,
     createLoginToken,
     createForgotPassToken,
-    // createAddPostToken,
     authenticate,
     userGuard,
-    getUserEmail
+    getUserEmail,
+    // validateUserEmail
 }

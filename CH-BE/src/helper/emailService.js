@@ -21,7 +21,7 @@ let forgotPasswordMail = async(to,emailVerifyURL) => {
             html: `<div><h3>Hi sir/mam</h3></div>
             <div>
               <p>To reset your password,click the below link</p>
-              <a href="${emailVerifyURL}">${emailVerifyURL}</a>     
+              <a href="${process.env.BASE_URL}/resetPassword">${emailVerifyURL}</a>     
               <p>Thanks!!!</p>       
             </div>
             `

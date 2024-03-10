@@ -11,6 +11,10 @@ const ApiRoutes = {
         path : '/forgotPassword',
         authenticate : false
     },
+    RESETPASSWORD : {
+        path : '/resetPassword',
+        authenticate : false
+    },
     HOME : {
         path : '/home',
         authenticate : false

@@ -35,7 +35,7 @@ const AppRoutes = [
         exact:true
     },
     {
-        path : '/resetpassword',
+        path : '/resetPassword',
         element : <ResetPassword/>,
         exact: true
     },

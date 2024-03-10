@@ -78,15 +78,16 @@ const forgotPassword = async(req,res) => {
                 _id : userEmail._id
             })
             res.status(200).send({
-                message : "Email exits",
+                message : "Please Check Your Email",
                 email: userEmail.email,
+                _id : userEmail._id,
                 forgotPassToken
             })        
             // console.log(forgotPassToken);
             const result = await RegisterLoginModel.findOneAndUpdate({email:email},{$set : {forgotPassToken : forgotPassToken,emailHash : req.body.email}})
             const getUserData = await RegisterLoginModel.findById(result._id)
             // console.log(result,getEntry)
-            const emailVerifyURL = `${process.env.BASE_URL}/forgotPassword/${getUserData.emailHash}/verify/${getUserData.forgotPassToken}`
+            const emailVerifyURL = `${process.env.BASE_URL}/resetPassword/${getUserData.emailHash}/verify/${getUserData.forgotPassToken}`
             await forgotPasswordMail(email, emailVerifyURL) 
         }else{
             res.status(400).send({
@@ -130,10 +131,22 @@ const verifyCode = async(req,res) => {
     }
 }
 
-const updatePassword = async(req,res) => {
+const resetPassword = async(req,res) => {
     try {
-        const {password,updatePassword} = req.body
-        const user = await RegisterLoginModel.find({email:email})
+        const user = await RegisterLoginModel.findOne({email : req.body.email})
+        if(user){
+            // console.log(user);
+            req.body.password = await auth.createHash(req.body.password)
+            let resetPwd = await RegisterLoginModel.updateOne({password : req.body.password})
+            res.status(200).send({
+                message : "Password updated successfully",
+                resetPwd
+            }) 
+        }else{
+            res.status(400).send({
+                message : `User with ${req.body.email} doesn't exists`
+            })
+        } 
         
     } catch (error) {
         res.status(500).send({
@@ -148,5 +161,5 @@ export default {
     login,
     forgotPassword,
     verifyCode,
-    updatePassword
+    resetPassword
 }

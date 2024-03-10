@@ -33,12 +33,12 @@ function Register() {
       }),
       onSubmit : async(values) => {
           try {
-              // console.log(values);          
+              console.log(values);          
               if(values.password === values.confirmPassword){
                 let res = await AxiosService.post(`${ApiRoutes.REGISTER.path}`,values)
                 // console.log(res);
                 if(res.status === 200){
-                  navigate('/') 
+                  navigate('/')
                 }     
               }else{
                 toast.error("Passwords doesnt match! Please enter the same passwords")
