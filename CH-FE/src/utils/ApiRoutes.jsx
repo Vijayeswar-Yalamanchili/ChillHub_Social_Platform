@@ -21,7 +21,7 @@ const ApiRoutes = {
     },
     ADDPOST : {
         path : '/home/addpost',
-        authenticate : false
+        authenticate : true
     },
     GETUSERPOST :{
         path : '/home/getuserposts',

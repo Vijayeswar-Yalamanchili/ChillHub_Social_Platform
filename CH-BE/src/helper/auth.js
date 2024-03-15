@@ -103,8 +103,9 @@ const getUserEmail = async(req,res,next) => {
     let token  = req?.headers?.authorization?.split(' ')[1]
     if(token){
         let payload = await decodeLoginToken(token)
-        req.userEmail = payload.email
-        req.userid = payload.id
+        req.user = payload
+        // req.userEmail = payload.email
+        // req.userid = payload.id
         next()        
     }else{
         res.status(500).send({

@@ -12,7 +12,7 @@ function FindFriends() {
     <Container fluid>
       <Row>
         <Col ><Leftbar/></Col>
-        <Col xs lg={8}><FindFriendsBar/></Col>
+        <Col xs lg={6}><FindFriendsBar/></Col>
         <Col><Rightbar/></Col>
       </Row>
     </Container>

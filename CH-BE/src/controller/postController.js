@@ -1,4 +1,4 @@
-import FeedDatasModel from "../models/screenModel.js"
+import FeedDatasModel from "../models/postModel.js"
 
 const home = async(req,res)=>{
     try {
@@ -15,7 +15,9 @@ const home = async(req,res)=>{
 
 const createPost = async(req,res) => {
     try {
-        const postData = await FeedDatasModel.create({...req.body , ownerEmail : req.userEmail, ownerID : req.userid })
+        // const postData = await FeedDatasModel.create({...req.body,image : req.file , ownerEmail : req.userEmail, ownerID : req.userid })
+        const postData = await FeedDatasModel.create({...req.body, ownerEmail : req.user.email, ownerID : req.user.id })
+        console.log(postData,req.body)
         if(postData){
             res.status(200).send({
                 message:"Feed created",
@@ -37,6 +39,7 @@ const getPosts = async(req,res) => {
     try {
         const getpost = await FeedDatasModel.find()
         if(getpost.length >= 1){
+            getpost.reverse()
             res.status(200).send({
                 message:"posts data fetch by id successful",
                 getpost
@@ -58,6 +61,7 @@ const getUserPosts = async(req,res) => {
     try {
         const getuserpost = await FeedDatasModel.find({ownerID : req.params.id})
         if(getuserpost.length >= 1){
+            getuserpost.reverse()
             res.status(200).send({
                 message:"Userposts data fetch by id successful",
                 getuserpost

@@ -10,6 +10,10 @@ const datasSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    image: {
+        type: String,
+        required : true
+    },
     ownerEmail : {
         type : String,
         required : false

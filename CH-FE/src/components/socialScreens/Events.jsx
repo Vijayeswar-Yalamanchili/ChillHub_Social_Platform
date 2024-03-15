@@ -12,7 +12,7 @@ function Events() {
     <Container fluid>
       <Row>
         <Col ><Leftbar/></Col>
-        <Col xs lg={8}><EventBar/></Col>
+        <Col xs lg={6}><EventBar/></Col>
         <Col><Rightbar/></Col>
       </Row>
     </Container>

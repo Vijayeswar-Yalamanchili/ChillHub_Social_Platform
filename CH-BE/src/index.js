@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import multer from 'multer'
 import AppRoutes from './routes/user_routes.js'
 
 dotenv.config()

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {Row, Col,Button,Card,Modal,Form} from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashCan} from '@fortawesome/free-regular-svg-icons'
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
 import { jwtDecode } from "jwt-decode";
@@ -39,7 +41,13 @@ function UserTimeline() {
                 return <div key={i}>
                   <Col>
                     <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                      {/* <Card.Img variant="top" src={e}/> */}
+                      <div className='px-2 d-flex justify-content-between flex-row align-items-center'>
+                        <div className="fw-bold">USERNAME</div>
+                        <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost()}>
+                          <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
+                        </Button>
+                      </div>
+                      <Card.Img variant="top" src={e.image} className='postImage'/>
                       <Card.Text className='ms-2'>{e.feededData}</Card.Text>
                       <div className='d-flex flex-row'>
                         <Card.Text className='ms-2'>0 Likes</Card.Text>

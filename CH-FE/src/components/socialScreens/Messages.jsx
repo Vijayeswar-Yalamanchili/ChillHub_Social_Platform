@@ -12,7 +12,7 @@ function Messages() {
     <Container fluid>
       <Row>
         <Col ><Leftbar/></Col>
-        <Col xs lg={8}><MessageBar/></Col>
+        <Col xs lg={6}><MessageBar/></Col>
         <Col><Rightbar/></Col>
       </Row>
     </Container>

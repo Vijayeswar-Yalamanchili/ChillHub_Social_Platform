@@ -14,19 +14,36 @@ function Feedbar() {
   const [inputStr, setInputStr] = useState('');
   const [showEmojis, setShowEmojis] = useState(false);
   const [posts, setPosts] = useState([])
+  const [selectedFile, setSelectedFile] = useState()
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleChange = (e) => {
+    console.log(e.target.files[0])
+    setSelectedFile(URL.createObjectURL(e.target.files[0]));
+    console.log(URL.createObjectURL(e.target.files[0]));
+  }
 
   const handleSubmit = async(e) => {
     try {
       e.preventDefault()
       const formData = new FormData(e.target)
+      formData.append('image', selectedFile)
       const formProps = Object.fromEntries(formData)
-      setInputStr('')
+      // formProps.append('imageUrl', selectedFile)
+      console.log(formProps);
+      setInputStr('') 
+      setSelectedFile('')
       setShow(false)
       let LoginToken = localStorage.getItem('token')
-      let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps,{ headers:{"Authorization" : `Bearer ${LoginToken}`}} )
+      let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
+        headers:{
+          "Content-Type" : "multipart/form-data",
+          "Authorization" : `Bearer ${LoginToken}`        
+        }
+      })
+      console.log(res);
       if(res.status === 200){
         toast.success(res.data.message)
       }
@@ -69,7 +86,6 @@ function Feedbar() {
   useEffect(() => {
     getPostData()
   },[])
-
  
   return <>
     <div className='mt-4 px-4'>
@@ -80,12 +96,13 @@ function Feedbar() {
             return <div key={i}>
               <Col>
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                  <div>
+                  <div className='px-2 d-flex justify-content-between flex-row align-items-center'>
+                    <div className="fw-bold">USERNAME</div>
                     <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost()}>
                       <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
                     </Button>
                   </div>
-                  {/* <Card.Img variant="top" src={e}/> */}
+                  <Card.Img variant="top" src={e.image} className='postImage'/>
                   <Card.Text className='ms-2'>{e.feededData}</Card.Text>
                   <div className='d-flex flex-row'>
                     <Card.Text className='ms-2'>0 Likes</Card.Text>
@@ -108,22 +125,26 @@ function Feedbar() {
 
     {/* Add post modal */}
     <Modal show={show} onHide={handleClose}>
-      <Form onSubmit={handleSubmit}> 
+      <Form onSubmit={handleSubmit} > 
         <Modal.Header closeButton>
           <Modal.Title>Add Feed</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{minHeight:"13rem"}} className='d-flex justify-content-between flex-column'>
             <Form.Group>
               <Form.Control as='textarea' rows='5' className='feedInputArea' name='feededData' placeholder='Put your thoughts here ....' 
-                      defaultValue={inputStr} onChange={(e)=>setInputStr(e.target.value)}/>
+                      defaultValue={inputStr} onChange={(e)=>setInputStr(e.target.value)}/>              
             </Form.Group>
+            {
+              selectedFile ? <div style={{margin : "1rem 0"}}><img src={selectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div> : null
+            }
             <div>
               <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
                 <FontAwesomeIcon icon={faFaceSmile} style={{color: "black"}}/>
               </Button> 
               
-              <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
-                <FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/>
+              <Button className='attachIcon mx-2' type='button'>
+                <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
+                <input type="file" name="img-file" id="file" onChange={handleChange} className='attachImgIcon' accept="image/*"/>
               </Button>
             {
               showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
