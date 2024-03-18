@@ -8,11 +8,11 @@ import mongoose from './indexModel.js';
 const datasSchema = new mongoose.Schema({
     feededData:{
         type : String,
-        required : true
+        required : false
     },
     image: {
         type: String,
-        required : true
+        required : false
     },
     ownerEmail : {
         type : String,

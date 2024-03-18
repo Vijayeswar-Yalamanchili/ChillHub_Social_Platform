@@ -39,7 +39,7 @@ const getPosts = async(req,res) => {
     try {
         const getpost = await FeedDatasModel.find()
         if(getpost.length >= 1){
-            getpost.reverse()
+            // getpost.reverse()
             res.status(200).send({
                 message:"posts data fetch by id successful",
                 getpost
@@ -81,20 +81,20 @@ const getUserPosts = async(req,res) => {
 
 const deleteUserPost = async(req,res) => {
     try {
-        let userPost = await FeedDatasModel.find({_id:req.params.id})
-        console.log(userPost,"hi");
-        if(userPost._id === req.params._id){
-            // await FeedDatasModel.delete()
-            let deletedPost = await FeedDatasModel.deleteOne({_id:req.params.id})
-            console.log(deletedPost); 
-            res.status(200).send({
-                message:"Post deleted",
-                deletedPost
-            })
-        }else{
-            res.status(400).send({
-                message:`You can only delete your own posts`
-            })
+        let userPost = await FeedDatasModel.findOne({ownerID:req.params.id})
+        // console.log(userPost,"hi")
+        if(userPost){
+            let postId = userPost._id
+            // console.log(postId);
+            if(postId !== ""){
+                let deletedPost = await FeedDatasModel.deleteOne({_id:userPost._id})
+                // console.log(deletedPost);
+                res.status(200).send({
+                    message:"Post deleted please refresh",
+                    deletedPost
+                })
+            }
+            
         }
     } catch (error) {
         console.log(error)

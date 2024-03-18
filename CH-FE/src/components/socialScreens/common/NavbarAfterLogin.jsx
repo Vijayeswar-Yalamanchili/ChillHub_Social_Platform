@@ -62,7 +62,7 @@ function NavbarAfterLogin() {
                                      </Button>
                                 </Nav.Link>
                                 <Nav.Link>
-                                    <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()} onMouseOver={()=>{handleOut()}}>
+                                    <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()}>
                                         <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D"}}/>
                                     </Button>
                                     <Button className='navText' onClick={()=>handleMyProfile()} >
