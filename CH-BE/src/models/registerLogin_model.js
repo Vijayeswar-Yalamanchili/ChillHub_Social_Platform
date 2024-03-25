@@ -38,6 +38,10 @@ const registerLoginSchema = new mongoose.Schema({
         type:String,
         required:[false,"required"]
     },
+    image:{
+        type: String,
+        required:false
+    }, 
     // randomString:{
     //     type: String,
     //     required:[false,"RandomString is required"]

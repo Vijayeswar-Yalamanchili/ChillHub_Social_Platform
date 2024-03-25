@@ -354,10 +354,17 @@
 
 /* FEEDBAR COMPONENT */
 
+.userImage{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: red;
+}
+
 .openAddFeedBtn{
     background-color: rgba(135, 129, 129, 0.14);
     height: 2.5rem;
-    width: 100%;
+    width: 93%;
     border: none;
     border-radius: 1.25rem;
     font-size: 16px;
@@ -412,4 +419,46 @@
     border-bottom-right-radius: 15px !important;
     border-left: 1px solid rgba(0, 0, 0, 0.338) !important;
     border-top-right-radius: 0px !important;
+}
+
+/* ---------------------------------------------------------------------------------------------------------- */
+
+/* PROFILE BAR */
+
+.bioText{
+    width: 100%;
+    padding: 2%;
+    border-radius: 20px;
+    border: 1px solid rgba(168, 167, 167, 0.793);
+}
+
+.profilePic{
+    width: 100%;
+    height: 14rem;
+}
+
+.profilePicImageArea{
+    width: 11rem;
+    height: 11rem;
+}
+
+.imageFile{
+    width: 11rem;
+    height: 11rem;
+    border: none !important;
+    border-radius: 50%;
+    /* position: absolute; */
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.updateProfileBtn{
+    margin: 1rem 0  0 0%;
+    width: 100%;
+}
+
+.bioInputArea{
+    outline: none;
+    border-radius: 15px !important;
+    padding: 2%;
+    /* height: 450px; */
 }

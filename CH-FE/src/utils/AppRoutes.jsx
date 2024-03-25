@@ -12,6 +12,7 @@ import UserProtectedRoute from "./UserProtectedRoute";
 import { Navigate } from "react-router-dom";
 import ErrorScreen from "../components/ErrorScreen";
 import MyTimeline from "../components/socialScreens/MyTimeline";
+import MyProfile from "../components/socialScreens/MyProfile";
 
 const AppRoutes = [
     {
@@ -47,6 +48,11 @@ const AppRoutes = [
     {
         path:'/mytimeline',
         element : <MyTimeline/>,
+        exact:true
+    },
+    {
+        path:'/myprofile',
+        element : <MyProfile/>,
         exact:true
     },
     {

@@ -47,8 +47,9 @@ function NavbarAfterLogin() {
                     </Form>
 
                     <div className=' d-flex justify-content-between flex-row align-items-center'>
-                        <Link to={'/mytimeline'}>
-                        <div style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div></Link>
+                        <Link to={'/mytimeline'} style={{textDecoration:'none'}}>
+                            <div style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div>
+                        </Link>
                         
                         <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
                         <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>
@@ -76,33 +77,7 @@ function NavbarAfterLogin() {
                     
                 </div>       
             </Container>
-        </Navbar>
-
-        {/* Add post modal */}
-        {/* <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Add Feed</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group className='mb-4'>
-                        <Form.Label>Add Image</Form.Label>
-                        <Form.Control type="file"  id='file' name='file' multiple/>
-                        {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null}
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Add Description</Form.Label>
-                        <Form.Control as="textarea" rows={3} />
-                        {formik.touched.email && formik.errors.email ? (<div style={{color:"red"}}>{formik.errors.email}</div>) : null}
-                    </Form.Group>
-                    
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-              <Button variant="primary" onClick={handleClose}>Post</Button>
-            </Modal.Footer>
-        </Modal> */}
+        </Navbar>    
 
         {/* Notification Dropdown */}
         <div>

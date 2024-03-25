@@ -1,12 +1,15 @@
 import mongoose from './indexModel.js';
 
-// const validateEmail = (email) => {
-//     return String(email).toLowerCase()
-//     .match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-// }
-
-const datasSchema = new mongoose.Schema({
+const UserDatasSchema = new mongoose.Schema({
     ownerID : {
+        type : String,
+        required : false
+    },
+    ownerFirstName:{
+        type : String,
+        required : false
+    },
+    ownerLastName:{
         type : String,
         required : false
     },
@@ -14,14 +17,14 @@ const datasSchema = new mongoose.Schema({
         type : String,
         required : false
     },
-    feededData:{
+    bio:{
         type : String,
         required : false
     },
-    image: {
+    imageDP: {
         type: String,
         required : false
-    },    
+    },
     createdAt:{
         type:Date,
         default:Date.now()
@@ -33,10 +36,10 @@ const datasSchema = new mongoose.Schema({
     
 },
 {
-    collection:'feedData',
+    collection:'usersData',
     versionKey:false,
 })
 
-const FeedDatasModel = mongoose.model('feedData', datasSchema)
+const UserDatasModel = mongoose.model('usersData', UserDatasSchema)
 
-export default FeedDatasModel
+export default UserDatasModel

@@ -35,6 +35,10 @@ const ApiRoutes = {
         path : '/home/deleteuserpost',
         authenticate : true
     },
+    ADDUSERBIO : {
+        path : '/home/adduserdatas',
+        authenticate : true
+    },
 }
 
 export default ApiRoutes

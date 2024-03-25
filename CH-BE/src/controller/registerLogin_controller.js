@@ -1,4 +1,4 @@
-import Randomstring from 'randomstring'
+// import Randomstring from 'randomstring'
 import auth from '../helper/auth.js'
 import RegisterLoginModel from '../models/registerLogin_model.js'
 import forgotPasswordMail from '../helper/emailService.js'
@@ -12,13 +12,21 @@ const login = async(req,res) => {
             if(await auth.hashCompare(password,user.password)){
                 const token = await auth.createLoginToken({
                     id : user._id,
-                    name:`${user.firstName} ${user.lastName}`,
+                    name : `${user.firstName} ${user.lastName}`,
+                    firstName: user.firstName,
+                    lastName : user.lastName,
                     email:user.email,
-                    role:user.role
+                    role:user.role     
+                })
+                const userDetailsToken = await auth.createUserDataToken({
+                    id : user._id,
+                    name:`${user.firstName} ${user.lastName}`,
+                    
                 })
                 res.status(200).send({
                     message:"Login successfull",
                     token,
+                    userDetailsToken,
                     id:user._id,
                     role:user.role
                 })

@@ -16,7 +16,8 @@ function Feedbar() {
   const [posts, setPosts] = useState([])
   const [selectedFile, setSelectedFile] = useState()
   const [postExists,setPostExists] = useState()
-  const [imageExists,setImageExists] = useState()
+  const [likeBtn,setLikeBtn] = useState(false)
+  const isLoggedIn = true
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -50,7 +51,7 @@ function Feedbar() {
         toast.success(res.data.message)
       }
     } catch (error) {
-      toast.error(error.response.data.message || error.message)
+        toast.error(error.response.data.message || error.message)
     }
   }
 
@@ -85,6 +86,15 @@ function Feedbar() {
       }
   }
 
+  const handleLikeBtn = () => {
+    setLikeBtn(!likeBtn)
+    console.log(!likeBtn)
+  }
+
+  let getDetailsToken = localStorage.getItem('userDetailsToken')
+  const decodeduserDetailsToken = jwtDecode(getDetailsToken)
+  const userImage = decodeduserDetailsToken.image
+
   useEffect(() => {
     getPostData()
   },[getPostData])
@@ -92,15 +102,18 @@ function Feedbar() {
 
   return <>
     <div className='mt-4 px-4'>
-      <div><input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/></div>
+      <div className='d-flex flex-row justify-content-between'>
+        {isLoggedIn? <img src={userImage} className='userImage'/>: null}
+        <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
+      </div>
       <div className="feedArea mt-3">
         {
           posts.map((e,i)=>{
-            return !postExists ?
-            <div key={i}>
+            // return !postExists ?
+            return <div key={i}>
             <Col>
               <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                <div className='px-2 d-flex justify-content-between flex-row align-items-center'>
+                <div className='mx-2 d-flex justify-content-between flex-row align-items-center'>
                   <div className="fw-bold">USERNAME</div>
                   <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost(e)}>
                     <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
@@ -108,25 +121,27 @@ function Feedbar() {
                 </div>
                 {/* {!imageExists && <Card.Img variant="top" src={e.imageExists} className='postImage'/> } */}
                 <Card.Img variant="top" src={e.image} className='postImage'/>
-                <Card.Text className='ms-2'>{e.feededData}</Card.Text>
+                <Card.Text className='m-2'>{e.feededData}</Card.Text>
                 <div className='d-flex flex-row'>
-                  <Card.Text className='ms-2'>0 Likes</Card.Text>
-                  <Card.Text className='ms-3'>0 Comments</Card.Text>
+                  {/* <Card.Text className='ms-2'>0 Likes</Card.Text> */}
+                  <Card.Text className='m-2'>0 Comments</Card.Text>
                 </div>
                 <Card.Body className='p-0'>
                   <Row>
-                    <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' style={{ width: '100%' }}>Like</Button></Col>
+                    {likeBtn? <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={handleLikeBtn} style={{ width: '100%' }}>Like</Button></Col> : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={handleLikeBtn} style={{ width: '100%' }}>Liked</Button></Col>}
                     <Col style={{padding:"0px"}}><Button variant="light" className='commentBtn' style={{ width: '100%' }}>Comment</Button></Col>
                     <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
                   </Row>
                 </Card.Body>
               </Card>
             </Col>
-          </div> : null
+          </div> 
+          // : null
           })
         }
       </div>
     </div>
+
 
     {/* Add post modal */}
     <Modal show={show} onHide={handleClose}>
@@ -135,29 +150,29 @@ function Feedbar() {
           <Modal.Title>Add Feed</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{minHeight:"13rem"}} className='d-flex justify-content-between flex-column'>
-            <Form.Group>
-              <Form.Control as='textarea' rows='5' className='feedInputArea' name='feededData' placeholder='Put your thoughts here ....' 
-                      defaultValue={inputStr} onChange={(e)=>setInputStr(e.target.value)}/>              
-            </Form.Group>
-            {
-              selectedFile ? <div style={{margin : "1rem 0"}}><img src={selectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div> : null
-            }
-            <div>
-              <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
-                <FontAwesomeIcon icon={faFaceSmile} style={{color: "black"}}/>
-              </Button> 
-              
-              <Button className='attachIcon mx-2' type='button'>
-                <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-                <input type="file" name="img-file" id="file" onChange={handleChange} className='attachImgIcon' accept="image/*"/>
-              </Button>
-            {
-              showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
-                setInputStr((prevMsg)=> prevMsg + emojiObject.emoji) 
-                setShowEmojis(false);
-              }}/>
-            }
-            </div>
+          <Form.Group>
+            <Form.Control as='textarea' rows='5' className='feedInputArea' name='feededData' placeholder='Put your thoughts here ....' 
+                    defaultValue={inputStr} onChange={(e)=>setInputStr(e.target.value)}/>              
+          </Form.Group>
+          {
+            selectedFile ? <div style={{margin : "1rem 0"}}><img src={selectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div> : null
+          }
+          <div>
+            <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
+              <FontAwesomeIcon icon={faFaceSmile} style={{color: "black"}}/>
+            </Button> 
+            
+            <Button className='attachIcon mx-2' type='button'>
+              <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
+              <input type="file" name="img-file" id="file" onChange={handleChange} className='attachImgIcon' accept="image/*"/>
+            </Button>
+          {
+            showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
+              setInputStr((prevMsg)=> prevMsg + emojiObject.emoji) 
+              setShowEmojis(false);
+            }}/>
+          }
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Cancel</Button>

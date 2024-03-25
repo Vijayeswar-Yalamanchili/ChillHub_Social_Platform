@@ -4,7 +4,7 @@ import path from 'path'
 //multer for post Image 
 const poststorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        console.log("dest");
+        // console.log("dest");
         cb(null, 'postImages')
     },
     filename: function (req, file, cb) {
@@ -17,6 +17,19 @@ const poststorage = multer.diskStorage({
   
 const postUpload = multer({ storage: poststorage })
 
+const profilePicstorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'userProfilePics')
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now()
+        cb(null, uniqueSuffix + path.extname(file.originalname))
+    }
+}) 
+  
+const profilePicUpload = multer({ storage: profilePicstorage })
+
 export default {
-    postUpload
+    postUpload,
+    profilePicUpload
 }

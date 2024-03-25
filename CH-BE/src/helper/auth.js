@@ -32,6 +32,17 @@ const decodeLoginToken = async(token) => {
     return await Jwt.decode(token)
 }
 
+const createUserDataToken = async(payload) => {
+    let userDataToken = await Jwt.sign(payload,process.env.JWT_SECRETKEY_USERDATA,{
+        expiresIn : process.env.JWT_EXPIRY_USERDATA
+    })
+    return userDataToken
+}
+
+const decodeUserDataToken = async(token) => {
+    return await Jwt.decode(token)
+}
+
 const createForgotPassToken = async(payload) => {
     let token = await Jwt.sign(payload,process.env.JWT_SECRETKEY_FP,{
         expiresIn : process.env.JWT_EXPIRY_FP
@@ -138,6 +149,7 @@ export default {
     verifySalt,
     hashCompare,
     createLoginToken,
+    createUserDataToken,
     createForgotPassToken,
     authenticate,
     userGuard,
