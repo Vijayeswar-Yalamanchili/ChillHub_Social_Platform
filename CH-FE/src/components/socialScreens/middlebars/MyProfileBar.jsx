@@ -1,20 +1,26 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Form,Button,Modal } from 'react-bootstrap'
 import UserTimeline from './UserTimeline'
 import { toast } from 'react-toastify'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
+import { jwtDecode } from "jwt-decode";
 
 function MyProfileBar() {
   const [show, setShow] = useState(false)
   const uploadedImage = useRef(null)
-  const [selectedDP, setSelectedDP] = useState()
+  const [selectedFile, setSelectedFile] = useState()
   const [inputBio, setInputBio] = useState('')
-  // const[profileImg,setProfileImg] = useState()
+  const [bioText, setBioText] = useState([])
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
+  const handleChange = (e) => {
+    console.log(e.target.files[0])
+    setSelectedFile(URL.createObjectURL(e.target.files[0]));
+    console.log(URL.createObjectURL(e.target.files[0]));
+  }
 
   const handleImageUpload = e => {
     const [file] = e.target.files;
@@ -34,9 +40,9 @@ function MyProfileBar() {
     try {
       e.preventDefault()
       const formData = new FormData(e.target)
-      formData.append('imageDP', selectedDP)
+      formData.append('imageDP', selectedFile)
       const formProps = Object.fromEntries(formData)
-      console.log(formProps);
+      // console.log(formProps);
       setInputBio('')
       setShow(false)
       let LoginToken = localStorage.getItem('token')
@@ -45,31 +51,51 @@ function MyProfileBar() {
           "Content-Type" : "multipart/form-data",
           "Authorization" : `Bearer ${LoginToken}`        
         }
-      })
-
-      
+      })      
       // console.log(res);
       if(res.status === 200){
         toast.success(res.data.message)
-      }
-      
+      }      
     } catch (error) {
       toast.error(error.response.data.message || error.message)
     }    
   }
 
-  const handleClick = () => {
-    uploadedImage.current.click();
+  const getUsersData = async() => {
+    try {
+      // console.log("hbscjdhfsbc ");
+      let getToken = localStorage.getItem('token')
+      const decodedToken = jwtDecode(getToken)
+      const id = decodedToken.id
+      // console.log(id);
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
+      // console.log(res.data)
+      if(res.status === 200){
+        // toast.success(res.data.message)
+        setBioText(res.data.getData)
+        console.log(res.data.getData);
+      }
+    } catch (error) {
+        toast.error( error.message)
+    }
   }
+
+  // const handleClick = () => {
+  //   uploadedImage.current.click();
+  // }
+
+  useEffect(() => {
+    getUsersData()
+  },[])
 
   return <>
     <div className='mt-4' style={{width:"100%"}}>
       <div className='profileDatas d-flex justify-content-between flex-row align-items' style={{gap: "5%"}}>
         <div className='profilePicImageArea'>
-          <img ref={uploadedImage} className='imageFile'/>          
+          <img src={bioText.imageDP} className='imageFile'/>          
         </div>
         <div className='bioText'>
-          <div>dvdf</div>
+          <div>{bioText.bio}</div>
         </div>
       </div>          
       <Button variant="primary" type='submit' className='updateProfileBtn' onClick={handleShow}>Update Profile</Button>
@@ -90,11 +116,11 @@ function MyProfileBar() {
         <Modal.Body style={{minHeight:"13rem"}} className='d-flex justify-content-between flex-column'>
           <div className='profilePic d-flex justify-content-around flex-row align-items-center'>
             <div className='profilePicImageArea'>
-              <img ref={uploadedImage} className='imageFile'/>          
+              <img src={selectedFile} className='imageFile'/>          
             </div>
-            <Button type='button' variant='secondary' onClick={handleClick}> 
+            <Button type='button' variant='secondary' > 
               <label htmlFor="file">Edit Picture</label>
-              <input type="file" name="imageDP" id="file" accept='image/*' onChange={handleImageUpload} style={{display : "none"}}/>
+              <input type="file" name="imageDP" id="file" accept='image/*' onChange={handleChange} style={{display : "none"}}/>
             </Button>
           </div>
           <Form.Group>

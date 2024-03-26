@@ -30,6 +30,6 @@ router.delete('/home/deleteuserpost/:id', postController.deleteUserPost)
 
 // User Profile Datas
 router.post('/home/adduserdatas',auth.authenticate,auth.getUserEmail,uploadController.profilePicUpload.single('imageDP'),usersDataController.addUsersData)
-
+router.get('/home/getuserdatas/:id', auth.authenticate, usersDataController.getUsersData)
 
 export default router

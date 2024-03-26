@@ -39,6 +39,10 @@ const ApiRoutes = {
         path : '/home/adduserdatas',
         authenticate : true
     },
+    GETUSERBIO : {
+        path : '/home/getuserdatas',
+        authenticate : true
+    }
 }
 
 export default ApiRoutes

@@ -1,7 +1,7 @@
 import multer from 'multer'
 import path from 'path'
 
-//multer for post Image 
+//for post Image 
 const poststorage = multer.diskStorage({
     destination: function (req, file, cb) {
         // console.log("dest");
@@ -17,6 +17,7 @@ const poststorage = multer.diskStorage({
   
 const postUpload = multer({ storage: poststorage })
 
+//for DP
 const profilePicstorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'userProfilePics')

@@ -47,9 +47,9 @@ function NavbarAfterLogin() {
                     </Form>
 
                     <div className=' d-flex justify-content-between flex-row align-items-center'>
-                        <Link to={'/mytimeline'} style={{textDecoration:'none'}}>
+                        {/* <Link to={'/mytimeline'} style={{textDecoration:'none'}}> */}
                             <div style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div>
-                        </Link>
+                        {/* </Link> */}
                         
                         <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
                         <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>

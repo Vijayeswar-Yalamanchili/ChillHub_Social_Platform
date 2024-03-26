@@ -159,7 +159,7 @@ function Feedbar() {
           }
           <div>
             <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
-              <FontAwesomeIcon icon={faFaceSmile} style={{color: "black"}}/>
+              <FontAwesomeIcon ic  on={faFaceSmile} style={{color: "black"}}/>
             </Button> 
             
             <Button className='attachIcon mx-2' type='button'>
