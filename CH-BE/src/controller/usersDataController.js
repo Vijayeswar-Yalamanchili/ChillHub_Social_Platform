@@ -1,4 +1,4 @@
-import UserDatasModel from "../models/userDetailModel.js"
+import UserDatasModel from "../models/UserDatasModel.js"
 
 const addUsersData = async(req,res) => {
     try {

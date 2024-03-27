@@ -23,7 +23,7 @@ function NavbarAfterLogin() {
     const handleMyProfile = () => setMyProfile(!myProfile)
 
     
-    let tokenForUsername = localStorage.getItem('token')
+    let tokenForUsername = localStorage.getItem('loginToken')
     const decodedUsernameToken = jwtDecode(tokenForUsername)
 
     return <>

@@ -45,7 +45,7 @@ function MyProfileBar() {
       // console.log(formProps);
       setInputBio('')
       setShow(false)
-      let LoginToken = localStorage.getItem('token')
+      let LoginToken = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDUSERBIO.path}`,formProps,{
         headers:{
           "Content-Type" : "multipart/form-data",
@@ -64,7 +64,7 @@ function MyProfileBar() {
   const getUsersData = async() => {
     try {
       // console.log("hbscjdhfsbc ");
-      let getToken = localStorage.getItem('token')
+      let getToken = localStorage.getItem('loginToken')
       // console.log(getToken);
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
@@ -97,10 +97,10 @@ function MyProfileBar() {
       </div>          
       <Button variant="primary" type='submit' className='updateProfileBtn' onClick={handleShow}>Update Profile</Button>
       <hr/>
-      {/* <div>
+      <div>
         <h5>My Activity</h5>
         <UserTimeline/>
-      </div> */}
+      </div>
     </div>
 
 

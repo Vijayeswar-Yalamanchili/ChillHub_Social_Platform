@@ -2,13 +2,14 @@
 import auth from '../helper/auth.js'
 import RegisterLoginModel from '../models/registerLogin_model.js'
 import forgotPasswordMail from '../helper/emailService.js'
+import UserDatasModel from "../models/UserDatasModel.js"
 
 const login = async(req,res) => {
     try {
         const {email,password} = req.body
         const user = await RegisterLoginModel.findOne({email:email})
-        const userData = await UserDatasModel.find({ownerEmail : email}).limit(1)
-        console.log(userData);
+        const userData = await UserDatasModel.findOne({ownerEmail : email}).limit(1)
+        // console.log(userData.ownerEmail)
         if(user){
             if(await auth.hashCompare(password,user.password)){
                 const loginToken = await auth.createLoginToken({
@@ -22,6 +23,9 @@ const login = async(req,res) => {
                 const userDataToken = await auth.createUserDataToken({
                     id : user._id,
                     name:`${user.firstName} ${user.lastName}`,
+                    ownerEmail : userData.ownerEmail,
+                    userDP : userData.imageDP,
+                    bio : userData.bio
                 })
                 res.status(200).send({
                     message:"Login successfull",
