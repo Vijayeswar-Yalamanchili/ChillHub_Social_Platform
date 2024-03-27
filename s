@@ -2,13 +2,14 @@
 import auth from '../helper/auth.js'
 import RegisterLoginModel from '../models/registerLogin_model.js'
 import forgotPasswordMail from '../helper/emailService.js'
+import UserDatasModel from '../models/userDetailModel.js'
 
 const login = async(req,res) => {
     try {
         const {email,password} = req.body
         const user = await RegisterLoginModel.findOne({email:email})
         const userData = await UserDatasModel.find({ownerEmail : email}).limit(1)
-        console.log(userData);
+        // console.log(userData.bio)
         if(user){
             if(await auth.hashCompare(password,user.password)){
                 const loginToken = await auth.createLoginToken({
@@ -22,13 +23,17 @@ const login = async(req,res) => {
                 const userDataToken = await auth.createUserDataToken({
                     id : user._id,
                     name:`${user.firstName} ${user.lastName}`,
+                    // ownerEmail : userData.ownerEmail,
+                    userDP : userData.imageDP,
+                    bio : userData.bio
                 })
                 res.status(200).send({
                     message:"Login successfull",
                     loginToken,
                     userDataToken,
                     id:user._id,
-                    role:user.role
+                    role:user.role,
+                    userDP : userData.imageDP
                 })
             }else{
                 res.status(400).send({
@@ -113,7 +118,7 @@ const forgotPassword = async(req,res) => {
 const verifyCode = async(req,res) => {
     try {
         const dataToVerify = await RegisterLoginModel.findOne({emailHash: req.params.id,forgotPassToken: req.params.token})
-        console.log(dataToVerify)
+        // console.log(dataToVerify)
         //   if (!dataToVerify) return res.status(400).json({ message: "invalid link" });
         if(dataToVerify){
             await RegisterLoginModel.findOneAndUpdate({ _id: dataToVerify._id },

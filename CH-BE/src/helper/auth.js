@@ -22,10 +22,10 @@ const hashCompare = async(data, hash) => {
 
 const createLoginToken = async(payload) => {
     // console.log(process.env.JWT_SECRETKEY_LOGIN);
-    let token = await Jwt.sign(payload,process.env.JWT_SECRETKEY_LOGIN,{
+    let loginToken = await Jwt.sign(payload,process.env.JWT_SECRETKEY_LOGIN,{
         expiresIn : process.env.JWT_EXPIRY_LOGIN 
     })
-    return token
+    return loginToken
 }
 
 const decodeLoginToken = async(token) => {

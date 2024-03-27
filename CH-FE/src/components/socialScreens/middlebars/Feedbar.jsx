@@ -23,9 +23,9 @@ function Feedbar() {
   const handleShow = () => setShow(true);
 
   const handleChange = (e) => {
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
     setSelectedFile(URL.createObjectURL(e.target.files[0]));
-    console.log(URL.createObjectURL(e.target.files[0]));
+    // console.log(URL.createObjectURL(e.target.files[0]));
   }
 
   const handleSubmit = async(e) => {
@@ -39,7 +39,7 @@ function Feedbar() {
       setInputStr('') 
       setSelectedFile('')
       setShow(false)
-      let LoginToken = localStorage.getItem('token')
+      let LoginToken = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
           "Content-Type" : "multipart/form-data",
@@ -57,7 +57,7 @@ function Feedbar() {
 
   const getPostData = async() => {
     try {
-      let getToken = localStorage.getItem('token')
+      let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
@@ -73,7 +73,7 @@ function Feedbar() {
 
   const handleDeletePost = async(e) => {
       try {
-        let getToken = localStorage.getItem('token')
+        let getToken = localStorage.getItem('loginToken')
         const decodedToken = jwtDecode(getToken)
         const id = decodedToken.id
         let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
@@ -91,9 +91,9 @@ function Feedbar() {
     console.log(!likeBtn)
   }
 
-  let getDetailsToken = localStorage.getItem('userDetailsToken')
+  let getDetailsToken = localStorage.getItem('userDataToken')
   const decodeduserDetailsToken = jwtDecode(getDetailsToken)
-  const userImage = decodeduserDetailsToken.image
+  const userImage = decodeduserDetailsToken.userDP
 
   useEffect(() => {
     getPostData()
