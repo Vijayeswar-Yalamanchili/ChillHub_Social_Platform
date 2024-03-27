@@ -58,7 +58,7 @@ const getPosts = async(req,res) => {
 
 const getUserPosts = async(req,res) => {
     try {
-        const getuserpost = await FeedDatasModel.find({ownerID : req.params.id})
+        const getuserpost = await FeedDatasModel.findOne({ownerID : req.params.id})
         if(getuserpost.length >= 1){
             // getuserpost.reverse()
             res.status(200).send({

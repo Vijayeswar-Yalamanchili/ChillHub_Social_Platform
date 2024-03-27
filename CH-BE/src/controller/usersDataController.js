@@ -25,12 +25,19 @@ const addUsersData = async(req,res) => {
 const getUsersData = async(req,res) => {
     try {
         console.log("qwe");
-        const getData = await UserDatasModel.findOne({ownerID : req.params.id}).sort({_id:-1})
+        const getData = await UserDatasModel.findOne({ownerID : req.params.id}).sort({_id:-1}).limit(1)
         console.log(getData)
-        res.status(200).send({
-            message:"UserDatas data fetch by id successful",
-            getData
-        })
+        if(getData === null){
+            // alert('No Bio Found')
+            res.status(204).send({
+                message:"No Bio Found"
+            })
+        }else{
+            res.status(200).send({
+                message:"UserDatas data fetch by id successful",
+                getData
+            })
+        }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in getting userbiodata"

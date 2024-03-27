@@ -65,24 +65,21 @@ function MyProfileBar() {
     try {
       // console.log("hbscjdhfsbc ");
       let getToken = localStorage.getItem('token')
+      // console.log(getToken);
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       // console.log(id);
       let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
-      // console.log(res.data)
+      // console.log(res)
       if(res.status === 200){
         // toast.success(res.data.message)
         setBioText(res.data.getData)
-        console.log(res.data.getData);
+        // console.log(res.data.getData);
       }
     } catch (error) {
         toast.error( error.message)
     }
   }
-
-  // const handleClick = () => {
-  //   uploadedImage.current.click();
-  // }
 
   useEffect(() => {
     getUsersData()
@@ -100,10 +97,10 @@ function MyProfileBar() {
       </div>          
       <Button variant="primary" type='submit' className='updateProfileBtn' onClick={handleShow}>Update Profile</Button>
       <hr/>
-      <div>
+      {/* <div>
         <h5>My Activity</h5>
         <UserTimeline/>
-      </div>
+      </div> */}
     </div>
 
 
