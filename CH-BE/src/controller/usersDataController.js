@@ -24,9 +24,9 @@ const addUsersData = async(req,res) => {
 
 const getUsersData = async(req,res) => {
     try {
-        console.log("qwe");
+        // console.log("qwe");
         const getData = await UserDatasModel.findOne({ownerID : req.params.id}).sort({_id:-1}).limit(1)
-        console.log(getData)
+        // console.log(getData)
         if(getData === null){
             // alert('No Bio Found')
             res.status(204).send({
