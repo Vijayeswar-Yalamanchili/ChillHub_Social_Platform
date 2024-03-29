@@ -5,12 +5,12 @@ const AxiosService = axios.create({
     baseURL:"https://chillhub-social-platform.onrender.com",
     headers : {
         "Content-Type" : "application/json",
-        Authorization:localStorage.getItem('token')
+        Authorization:localStorage.getItem('loginToken')
     }
 })
 
 AxiosService.interceptors.request.use((config)=>{
-    const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('loginToken')
     if(token){
         config.headers.Authorization = `Bearer ${token}`
     }
