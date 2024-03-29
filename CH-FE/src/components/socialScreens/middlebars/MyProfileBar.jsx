@@ -99,7 +99,7 @@ function MyProfileBar() {
       <hr/>
       <div>
         <h5>My Activity</h5>
-        {/* <UserTimeline/> */}
+        <UserTimeline/>
         <h5>My Activity</h5>
       </div>
     </div>
