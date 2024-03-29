@@ -72,7 +72,7 @@ function ResetPassword() {
                             <img src={resetpwdAnime} alt='loginAnime' className='anime forgtpwdAmnime rounded-4'/>
                         </Col>
                         <Col md xs={12}>
-                            <Form className='formData p-4 rounded-4' onSubmit={updatePasswordFormik.handleSubmit}>
+                            <Form className='formData p-5 rounded-4' onSubmit={updatePasswordFormik.handleSubmit}>
                                 <h3 className='text-white text-center'>Reset Password</h3> 
 
                                 <Form.Group className="mb-4" >
