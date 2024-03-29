@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const AxiosService = axios.create({
     // baseURL: "http://localhost:8000",
-    baseURL:"https://chillhub.onrender.com",
+    baseURL:"https://chillhub-social-platform.onrender.com",
     headers : {
         "Content-Type" : "application/json",
         Authorization:localStorage.getItem('token')
