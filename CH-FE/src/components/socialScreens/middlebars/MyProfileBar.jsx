@@ -100,6 +100,7 @@ function MyProfileBar() {
       <div>
         <h5>My Activity</h5>
         <UserTimeline/>
+        <h5>My Activity</h5>
       </div>
     </div>
 

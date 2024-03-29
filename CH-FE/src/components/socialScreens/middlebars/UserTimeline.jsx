@@ -15,8 +15,6 @@ function UserTimeline() {
           let getToken = localStorage.getItem('loginToken')
           const decodedToken = jwtDecode(getToken)
           const id = decodedToken.id
-
-          // console.log(getToken,id)
           let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
           console.log(res);
           if(res.status === 200){
