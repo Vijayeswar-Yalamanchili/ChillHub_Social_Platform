@@ -12,7 +12,7 @@ function UserTimeline() {
 
     const getUserPostData = async() => {
         try {
-          let getToken = localStorage.getItem('token')
+          let getToken = localStorage.getItem('loginToken')
           const decodedToken = jwtDecode(getToken)
           const id = decodedToken.id
 

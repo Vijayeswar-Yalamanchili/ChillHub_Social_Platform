@@ -22,19 +22,19 @@ function MyProfileBar() {
     console.log(URL.createObjectURL(e.target.files[0]));
   }
 
-  const handleImageUpload = e => {
-    const [file] = e.target.files;
-    if (file) {
-      const reader = new FileReader();
-      const {current} = uploadedImage;
-      // console.log(current.file,uploadedImage);
-      current.file = file;
-      reader.onload = (e) => {
-          current.src = e.target.result;
-      }
-      reader.readAsDataURL(file);
-    }
-  }
+  // const handleImageUpload = e => {
+  //   const [file] = e.target.files;
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     const {current} = uploadedImage;
+  //     // console.log(current.file,uploadedImage);
+  //     current.file = file;
+  //     reader.onload = (e) => {
+  //         current.src = e.target.result;
+  //     }
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
 
   const handleSubmit = async(e) => {
     try {
