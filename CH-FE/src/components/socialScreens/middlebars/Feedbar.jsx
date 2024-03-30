@@ -93,22 +93,16 @@ function Feedbar() {
 
   const handleLikeBtn = async(postId) => {
     try {
-      console.log("I am executing", postId)
       if(postId !== ""){
-        console.log("before ", posts)
         const updatedPosts = posts.map((e)=> { 
           if(e._id == postId){
             e.currentLikeStatus = !e.currentLikeStatus
           }
           return e
         })
-        console.log("after ", updatedPosts)
         setPosts(updatedPosts)
         let token = localStorage.getItem('loginToken')
-
         let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
-        
-        // console.log(res);
       }
     } catch (error) {
         toast.error(error.response.data.message || error.message)
