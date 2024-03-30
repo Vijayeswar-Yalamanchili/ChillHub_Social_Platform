@@ -90,6 +90,7 @@ function Feedbar() {
 
   let getDetailsToken = localStorage.getItem('loginToken')
   const decodeduserDetailsToken = jwtDecode(getDetailsToken)
+  // console.log(decodeduserDetailsToken);
   const userImage = decodeduserDetailsToken.imageDP
 
   useEffect(() => {
@@ -99,7 +100,7 @@ function Feedbar() {
   return <>
     <div className='mt-4 px-4'>
       <div className='d-flex flex-row justify-content-between'>
-        {isLoggedIn? <img src={userImage} className='userImage'/>: null}
+        {isLoggedIn? <img src={decodeduserDetailsToken.imageDP} className='userImage'/>: null}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
       </div>
       <div className="feedArea mt-3">

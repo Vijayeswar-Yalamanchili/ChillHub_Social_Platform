@@ -43,16 +43,6 @@ const decodeForgotPassToken = async(token) => {
     return await Jwt.decode(token)
 }
 
-// const createAddPostToken = async(payload) => {
-//     let token = await Jwt.sign(payload,process.env.JWT_SECRETKEY_ADDPOST,{
-//         expiresIn : process.env.JWT_EXPIRY_ADDPOST
-//     })
-//     return token
-// }
-
-// const decodeAddPostToken = async(token) => {
-//     return await Jwt.decode(token)
-// }
 
 // ------------------------------------MIDDLEWARES-----------------------------------------------------------------------------------
 
