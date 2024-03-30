@@ -29,12 +29,14 @@ function Login() {
         }),
         onSubmit : async(values) => {
             try {    
+                console.log(values);
                 let res = await AxiosService.post(`${ApiRoutes.LOGIN.path}`,values)
+                // console.log(res);
                 if(res.status === 200){
                     localStorage.setItem('loginToken',res.data.loginToken)
-                    localStorage.setItem('userDataToken',res.data.userDataToken)
-                    localStorage.setItem('id',res.data.id)
-                    localStorage.setItem('userDP',res.data.userDP)
+                    // localStorage.setItem('userDataToken',res.data.userDataToken)
+                    // localStorage.setItem('id',res.data.id)
+                    // localStorage.setItem('userDP',res.data.userDP)
                     navigate('/home')
                 }
             } catch (error) {

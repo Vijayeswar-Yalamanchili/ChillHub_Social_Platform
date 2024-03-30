@@ -30,6 +30,14 @@ const registerLoginSchema = new mongoose.Schema({
         type: String,
         required:[true,"Password is required"]
     }, 
+    bio:{
+        type : String,
+        required : false
+    },
+    imageDP: {
+        type: String,
+        required : false
+    },
     forgotPassToken:{
         type : String,
         required:[false,"required"]
@@ -38,14 +46,6 @@ const registerLoginSchema = new mongoose.Schema({
         type:String,
         required:[false,"required"]
     },
-    image:{
-        type: String,
-        required:false
-    }, 
-    // randomString:{
-    //     type: String,
-    //     required:[false,"RandomString is required"]
-    // },
     status:{
         type:Boolean,
         default:true

@@ -1,10 +1,8 @@
-import UserDatasModel from "../models/UserDatasModel.js"
+import RegisterLoginModel from '../models/registerLogin_model.js'
 
 const addUsersData = async(req,res) => {
     try {
-        const addDatas = await UserDatasModel.create({...req.body, ownerEmail : req.user.email, ownerID : req.user.id, ownerFirstName : req.user.firstName, ownerLastName : req.user.lastName })
-        // console.log("123");
-        console.log(addDatas,req.body)
+        const addDatas = await RegisterLoginModel.findOneAndUpdate({_id:req.user.id},{$set : {"imageDP" : req.body.imageDP, "bio" : req.body.bio}})
         if(addDatas){
             res.status(200).send({
                 message:"users datas added",
@@ -24,9 +22,9 @@ const addUsersData = async(req,res) => {
 
 const getUsersData = async(req,res) => {
     try {
-        // console.log("qwe");
-        const getData = await UserDatasModel.findOne({ownerID : req.params.id}).sort({_id:-1}).limit(1)
-        // console.log(getData)
+        console.log("qwe");
+        const getData = await RegisterLoginModel.findOne({_id:req.params.id})
+        console.log(getData)
         if(getData === null){
             // alert('No Bio Found')
             res.status(204).send({

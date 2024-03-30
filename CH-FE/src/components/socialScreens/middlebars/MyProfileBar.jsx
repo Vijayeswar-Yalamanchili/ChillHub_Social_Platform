@@ -52,7 +52,7 @@ function MyProfileBar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
-      // console.log(res)
+      console.log(res)
       if(res.status === 200){
         // toast.success(res.data.message)
         setBioText(res.data.getData)

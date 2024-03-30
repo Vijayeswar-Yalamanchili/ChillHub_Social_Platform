@@ -88,9 +88,9 @@ function Feedbar() {
     }
   }
 
-  let getDetailsToken = localStorage.getItem('userDataToken')
+  let getDetailsToken = localStorage.getItem('loginToken')
   const decodeduserDetailsToken = jwtDecode(getDetailsToken)
-  const userImage = decodeduserDetailsToken.userDP
+  const userImage = decodeduserDetailsToken.imageDP
 
   useEffect(() => {
     getPostData()
