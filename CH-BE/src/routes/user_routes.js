@@ -20,14 +20,13 @@ router.put('/forgotPassword',registerLoginController.forgotPassword)
 router.get('/forgotPassword/:id/verify/:token',registerLoginController.verifyCode)
 router.put('/resetPassword',registerLoginController.resetPassword)
 
-
-
+//AfterLogin
 router.get('/home',auth.authenticate,auth.userGuard,postController.home)
 router.post('/home/addpost',auth.authenticate,auth.getUserEmail,uploadController.postUpload.single('img-file') ,postController.createPost) 
 router.get('/home/getposts/:id', auth.authenticate, postController.getPosts)
 router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPosts)
 router.delete('/home/deleteuserpost/:id',auth.authenticate, postController.deleteUserPost)
-router.put('/home/updatePostReaction/:id',auth.authenticate, postController.updatePostLikeStatus)
+router.put('/home/updatePostReaction/:id', postController.updatePostLikeStatus)
 
 // User Profile Datas
 router.post('/home/adduserdatas',auth.authenticate,auth.getUserEmail,uploadController.profilePicUpload.single('imageDP'),usersDataController.addUsersData)
