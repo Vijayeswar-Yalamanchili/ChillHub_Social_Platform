@@ -2,7 +2,6 @@ import FeedDatasModel from "../models/postModel.js"
 
 const home = async(req,res)=>{
     try {
-        // let users = await UserModel.find({},{password:0})
         res.status(200).send({
             message:"homepage"
         })
@@ -15,7 +14,6 @@ const home = async(req,res)=>{
 
 const createPost = async(req,res) => {
     try {
-        // const postData = await FeedDatasModel.create({...req.body,image : req.file , ownerEmail : req.userEmail, ownerID : req.userid })
         const postData = await FeedDatasModel.create({...req.body,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
         // console.log(postData,"sdfd")  
         if(postData){
@@ -38,7 +36,7 @@ const createPost = async(req,res) => {
 const getPosts = async(req,res) => {
     try {
         const getpost = await FeedDatasModel.find()
-        console.log(getpost)
+        // console.log(getpost)
         if(getpost.length >= 1){
             // getpost.reverse()
             res.status(200).send({
@@ -82,9 +80,9 @@ const getUserPosts = async(req,res) => {
 
 const deleteUserPost = async(req,res) => {
     try {
-        console.log("re",req.params.id,"qq") 
+        // console.log("re",req.params.id,"qq") 
         let postToBeDeleted = await FeedDatasModel.findOneAndDelete({_id:req.params.id})
-        console.log(postToBeDeleted,"hi")
+        // console.log(postToBeDeleted,"hi")
                 res.status(200).send({
                     message:"Post deleted please refresh",
                     postToBeDeleted,
@@ -99,9 +97,9 @@ const deleteUserPost = async(req,res) => {
 
 const updatePostLikeStatus = async(req,res) => {
     try {
-        console.log("re",req.params.id,"qq") 
+        // console.log("re",req.params.id,"qq") 
         let postToBeReacted = await FeedDatasModel.findOneAndUpdate({_id:req.params.id},[ { "$set": { "currentLikeStatus": { "$eq": [false, "$currentLikeStatus"] } } } ])
-        console.log(postToBeReacted,"hi")
+        // console.log(postToBeReacted,"hi")
                 res.status(200).send({
                     message:"Post reaction updated",
                     postToBeReacted,
