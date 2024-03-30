@@ -16,10 +16,10 @@ function UserTimeline() {
           const decodedToken = jwtDecode(getToken)
           const id = decodedToken.id
           let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
-          console.log(res);
+          // console.log(res);
           if(res.status === 200){
             toast.success(res.data.message)
-            setPosts(res.data.getuserpost)
+            setPosts(res.data.getuserpost.reverse())
           }
         } catch (error) {
             toast.error(error.response.data.message || error.message)
