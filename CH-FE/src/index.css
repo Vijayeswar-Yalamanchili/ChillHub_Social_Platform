@@ -395,12 +395,17 @@
     border-radius: 15px !important;
 }
 
+.postHeader{
+    border-bottom: 1px solid grey;
+}
+
 .card-img-top{
     max-width: 100%;
     width: 60%;
     height: 100%;
     aspect-ratio: 16/9;
     object-fit: contain;
+    margin-top: 2px;
     /* border-top-right-radius: 15px !important;
     border-top-left-radius: 15px !important; */
 }

@@ -14,6 +14,10 @@ const datasSchema = new mongoose.Schema({
         type : String,
         required : false
     },
+    ownerName : {
+        type : String,
+        required : false
+    },
     feededData:{
         type : String,
         required : false

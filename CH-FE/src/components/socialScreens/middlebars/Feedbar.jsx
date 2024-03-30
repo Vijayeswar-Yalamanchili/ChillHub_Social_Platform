@@ -32,7 +32,7 @@ function Feedbar() {
     try {
       e.preventDefault()
       const formData = new FormData(e.target)
-      formData.append('image', selectedFile)
+      formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
       // formProps.append('imageUrl', selectedFile)
       console.log(formProps);
@@ -80,12 +80,10 @@ function Feedbar() {
           setPosts(updatedPosts)
           let token = localStorage.getItem('loginToken')
           let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
-          
-          // console.log(res);
+          if(res.status === 200){
+            toast.success(res.data.message)
+          }
         }
-        // if(res.status === 200){
-        //   toast.success(res.data.message)
-        // }
       } catch (error) {
           toast.error(error.response.data.message || error.message)
       }
@@ -115,8 +113,7 @@ function Feedbar() {
 
   useEffect(() => {
     getPostData()
-  },[])
- 
+  },[]) 
 
   return <>
     <div className='mt-4 px-4'>
@@ -131,14 +128,14 @@ function Feedbar() {
             return <div key={i}>
             <Col>
               <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                <div className='mx-2 d-flex justify-content-between flex-row align-items-center'>
-                  <div className="fw-bold">USERNAME</div>
-                  <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
+                <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
+                  <div className="fw-bold">{e.ownerName}</div>
+                  {/* <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
                     <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
-                  </Button>
+                  </Button> */}
                 </div>
                 {/* {!imageExists && <Card.Img variant="top" src={e.imageExists} className='postImage'/> } */}
-                <Card.Img variant="top" src={e.image} alt='feedPost' className='postImage'/>
+                <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
                 <Card.Text className='m-2'>{e.feededData}</Card.Text>
                 <div className='d-flex flex-row'>
                   {/* <Card.Text className='ms-2'>0 Likes</Card.Text> */}

@@ -26,6 +26,22 @@ function UserTimeline() {
         }
     }
 
+    const handleDeletePost = async(postId) => {
+      try {
+        if(postId !== ""){
+          const updatedPosts = posts.filter((e)=> e._id !== postId)
+          setPosts(updatedPosts)
+          let token = localStorage.getItem('loginToken')
+          let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
+          if(res.status === 200){
+            toast.success(res.data.message)
+          }
+        }
+      } catch (error) {
+          toast.error(error.response.data.message || error.message)
+      }
+    }
+
     useEffect(() => {
       getUserPostData()
     },[])
@@ -39,21 +55,27 @@ function UserTimeline() {
                 return <div key={i}>
                   <Col>
                     <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                      <div className='px-2 d-flex justify-content-between flex-row align-items-center'>
-                        <div className="fw-bold">USERNAME</div>
-                        <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost()}>
+                      <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
+                        <div className="fw-bold">{e.ownerName}</div>
+                        <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
                           <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
                         </Button>
                       </div>
-                      <Card.Img variant="top" src={e.image} className='postImage'/>
-                      <Card.Text className='ms-2'>{e.feededData}</Card.Text>
+                      {/* {!imageExists && <Card.Img variant="top" src={e.imageExists} className='postImage'/> } */}
+                      <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
+                      <Card.Text className='m-2'>{e.feededData}</Card.Text>
                       <div className='d-flex flex-row'>
-                        <Card.Text className='ms-2'>0 Likes</Card.Text>
-                        <Card.Text className='ms-3'>0 Comments</Card.Text>
+                        {/* <Card.Text className='ms-2'>0 Likes</Card.Text> */}
+                        <Card.Text className='m-2'>0 Comments</Card.Text>
                       </div>
                       <Card.Body className='p-0'>
                         <Row>
-                          <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' style={{ width: '100%' }}>Like</Button></Col>
+
+                          {!e.currentLikeStatus  ? 
+                              <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Like</Button></Col> 
+                            : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Liked</Button></Col>
+                          }
+
                           <Col style={{padding:"0px"}}><Button variant="light" className='commentBtn' style={{ width: '100%' }}>Comment</Button></Col>
                           <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
                         </Row>
