@@ -18,6 +18,7 @@ function UserTimeline() {
           let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
           // console.log(res);
           if(res.status === 200){
+            console.log(res.data);
             toast.success(res.data.message)
             setPosts(res.data.getuserpost.reverse())
           }
