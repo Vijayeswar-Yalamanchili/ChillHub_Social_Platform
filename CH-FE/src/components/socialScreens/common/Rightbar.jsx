@@ -6,11 +6,8 @@ import { faCircle} from '@fortawesome/free-solid-svg-icons'
 function Rightbar() {
   let frdsList = ["Ram","Vijayeswar","San","kumar","Jhon","Raman","Vijay Kumar","Eshwar","Sandy","kumaresan","James"]
   return <>
-  <div className="rightBar">
-    {/* <div className="addBlock">
-        <img src="" alt=""/>
-    </div> */}
-    <div className="friendsList mt-3">
+    <div className="rightBar">
+      <div className="friendsList mt-3">
         <h5>Friends Online</h5>
         <ul className="list-group list-group-flush" id="listFriend">
           {
@@ -25,8 +22,8 @@ function Rightbar() {
             })
           }
         </ul>
+      </div>
     </div>
-  </div>
   </>
 }
 

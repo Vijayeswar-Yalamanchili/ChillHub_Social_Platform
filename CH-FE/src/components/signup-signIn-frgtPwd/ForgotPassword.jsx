@@ -23,7 +23,6 @@ function ForgotPassword() {
         }),
         onSubmit : async(values) => {
             try {
-                // console.log(values);  
                 let res = await AxiosService.put(`${ApiRoutes.FORGOTPASSWORD.path}`,values)
                 if(res.status === 200){
                     toast.success(res.data.message)

@@ -10,18 +10,14 @@ import {useLogout} from '../../../hooks/UseLogout'
 function NavbarAfterLogin() {
 
     let logout = useLogout()
-    let isLoggedIn = true
-
-    // let formik = useFormik()
+    // let isLoggedIn = true
     let notifications = ["Notification 1","Notification 2","Notification 3","Notification 4","Notification 5"]
-    // let myProfileOptions = ["My Profile", "Logout"]
 
     const [notify,setNotify] = useState(false);
     const [myProfile, setMyProfile] = useState(false)
 
     const handleNotify = () => setNotify(!notify)
     const handleMyProfile = () => setMyProfile(!myProfile)
-
     
     let tokenForUsername = localStorage.getItem('loginToken')
     const decodedUsernameToken = jwtDecode(tokenForUsername)
@@ -72,9 +68,7 @@ function NavbarAfterLogin() {
                                 </Nav.Link>          
                             </Nav>          
                         </Navbar.Collapse> 
-                    </div>
-
-                    
+                    </div>                    
                 </div>       
             </Container>
         </Navbar>    

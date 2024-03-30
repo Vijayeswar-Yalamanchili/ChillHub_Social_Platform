@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form,Button,Modal } from 'react-bootstrap'
 import UserTimeline from './UserTimeline'
 import { toast } from 'react-toastify'
@@ -8,7 +8,6 @@ import { jwtDecode } from "jwt-decode";
 
 function MyProfileBar() {
   const [show, setShow] = useState(false)
-  const uploadedImage = useRef(null)
   const [selectedFile, setSelectedFile] = useState()
   const [inputBio, setInputBio] = useState('')
   const [bioText, setBioText] = useState([])
@@ -17,24 +16,10 @@ function MyProfileBar() {
   const handleShow = () => setShow(true)
 
   const handleChange = (e) => {
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
     setSelectedFile(URL.createObjectURL(e.target.files[0]));
-    console.log(URL.createObjectURL(e.target.files[0]));
+    // console.log(URL.createObjectURL(e.target.files[0]));
   }
-
-  // const handleImageUpload = e => {
-  //   const [file] = e.target.files;
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     const {current} = uploadedImage;
-  //     // console.log(current.file,uploadedImage);
-  //     current.file = file;
-  //     reader.onload = (e) => {
-  //         current.src = e.target.result;
-  //     }
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
 
   const handleSubmit = async(e) => {
     try {
@@ -63,18 +48,14 @@ function MyProfileBar() {
 
   const getUsersData = async() => {
     try {
-      // console.log("hbscjdhfsbc ");
       let getToken = localStorage.getItem('loginToken')
-      // console.log(getToken);
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      // console.log(id);
       let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
       // console.log(res)
       if(res.status === 200){
         // toast.success(res.data.message)
         setBioText(res.data.getData)
-        // console.log(res.data.getData);
       }
     } catch (error) {
         toast.error( error.message)
@@ -103,7 +84,6 @@ function MyProfileBar() {
       </div>
     </div>
 
-
     {/* Add post modal */}
     <Modal show={show} onHide={handleClose}>
       <Form onSubmit={handleSubmit} > 
@@ -122,11 +102,7 @@ function MyProfileBar() {
           </div>
           <Form.Group>
             <Form.Control as="textarea" name='bio' rows={8} cols={150} value={inputBio} className='bioInputArea' onChange={(e)=>setInputBio(e.target.value)} placeholder='Put your Bio here ....' required/>         
-          </Form.Group>
-          {/* {
-            selectedFile ? <div style={{margin : "1rem 0"}}><img src={selectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div> : null
-          } */}
-          
+          </Form.Group>          
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Cancel</Button>

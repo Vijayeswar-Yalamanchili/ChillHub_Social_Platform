@@ -5,32 +5,28 @@ import { Button } from 'react-bootstrap';
 import ErrorScreen from '../ErrorScreen';
 import AxiosService from '../../utils/AxiosService';
 import verifyEmailAnime from '../../assets/svg/verifyEmailAnime.svg'
-// import ApiRoutes from '../../utils/ApiRoutes';
 
 function VerifyPassword() {
 
-    const [validUrl, setValidUrl] = useState(true);
-    const params = useParams();
+  const [validUrl, setValidUrl] = useState(true);
+  const params = useParams()
 
-    const verifyEmailUrl = async () => {
-        try {
-            let res = await AxiosService.get(`/forgotPassword/${params.id}/verify/${params.token}`)
-            setValidUrl(true);
-            if(res.status === 200){
-                toast.success(res.data.message)
-                // toast.success("url verified")
-            }
-        } catch (error) {
-            console.error(error);
-            setValidUrl(false)
-            toast.error(error.response.data.message || error.message)
-            
-        }
+  const verifyEmailUrl = async () => {
+    try {
+      let res = await AxiosService.get(`/forgotPassword/${params.id}/verify/${params.token}`)
+      setValidUrl(true);
+      if(res.status === 200){
+          toast.success(res.data.message)
+      }
+    } catch (error) {
+      setValidUrl(false)
+      toast.error(error.response.data.message || error.message)        
     }
+  }
 
-    useEffect(() => {
-        verifyEmailUrl();
-    }, []);
+  useEffect(() => {
+      verifyEmailUrl()
+  }, []);
 
   return (
     <>

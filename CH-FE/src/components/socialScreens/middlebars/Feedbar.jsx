@@ -15,8 +15,6 @@ function Feedbar() {
   const [showEmojis, setShowEmojis] = useState(false);
   const [posts, setPosts] = useState([])
   const [selectedFile, setSelectedFile] = useState()
-  const [postExists,setPostExists] = useState()
-  const [likeBtn,setLikeBtn] = useState(false)
   const isLoggedIn = true
 
   const handleClose = () => setShow(false);
@@ -46,7 +44,7 @@ function Feedbar() {
           "Authorization" : `Bearer ${LoginToken}`        
         }
       })
-      console.log(res)
+      // console.log(res)
       const updatedPosts = [...posts,res.data.postData]
       setPosts(updatedPosts)
       if(res.status === 200){
@@ -63,7 +61,6 @@ function Feedbar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
-      // console.log(res);
       if(res.status === 200){
         // toast.success(res.data.message)
         setPosts(res.data.getpost.reverse())
@@ -71,22 +68,6 @@ function Feedbar() {
     } catch (error) {
         toast.error(error.response.data.message || error.message)
     }
-  }
-
-  const handleDeletePost = async(postId) => {
-      try {
-        if(postId !== ""){
-          const updatedPosts = posts.filter((e)=> e._id !== postId)
-          setPosts(updatedPosts)
-          let token = localStorage.getItem('loginToken')
-          let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
-          if(res.status === 200){
-            toast.success(res.data.message)
-          }
-        }
-      } catch (error) {
-          toast.error(error.response.data.message || error.message)
-      }
   }
 
   const handleLikeBtn = async(postId) => {
@@ -124,39 +105,30 @@ function Feedbar() {
       <div className="feedArea mt-3">
         {
           posts.map((e,i)=>{
-            // return !postExists ?
             return <div key={i}>
-            <Col>
-              <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
-                  <div className="fw-bold">{e.ownerName}</div>
-                  {/* <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
-                    <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
-                  </Button> */}
-                </div>
-                {/* {!imageExists && <Card.Img variant="top" src={e.imageExists} className='postImage'/> } */}
-                <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
-                <Card.Text className='m-2'>{e.feededData}</Card.Text>
-                <div className='d-flex flex-row'>
-                  {/* <Card.Text className='ms-2'>0 Likes</Card.Text> */}
-                  <Card.Text className='m-2'>0 Comments</Card.Text>
-                </div>
-                <Card.Body className='p-0'>
-                  <Row>
-
-                    {!e.currentLikeStatus  ? 
-                        <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Like</Button></Col> 
-                      : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Liked</Button></Col>
-                    }
- 
-                    <Col style={{padding:"0px"}}><Button variant="light" className='commentBtn' style={{ width: '100%' }}>Comment</Button></Col>
-                    <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-          </div> 
-          // : null
+              <Col>
+                <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
+                  <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
+                    <div className="fw-bold">{e.ownerName}</div>
+                  </div>
+                  <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
+                  <Card.Text className='m-2'>{e.feededData}</Card.Text>
+                  <div className='d-flex flex-row'>
+                    <Card.Text className='m-2'>0 Comments</Card.Text>
+                  </div>
+                  <Card.Body className='p-0'>
+                    <Row>
+                      {!e.currentLikeStatus  ? 
+                          <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Like</Button></Col> 
+                        : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Liked</Button></Col>
+                      } 
+                      <Col style={{padding:"0px"}}><Button variant="light" className='commentBtn' style={{ width: '100%' }}>Comment</Button></Col>
+                      <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </div>
           })
         }
       </div>

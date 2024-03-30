@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import { jwtDecode } from "jwt-decode";
 import NavbarBeforeLogin from './NavbarBeforeLogin';
 import resetpwdAnime from '../../assets/svg/resetpwdAnime.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -33,29 +32,15 @@ function ResetPassword() {
             try {
                 if(values.password === values.confirmPassword){
                     let res = await AxiosService.put(`${ApiRoutes.RESETPASSWORD.path}`,values)
-                    // console.log(res);
                     if(res.status === 200){
                         toast.success(res.data.message)
                         navigate('/')
                     }     
-                  }else{
-                    toast.error("Passwords doesnt match! Please enter the same passwords")
-                  }
-                // // localStorage.setItem('forgotPassToken',res.data.forgotPassToken)
-                // // const token = localStorage.setItem('forgotPassToken')
-                // let getToken = localStorage.getItem('forgotPassToken')
-                // const decodedToken = jwtDecode(getToken)
-                // const id = decodedToken.id
-                // console.log(values,id);
-                // // let res = await AxiosService.put(`${ApiRoutes.RESETPASSWORD.path}/${id}`,values, { headers : { 'Authorization' : `Bearer ${getToken}`}})
-                // let res = await AxiosService.put(`${ApiRoutes.RESETPASSWORD.path}`,values)
-                // if(res.status === 200){                    
-                //     console.log("token");
-                //     toast.success(res.data.message)
-                // }
+                }else{
+                  toast.error("Passwords doesnt match! Please enter the same passwords")
+                }
             } catch (error) {
-                toast.error(error.response.data.message || error.message)
-                // toast.error( error.message)                                
+                toast.error(error.response.data.message || error.message)                              
             }
         }
     })
