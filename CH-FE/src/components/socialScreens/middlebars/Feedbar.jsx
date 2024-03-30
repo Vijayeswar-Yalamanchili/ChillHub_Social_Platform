@@ -144,7 +144,7 @@ function Feedbar() {
                   </Button>
                 </div>
                 {/* {!imageExists && <Card.Img variant="top" src={e.imageExists} className='postImage'/> } */}
-                <Card.Img variant="top" src={e.image} className='postImage'/>
+                <Card.Img variant="top" src={e.image} alt='feedPost' className='postImage'/>
                 <Card.Text className='m-2'>{e.feededData}</Card.Text>
                 <div className='d-flex flex-row'>
                   {/* <Card.Text className='ms-2'>0 Likes</Card.Text> */}
