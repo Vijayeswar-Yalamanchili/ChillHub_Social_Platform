@@ -27,6 +27,7 @@ router.post('/home/addpost',auth.authenticate,auth.getUserEmail,uploadController
 router.get('/home/getposts/:id', auth.authenticate, postController.getPosts)
 router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPosts)
 router.delete('/home/deleteuserpost/:id',auth.authenticate, postController.deleteUserPost)
+router.put('/home/updatePostReaction/:id',auth.authenticate, postController.updatePostLikeStatus)
 
 // User Profile Datas
 router.post('/home/adduserdatas',auth.authenticate,auth.getUserEmail,uploadController.profilePicUpload.single('imageDP'),usersDataController.addUsersData)

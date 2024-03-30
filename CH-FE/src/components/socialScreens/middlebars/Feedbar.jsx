@@ -46,7 +46,9 @@ function Feedbar() {
           "Authorization" : `Bearer ${LoginToken}`        
         }
       })
-      console.log(res);
+      console.log(res)
+      const updatedPosts = [...posts,res.data.postData]
+      setPosts(updatedPosts)
       if(res.status === 200){
         toast.success(res.data.message)
       }
@@ -71,24 +73,46 @@ function Feedbar() {
     }
   }
 
-  const handleDeletePost = async(e) => {
+  const handleDeletePost = async(postId) => {
       try {
-        let getToken = localStorage.getItem('loginToken')
-        const decodedToken = jwtDecode(getToken)
-        const id = decodedToken.id
-        let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
-        console.log(res);
-        if(res.status === 200){
-          toast.success(res.data.message)
+        if(postId !== ""){
+          const updatedPosts = posts.filter((e)=> e._id !== postId)
+          setPosts(updatedPosts)
+          let token = localStorage.getItem('loginToken')
+          let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
+          
+          // console.log(res);
         }
+        // if(res.status === 200){
+        //   toast.success(res.data.message)
+        // }
       } catch (error) {
           toast.error(error.response.data.message || error.message)
       }
   }
 
-  const handleLikeBtn = () => {
-    setLikeBtn(!likeBtn)
-    console.log(!likeBtn)
+  const handleLikeBtn = async(postId) => {
+    try {
+      console.log("I am executing", postId)
+      if(postId !== ""){
+        console.log("before ", posts)
+        const updatedPosts = posts.map((e)=> { 
+          if(e._id == postId){
+            e.currentLikeStatus = !e.currentLikeStatus
+          }
+          return e
+        })
+        console.log("after ", updatedPosts)
+        setPosts(updatedPosts)
+        let token = localStorage.getItem('loginToken')
+
+        let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
+        
+        // console.log(res);
+      }
+    } catch (error) {
+        toast.error(error.response.data.message || error.message)
+    }
   }
 
   let getDetailsToken = localStorage.getItem('userDataToken')
@@ -97,7 +121,7 @@ function Feedbar() {
 
   useEffect(() => {
     getPostData()
-  },[getPostData])
+  },[])
  
 
   return <>
@@ -115,7 +139,7 @@ function Feedbar() {
               <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                 <div className='mx-2 d-flex justify-content-between flex-row align-items-center'>
                   <div className="fw-bold">USERNAME</div>
-                  <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost(e)}>
+                  <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
                     <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
                   </Button>
                 </div>
@@ -128,7 +152,12 @@ function Feedbar() {
                 </div>
                 <Card.Body className='p-0'>
                   <Row>
-                    {likeBtn? <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={handleLikeBtn} style={{ width: '100%' }}>Like</Button></Col> : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={handleLikeBtn} style={{ width: '100%' }}>Liked</Button></Col>}
+
+                    {!e.currentLikeStatus  ? 
+                        <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Like</Button></Col> 
+                      : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Liked</Button></Col>
+                    }
+ 
                     <Col style={{padding:"0px"}}><Button variant="light" className='commentBtn' style={{ width: '100%' }}>Comment</Button></Col>
                     <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
                   </Row>

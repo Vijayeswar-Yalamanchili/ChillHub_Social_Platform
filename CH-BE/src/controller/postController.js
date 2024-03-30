@@ -15,9 +15,10 @@ const home = async(req,res)=>{
 
 const createPost = async(req,res) => {
     try {
+        console.log(JSON.stringify(req.body));
         // const postData = await FeedDatasModel.create({...req.body,image : req.file , ownerEmail : req.userEmail, ownerID : req.userid })
         const postData = await FeedDatasModel.create({...req.body, ownerEmail : req.user.email, ownerID : req.user.id })
-        console.log(postData,req.body)
+        console.log(postData,"sdfd")  
         if(postData){
             res.status(200).send({
                 message:"Feed created",
@@ -38,6 +39,7 @@ const createPost = async(req,res) => {
 const getPosts = async(req,res) => {
     try {
         const getpost = await FeedDatasModel.find()
+        console.log(getpost)
         if(getpost.length >= 1){
             // getpost.reverse()
             res.status(200).send({
@@ -81,36 +83,36 @@ const getUserPosts = async(req,res) => {
 
 const deleteUserPost = async(req,res) => {
     try {
-        let userPost = await FeedDatasModel.findOne({postID:req.body.id})
-        console.log(userPost,"hi")
-        if(userPost._id ){ 
-            console.log(userPost._id)
-                // let deletedPost = await FeedDatasModel.deleteOne(userPost)
-                // res.status(200).send({
-                //     message:"Post deleted please refresh",
-                //     deletedPost,
-                // })
-        } 
+        console.log("re",req.params.id,"qq") 
+        let postToBeDeleted = await FeedDatasModel.findOneAndDelete({_id:req.params.id})
+        console.log(postToBeDeleted,"hi")
+                res.status(200).send({
+                    message:"Post deleted please refresh",
+                    postToBeDeleted,
+                })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ 
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const updatePostLikeStatus = async(req,res) => {
+    try {
+        console.log("re",req.params.id,"qq") 
+        let postToBeReacted = await FeedDatasModel.findOneAndUpdate({_id:req.params.id},[ { "$set": { "currentLikeStatus": { "$eq": [false, "$currentLikeStatus"] } } } ])
+        console.log(postToBeReacted,"hi")
+                res.status(200).send({
+                    message:"Post reaction updated",
+                    postToBeReacted,
+                })
     } catch (error) {
         console.log(error)
         res.status(500).send({
             message:"Internal Server Error"
         })
     }
-    // try {
-    //     const deleteuserpost = await FeedDatasModel.findById({_id : req.params.id})
-    //     console.log(deleteuserpost.ownerEmail,"hi");
-    //     if(deleteuserpost._id === req.body.id){
-    //         console.log("deleted");
-    //     }else{
-    //         console.log("failed");
-    //     }
-    // } catch (error) {
-    //     res.status(500).send({
-    //         message:"Internal Server Error in deleting Userpost"
-    //     })
-        
-    // }
 }
 
 export default {
@@ -118,5 +120,6 @@ export default {
     createPost,
     getPosts,
     getUserPosts,
-    deleteUserPost
+    deleteUserPost,
+    updatePostLikeStatus
 }

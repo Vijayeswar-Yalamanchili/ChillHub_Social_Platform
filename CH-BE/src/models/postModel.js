@@ -18,7 +18,7 @@ const datasSchema = new mongoose.Schema({
         type : String,
         required : false
     },
-    image: {
+    imageUrl: {
         type: String,
         required : false
     },    
@@ -30,6 +30,10 @@ const datasSchema = new mongoose.Schema({
         type:Boolean,
         default:true,
     },
+    currentLikeStatus : {
+        type : Boolean,
+        default:false
+    }
     
 },
 {

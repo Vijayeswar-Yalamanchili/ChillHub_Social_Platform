@@ -42,6 +42,10 @@ const ApiRoutes = {
     GETUSERBIO : {
         path : '/home/getuserdatas',
         authenticate : true
+    },
+    POSTREACTION : {
+        path : '/home/updatePostReaction',
+        authenticate :true
     }
 }
 
