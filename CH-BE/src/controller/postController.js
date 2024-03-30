@@ -81,21 +81,16 @@ const getUserPosts = async(req,res) => {
 
 const deleteUserPost = async(req,res) => {
     try {
-        let userPost = await FeedDatasModel.findOne({ownerID:req.params.id})
-        // console.log(userPost,"hi")
-        if(userPost){
-            let postId = userPost._id
-            // console.log(postId);
-            if(postId !== ""){
-                let deletedPost = await FeedDatasModel.deleteOne({_id:userPost._id})
-                // console.log(deletedPost);
-                res.status(200).send({
-                    message:"Post deleted please refresh",
-                    deletedPost
-                })
-            }
-            
-        }
+        let userPost = await FeedDatasModel.findOne({postID:req.body.id})
+        console.log(userPost,"hi")
+        if(userPost._id ){ 
+            console.log(userPost._id)
+                // let deletedPost = await FeedDatasModel.deleteOne(userPost)
+                // res.status(200).send({
+                //     message:"Post deleted please refresh",
+                //     deletedPost,
+                // })
+        } 
     } catch (error) {
         console.log(error)
         res.status(500).send({
