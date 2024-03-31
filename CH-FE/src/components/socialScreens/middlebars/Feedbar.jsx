@@ -90,7 +90,7 @@ function Feedbar() {
 
   let getDetailsToken = localStorage.getItem('loginToken')
   const decodeduserDetailsToken = jwtDecode(getDetailsToken)
-  console.log(decodeduserDetailsToken);
+  // console.log(decodeduserDetailsToken);
 
   useEffect(() => {
     getPostData()

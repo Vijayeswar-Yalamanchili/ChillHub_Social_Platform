@@ -19,7 +19,7 @@ function Leftbar() {
         </Link>
         <Link to={'/findfriends'} className="list-group-item list-group-item-action">
           <span className='d-flex align-items-center' style={{gap:"5px"}}>
-            <FontAwesomeIcon icon={faPeopleGroup} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Find Friends
+            <FontAwesomeIcon icon={faPeopleGroup} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Friends
           </span>
         </Link>
         <Link to={'/messages'} className="list-group-item list-group-item-action">
