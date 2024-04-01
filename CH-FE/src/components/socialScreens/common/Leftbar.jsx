@@ -17,7 +17,7 @@ function Leftbar() {
             <FontAwesomeIcon icon={faCalendarPlus} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Events
           </span>
         </Link>
-        <Link to={'/findfriends'} className="list-group-item list-group-item-action">
+        <Link to={'/friends'} className="list-group-item list-group-item-action">
           <span className='d-flex align-items-center' style={{gap:"5px"}}>
             <FontAwesomeIcon icon={faPeopleGroup} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Friends
           </span>

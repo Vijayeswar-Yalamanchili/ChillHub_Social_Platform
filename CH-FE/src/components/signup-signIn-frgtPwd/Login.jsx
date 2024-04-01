@@ -29,7 +29,7 @@ function Login() {
         }),
         onSubmit : async(values) => {
             try {    
-                console.log(values);
+                // console.log(values);
                 let res = await AxiosService.post(`${ApiRoutes.LOGIN.path}`,values)
                 // console.log(res);
                 if(res.status === 200){

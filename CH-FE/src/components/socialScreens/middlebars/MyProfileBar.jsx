@@ -34,7 +34,7 @@ function MyProfileBar() {
       let res = await AxiosService.post(`${ApiRoutes.ADDUSERBIO.path}`,formProps,{
         headers:{
           "Content-Type" : "multipart/form-data",
-          "Authorization" : `Bearer ${LoginToken}`        
+          "Authorization" : ` ${LoginToken}`        
         }
       })      
       // console.log(res);
@@ -51,8 +51,8 @@ function MyProfileBar() {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
-      console.log(res)
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      // console.log(res)
       if(res.status === 200){
         // toast.success(res.data.message)
         setBioText(res.data.getData)

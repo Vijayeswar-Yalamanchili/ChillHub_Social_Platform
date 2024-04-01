@@ -15,7 +15,7 @@ const home = async(req,res)=>{
 const createPost = async(req,res) => {
     try {
         const postData = await FeedDatasModel.create({...req.body,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
-        // console.log(postData,"sdfd")  
+        // console.log(postData,"sdfd")
         if(postData){
             res.status(200).send({
                 message:"Feed created",

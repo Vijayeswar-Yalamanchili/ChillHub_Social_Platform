@@ -48,12 +48,13 @@ const decodeForgotPassToken = async(token) => {
 
 //mailid based authentication
 const authenticate = async(req,res,next) => {
-        let token = req?.headers?.authorization?.split(' ')[1]
-        // console.log(token,);
+        // let token = req?.headers?.authorization?.split(' ')[1]
+        let token = req?.headers?.authorization
+        // console.log(token)
         if(token){
             let payload = await decodeLoginToken(token)
             let currentTime = +new Date()
-            // console.log(payload);
+            // console.log(payload)
             if(Math.floor(currentTime/1000)<payload.exp){
                 next()
             }else{
@@ -68,9 +69,27 @@ const authenticate = async(req,res,next) => {
         }
 }
 
+//middleware logintoken decode
+const getUserEmail = async(req,res,next) => {
+    // let token  = req?.headers?.authorization?.split(' ')[1]
+    let token = req?.headers?.authorization
+    if(token){
+        let payload = await decodeLoginToken(token)
+        // console.log(payload);
+        req.user = payload
+        // req.userid = payload.id
+        next()        
+    }else{
+        res.status(500).send({
+            message :"Expired Token"
+        })
+    }
+}
+
 //role based authenticate
 const userGuard = async(req,res,next) => {
-    let token  = req?.headers?.authorization?.split(' ')[1]
+    // let token  = req?.headers?.authorization?.split(' ')[1]
+    let token = req?.headers?.authorization
     if(token){
         let payload = await decodeLoginToken(token)
         if(payload.role === "user"){
@@ -86,43 +105,6 @@ const userGuard = async(req,res,next) => {
         })
     }    
 }
-
-//middleware logintoken decode
-
-const getUserEmail = async(req,res,next) => {
-    let token  = req?.headers?.authorization?.split(' ')[1]
-    if(token){
-        let payload = await decodeLoginToken(token)
-        // console.log(payload);
-        req.user = payload
-        // console.log(req.name);
-        // req.userid = payload.id
-        next()        
-    }else{
-        res.status(500).send({
-            message :"Expired Token"
-        })
-    }
-}
-
-//for resetpwd with id route
-// const validateUserEmail = async(req,res,next) => {
-//     let token  = req?.headers?.authorization?.split(' ')[1]
-//     if(token){
-//         let payload = await decodeLoginToken(token)
-//         let email = payload.email
-//         let id = payload._id
-//         // console.log(email, id);
-//         if(email && id){
-//             next()
-//         }        
-//     }else{
-//         res.status(500).send({
-//             message :"Expired Token"
-//         })
-//     }
-// }
-
 
 export default {
     createHash,

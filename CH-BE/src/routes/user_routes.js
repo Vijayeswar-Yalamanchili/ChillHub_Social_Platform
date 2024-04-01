@@ -4,6 +4,7 @@ import postController from '../controller/postController.js'
 import auth from '../helper/auth.js'
 import uploadController from '../controller/uploadController.js'
 import usersDataController from '../controller/usersDataController.js'
+import usersController from '../controller/usersController.js'
 // import multer from 'multer'
 
 const router = express.Router()
@@ -32,4 +33,7 @@ router.put('/home/updatePostReaction/:id', postController.updatePostLikeStatus)
 router.post('/home/adduserdatas',auth.authenticate,auth.getUserEmail,uploadController.profilePicUpload.single('imageDP'),usersDataController.addUsersData)
 router.get('/home/getuserdatas/:id', auth.authenticate, usersDataController.getUsersData)
 
+//frds datas
+router.put('/home/addfriend/:id/:friendId',auth.authenticate,auth.getUserEmail,usersController.addFriend)
+router.get('/home/getusers/:id', auth.authenticate, usersController.getUsers)       //suggestion frds
 export default router

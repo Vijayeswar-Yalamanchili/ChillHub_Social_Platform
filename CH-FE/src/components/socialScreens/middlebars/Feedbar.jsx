@@ -33,15 +33,15 @@ function Feedbar() {
       formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
       // formProps.append('imageUrl', selectedFile)
-      console.log(formProps);
+      // console.log(formProps);
       setInputStr('') 
       setSelectedFile('')
       setShow(false)
-      let LoginToken = localStorage.getItem('loginToken')
+      let token = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
           "Content-Type" : "multipart/form-data",
-          "Authorization" : `Bearer ${LoginToken}`        
+          "Authorization" : `${token}`        
         }
       })
       // console.log(res)
@@ -60,7 +60,8 @@ function Feedbar() {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
+      let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      // console.log(res);
       if(res.status === 200){
         // toast.success(res.data.message)
         setPosts(res.data.getpost.reverse())
@@ -81,7 +82,7 @@ function Feedbar() {
         })
         setPosts(updatedPosts)
         let token = localStorage.getItem('loginToken')
-        let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
+        let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
       }
     } catch (error) {
         toast.error(error.response.data.message || error.message)

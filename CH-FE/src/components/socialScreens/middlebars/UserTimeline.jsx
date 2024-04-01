@@ -15,7 +15,7 @@ function UserTimeline() {
           let getToken = localStorage.getItem('loginToken')
           const decodedToken = jwtDecode(getToken)
           const id = decodedToken.id
-          let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : `Bearer ${getToken}`}})
+          let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
           if(res.status === 200){
             // toast.success(res.data.message)
             setPosts(res.data.getuserpost.reverse())
@@ -31,7 +31,7 @@ function UserTimeline() {
           const updatedPosts = posts.filter((e)=> e._id !== postId)
           setPosts(updatedPosts)
           let token = localStorage.getItem('loginToken')
-          let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
+          let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
           if(res.status === 200){
             toast.success(res.data.message)
           }
@@ -52,7 +52,7 @@ function UserTimeline() {
           })
           setPosts(updatedPosts)
           let token = localStorage.getItem('loginToken')
-          let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : `Bearer ${token}`}})
+          let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
         }
       } catch (error) {
           toast.error(error.response.data.message || error.message)
