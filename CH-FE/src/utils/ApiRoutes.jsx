@@ -31,6 +31,10 @@ const ApiRoutes = {
         path : '/home/getposts',
         authenticate : true
     },
+    UPDATEPOST : {
+        path : '/home/updatepost',
+        authenticate : true
+    },
     DELETEUSERPOST : {
         path : '/home/deleteuserpost',
         authenticate : true

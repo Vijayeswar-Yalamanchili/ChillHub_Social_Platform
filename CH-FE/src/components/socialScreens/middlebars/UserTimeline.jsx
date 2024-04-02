@@ -3,6 +3,7 @@ import {Row, Col,Button,Card,Modal,Form} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan} from '@fortawesome/free-regular-svg-icons'
+import { faEdit} from '@fortawesome/free-solid-svg-icons'
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
 import { jwtDecode } from "jwt-decode";
@@ -59,6 +60,9 @@ function UserTimeline() {
       }
     }
 
+    let getDetailsToken = localStorage.getItem('loginToken')
+    const decodeduserDetailsToken = jwtDecode(getDetailsToken)
+
     useEffect(() => {
       getUserPostData()
     },[])
@@ -74,9 +78,18 @@ function UserTimeline() {
                   <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                     <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
                       <div className="fw-bold">{e.ownerName}</div>
-                      <Button className='deleteIcon mx-2' type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
-                        <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
-                      </Button>
+                      {e.ownerName === decodeduserDetailsToken.name ? 
+                        <div>
+                          <Button type='button' variant='none'>
+                            <FontAwesomeIcon icon={faEdit} style={{color: "black"}}/>
+                          </Button>
+                          <Button type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
+                            <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
+                          </Button>                    
+                        </div>                    
+                         :
+                        null
+                      }
                     </div>
                     <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
                     <Card.Text className='m-2'>{e.feededData}</Card.Text>

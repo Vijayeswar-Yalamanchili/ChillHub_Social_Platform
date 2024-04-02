@@ -78,6 +78,18 @@ const getUserPosts = async(req,res) => {
 
 }
 
+const updatePost = async(req,res) => {
+    try {
+        console.log("qwe")
+        let postToBeUpdated = await FeedDatasModel.findOne()
+        console.log(postToBeUpdated);
+    } catch (error) {
+        res.status(500).send({
+            message:"Internal Server Error in getting Userposts"
+        }) 
+    }
+}
+
 const deleteUserPost = async(req,res) => {
     try {
         // console.log("re",req.params.id,"qq") 
@@ -118,5 +130,6 @@ export default {
     getPosts,
     getUserPosts,
     deleteUserPost,
+    updatePost,
     updatePostLikeStatus
 }

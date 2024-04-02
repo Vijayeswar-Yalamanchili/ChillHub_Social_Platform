@@ -27,6 +27,7 @@ router.post('/home/addpost',auth.authenticate,auth.getUserEmail,uploadController
 router.get('/home/getposts/:id', auth.authenticate, postController.getPosts)
 router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPosts)
 router.delete('/home/deleteuserpost/:id',auth.authenticate, postController.deleteUserPost)
+router.post('/home/updatepost/:id/:postId',auth.authenticate,auth.getUserEmail,postController.updatePost)
 router.put('/home/updatePostReaction/:id', postController.updatePostLikeStatus)
 
 // User Profile Datas
@@ -36,4 +37,5 @@ router.get('/home/getuserdatas/:id', auth.authenticate, usersDataController.getU
 //frds datas
 router.put('/home/addfriend/:id/:friendId',auth.authenticate,auth.getUserEmail,usersController.addFriend)
 router.get('/home/getusers/:id', auth.authenticate, usersController.getUsers)       //suggestion frds
+
 export default router

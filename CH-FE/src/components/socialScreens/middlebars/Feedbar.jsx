@@ -1,30 +1,44 @@
 import React, {useEffect, useState} from 'react'
-import {Row, Col,Button,Card,Modal,Form} from 'react-bootstrap';
+import {Row, Col,Button,Card,Modal,Form} from 'react-bootstrap'
 import EmojiPicker from 'emoji-picker-react'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
-import { faPaperclip} from '@fortawesome/free-solid-svg-icons'
-import AxiosService from '../../../utils/AxiosService';
-import ApiRoutes from '../../../utils/ApiRoutes';
-import { jwtDecode } from "jwt-decode";
+import { faEdit, faPaperclip} from '@fortawesome/free-solid-svg-icons'
+import AxiosService from '../../../utils/AxiosService'
+import ApiRoutes from '../../../utils/ApiRoutes'
+import dummyFeedImg from '../../../assets/jpg/dummyFeedImg.jpg'
+import { jwtDecode } from "jwt-decode"
 
 function Feedbar() {
-  const [show, setShow] = useState(false);
-  const [inputStr, setInputStr] = useState('');
-  const [showEmojis, setShowEmojis] = useState(false);
+  const [show, setShow] = useState(false)
+  const [inputStr, setInputStr] = useState('')
+  const [showEmojis, setShowEmojis] = useState(false)
   const [posts, setPosts] = useState([])
   const [selectedFile, setSelectedFile] = useState()
+
+  const [editShow, setEditShow] = useState(false)
+  const [editInputStr, setEditInputStr] = useState()
+  const [editSelectedFile, setEditSelectedFile] = useState()
+
   const isLoggedIn = true
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleEditClose = () => setEditShow(false);
+  const handleEditShow = () => setEditShow(true);
 
   const handleChange = (e) => {
     // console.log(e.target.files[0])
     setSelectedFile(URL.createObjectURL(e.target.files[0]));
     // console.log(URL.createObjectURL(e.target.files[0]));
   }
+
+  const handleEditChange = (e) => {
+    // console.log(e.target.files[0])
+    setEditSelectedFile(URL.createObjectURL(e.target.files[0]));
+    // console.log(URL.createObjectURL(e.target.files[0]));
+  }  
 
   const handleSubmit = async(e) => {
     try {
@@ -52,6 +66,70 @@ function Feedbar() {
       }
     } catch (error) {
         toast.error(error.response.data.message || error.message)
+    }
+  }
+
+  const handleEditSubmit = async(e) => {
+    try {
+      e.preventDefault()
+      const formData = new FormData()
+      formData.append('feededData',editInputStr)
+      formData.append('imageUrl',editSelectedFile)
+      const editedFormProps = Object.fromEntries(formData)
+      console.log(editedFormProps);
+      let token = localStorage.getItem('loginToken')
+      const decodedToken = jwtDecode(token)
+      const id = decodedToken.id      
+      console.log(id)
+      console.log(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`);
+      let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,editedFormProps,{
+        headers:{
+          "Content-Type" : "multipart/form-data",
+          "Authorization" : `${token}`        
+        }
+      })
+      console.log(res)
+      if(res.status === 200){
+        //   setEditInputStr('') 
+        // setEditSelectedFile('')
+        setEditShow(false)
+        toast.success(res.data.message)
+      }
+    } catch (error) {
+      console.log(error.message);
+        // toast.error(error.response.data.message || error.message)
+    }
+  }
+
+  const handleDeletePost = async(postId) => {
+    try {
+      if(postId !== ""){
+        const updatedPosts = posts.filter((e)=> e._id !== postId)
+        setPosts(updatedPosts)
+        let token = localStorage.getItem('loginToken')
+        let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
+        if(res.status === 200){
+          toast.success(res.data.message)
+        }
+      }
+    } catch (error) {
+        toast.error(error.response.data.message || error.message)
+    }
+  }
+
+  const handleEditPost = async(postId) => {
+    try {
+      if(postId !== ""){
+        // console.log(postId)
+        handleEditShow()
+        const updatedPosts = posts.filter((e)=> e._id == postId)
+        setEditInputStr(updatedPosts[0].feededData)
+        setEditSelectedFile(updatedPosts[0].imageUrl)
+        // handleEditSubmit(postId)
+      }
+    } catch (error) {
+      // toast.error(error.response.data.message || error.message)
+      console.log(error.message);
     }
   }
 
@@ -106,13 +184,26 @@ function Feedbar() {
       <div className="feedArea mt-3">
         {
           posts.map((e,i)=>{
-            return <div key={i}>
+            return <div key={e._id}>
               <Col>
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                  <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
+                  <div className='postHeader py-2 px-3 d-flex justify-content-between flex-row align-items-center'>
                     <div className="fw-bold">{e.ownerName}</div>
-                  </div>
+                    {e.ownerName === decodeduserDetailsToken.name ? 
+                    <div>
+                      <Button type='button' variant='none' onClick={() => handleEditPost(e._id)}>
+                        <FontAwesomeIcon icon={faEdit} style={{color: "black"}}/>
+                      </Button>
+                      <Button type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
+                        <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
+                      </Button>                    
+                    </div>                    
+                     :
+                    null
+                    }
+                  </div>                  
                   <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
+                  {/* <Card.Img variant="top" src={e.imageUrl ||  ? `http://localhost:8000/postImages/${e.imageUrl}` : dummyFeedImg} alt='feedPost' className='postImage'/> */}
                   <Card.Text className='m-2'>{e.feededData}</Card.Text>
                   <div className='d-flex flex-row'>
                     <Card.Text className='m-2'>0 Comments</Card.Text>
@@ -170,6 +261,45 @@ function Feedbar() {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Cancel</Button>
           <Button variant="primary" type='submit'>Post</Button>
+        </Modal.Footer>
+        </Form>
+    </Modal>
+
+    {/* Edit post modal */}
+    <Modal show={editShow} onHide={handleEditClose}>
+      <Form onSubmit={handleEditSubmit} > 
+        <Modal.Header closeButton>
+          <Modal.Title>Update Feed</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{minHeight:"13rem"}} className='d-flex justify-content-between flex-column'>
+          <Form.Group>
+            <Form.Control as='textarea' rows='5' className='feedInputArea' name='feededData' placeholder='Put your thoughts here ....' 
+                    defaultValue={editInputStr} onChange={(e)=>setEditInputStr(e.target.value)}/>              
+          </Form.Group>
+          {
+            editSelectedFile === " " || editSelectedFile === "undefined" ? null :
+            <div style={{margin : "1rem 0"}}><img src={editSelectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>
+          }
+          <div>
+            <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
+              <FontAwesomeIcon icon={faFaceSmile} style={{color: "black"}}/>
+            </Button> 
+            
+            <Button className='attachIcon mx-2' type='button'>
+              <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
+              <input type="file" name="img-file" id="file" onChange={handleEditChange} className='attachImgIcon' accept="image/*"/>
+            </Button>
+          {
+            showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
+              setEditInputStr((prevMsg)=> prevMsg + emojiObject.emoji) 
+              setShowEmojis(false);
+            }}/>
+          }
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleEditClose}>Cancel</Button>
+          <Button variant="primary" type='submit'>Update</Button>
         </Modal.Footer>
         </Form>
     </Modal>
