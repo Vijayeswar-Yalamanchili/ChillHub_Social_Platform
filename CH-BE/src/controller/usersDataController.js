@@ -2,7 +2,7 @@ import RegisterLoginModel from '../models/registerLogin_model.js'
 
 const addUsersData = async(req,res) => {
     try {
-        const addDatas = await RegisterLoginModel.findOneAndUpdate({_id:req.user.id},{$set : {"imageDP" : req.body.imageDP, "bio" : req.body.bio}})
+        const addDatas = await RegisterLoginModel.findOneAndUpdate({_id:req.user.id},{$set : {"imageDP" : req.body.imageDP, "bio" : req.body.bio, "dob" : req.body.dob}})
         if(addDatas){
             res.status(200).send({
                 message:"users datas added",

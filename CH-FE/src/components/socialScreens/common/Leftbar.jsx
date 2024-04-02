@@ -14,7 +14,7 @@ function Leftbar() {
         </Link>
         <Link to={'/events'} className="list-group-item list-group-item-action">
           <span className='d-flex align-items-center' style={{gap:"5px"}}>
-            <FontAwesomeIcon icon={faCalendarPlus} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Events
+            <FontAwesomeIcon icon={faCalendarPlus} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Birthdays
           </span>
         </Link>
         <Link to={'/friends'} className="list-group-item list-group-item-action">

@@ -38,6 +38,10 @@ const registerLoginSchema = new mongoose.Schema({
         type: String,
         required : false
     },
+    dob: {
+        type: String,
+        required : false
+    },
     forgotPassToken:{
         type : String,
         required:[false,"required"]

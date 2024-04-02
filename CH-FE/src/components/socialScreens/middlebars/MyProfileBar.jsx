@@ -10,6 +10,7 @@ function MyProfileBar() {
   const [show, setShow] = useState(false)
   const [selectedFile, setSelectedFile] = useState()
   const [inputBio, setInputBio] = useState('')
+  const [dob, setDob] = useState('')
   const [bioText, setBioText] = useState([])
 
   const handleClose = () => setShow(false)
@@ -24,10 +25,12 @@ function MyProfileBar() {
   const handleSubmit = async(e) => {
     try {
       e.preventDefault()
+      console.log(e)
       const formData = new FormData(e.target)
       formData.append('imageDP', selectedFile)
+      formData.append('dob',dob)
       const formProps = Object.fromEntries(formData)
-      // console.log(formProps);
+      console.log(formProps);
       setInputBio('')
       setShow(false)
       let LoginToken = localStorage.getItem('loginToken')
@@ -42,6 +45,7 @@ function MyProfileBar() {
         toast.success(res.data.message)
       }      
     } catch (error) {
+      console.log(error.message);
       toast.error(error.response.data.message || error.message)
     }    
   }
@@ -91,6 +95,7 @@ function MyProfileBar() {
           <Modal.Title>Update Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{minHeight:"13rem"}} className='d-flex justify-content-between flex-column'>
+          
           <div className='profilePic d-flex justify-content-around flex-row align-items-center'>
             <div className='profilePicImageArea'>
               <img src={selectedFile} className='imageFile'/>          
@@ -100,9 +105,16 @@ function MyProfileBar() {
               <input type="file" name="imageDP" id="file" accept='image/*' onChange={handleChange} style={{display : "none"}}/>
             </Button>
           </div>
+
           <Form.Group>
             <Form.Control as="textarea" name='bio' rows={8} cols={150} value={inputBio} className='bioInputArea' onChange={(e)=>setInputBio(e.target.value)} placeholder='Put your Bio here ....' required/>         
-          </Form.Group>          
+          </Form.Group>
+
+          <Form.Group className='mt-3'>
+            <Form.Label><b>Date Of Birth</b></Form.Label>
+            <Form.Control type="date" onChange={(e)=>setDob(e.target.value)}/>         
+          </Form.Group>    
+
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Cancel</Button>
