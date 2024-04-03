@@ -17,12 +17,12 @@ const getUsers = async(req,res) => {
 
 const addFriend = async(req,res) => {
     try {
-        // console.log(req.user)
-        const friends = await RegisterLoginModel.findByIdAndUpdate({_id:req.user.id},{$push : {friends : req.body.id}})
-        console.log(friends) 
+        console.log(req.user)
+        // const friends = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$set : {friends : req.user.id}})
+        // console.log(friends) 
         // res.status(200).send({
         //     message:"friends added",
-        //     friends
+        //     // friends
         // }) 
     } catch (error) {
         console.log("err");
