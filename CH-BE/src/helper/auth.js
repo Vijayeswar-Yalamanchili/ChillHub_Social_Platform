@@ -49,8 +49,8 @@ const decodeForgotPassToken = async(token) => {
 //mailid based authentication
 const authenticate = async(req,res,next) => {
         // let token = req?.headers?.authorization?.split(' ')[1]
-        let token = req?.headers?.authorization
-        // console.log(token)
+        let token = req?.headers?.authorization 
+        console.log(token)
         if(token){
             let payload = await decodeLoginToken(token)
             let currentTime = +new Date()
@@ -63,7 +63,7 @@ const authenticate = async(req,res,next) => {
                 })
             }
         }else{
-            res.status(402).send({
+            res.status(402).send({ 
                 message :"Session is no longer available"
             })
         }

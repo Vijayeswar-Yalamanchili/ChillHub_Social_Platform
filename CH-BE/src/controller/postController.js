@@ -80,12 +80,19 @@ const getUserPosts = async(req,res) => {
 
 const updatePost = async(req,res) => {
     try {
-        console.log(req.params)
-        let postToBeUpdated = await FeedDatasModel.findOne()
-        console.log(postToBeUpdated);
+        console.log("ppp",req)
+        const {feededData,imageUrl} = req.body
+        // let postToBeUpdated = await FeedDatasModel.findOne({_id : req.params.postId})
+        let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : feededData, imageUrl : imageUrl }})
+        // console.log(postToBeUpdated)
+        console.log(postToBeUpdate)
+        res.status(200).send({
+            message:"Post Updated",
+            postToBeUpdate,
+        })
     } catch (error) {
         res.status(500).send({
-            message:"Internal Server Error in getting Userposts"
+            message:"Internal Server Error in updating Userposts"
         }) 
     }
 }

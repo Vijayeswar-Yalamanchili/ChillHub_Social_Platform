@@ -16,6 +16,7 @@ function Feedbar() {
   const [showEmojis, setShowEmojis] = useState(false)
   const [posts, setPosts] = useState([])
   const [selectedFile, setSelectedFile] = useState()
+  const [currentPostId, setCurrentPostId] = useState()
 
   const [editShow, setEditShow] = useState(false)
   const [editInputStr, setEditInputStr] = useState()
@@ -25,8 +26,15 @@ function Feedbar() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleEditClose = () => setEditShow(false);
-  const handleEditShow = () => setEditShow(true);
+  const handleEditClose = () => {
+    setCurrentPostId('')
+    setEditShow(false)
+    
+  }
+  const handleEditShow = (postId) => {
+    setEditShow(true)
+    setCurrentPostId(postId)
+  }
 
   const handleChange = (e) => {
     // console.log(e.target.files[0])
@@ -71,31 +79,28 @@ function Feedbar() {
 
   const handleEditSubmit = async(postId) => {
     try {
-      console.log("qq");
-      e.preventDefault()
+      console.log(postId)
       const formData = new FormData()
       formData.append('feededData',editInputStr)
       formData.append('imageUrl',editSelectedFile)
-      const editedFormProps = Object.fromEntries(formData)
-      console.log(editedFormProps);
+      const formProps = Object.fromEntries(formData)
+      console.log(formData)
       let token = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(token)
       const id = decodedToken.id      
-      console.log(id)
-      // console.log(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`);
-      let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,editedFormProps,{
+      console.log(id, formProps) 
+      let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,{formProps},{
         headers:{
           "Content-Type" : "multipart/form-data",
           "Authorization" : `${token}`        
         }
       })
-      console.log(res)
-      if(res.status === 200){
-        //   setEditInputStr('') 
-        // setEditSelectedFile('')
-        setEditShow(false)
-        toast.success(res.data.message)
-      }
+      console.log(res.data.postToBeUpdate.feededData)
+      // if(res.status === 200){
+      //   console.log("qwe");
+      //   handleEditClose()
+      //   toast.success(res.data.message)
+      // }
     } catch (error) {
       console.log(error.message);
         // toast.error(error.response.data.message || error.message)
@@ -124,7 +129,7 @@ function Feedbar() {
     try {
       if(postId !== ""){
         // console.log(postId)
-        handleEditShow()
+        handleEditShow(postId)
         const updatedPosts = posts.filter((e)=> e._id == postId)
         setEditInputStr(updatedPosts[0].feededData)
         setEditSelectedFile(updatedPosts[0].imageUrl)
@@ -228,7 +233,6 @@ function Feedbar() {
       </div>
     </div>
 
-
     {/* Add post modal */}
     <Modal show={show} onHide={handleClose}>
       <Form onSubmit={handleSubmit} > 
@@ -301,7 +305,7 @@ function Feedbar() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleEditClose}>Cancel</Button>
-        <Button variant="primary" onClick={() => handleEditSubmit(postId)}>Update</Button>
+          <Button variant="primary" onClick={()=>handleEditSubmit(currentPostId)}>Update</Button>
         </Modal.Footer>
         </Form>
     </Modal>
