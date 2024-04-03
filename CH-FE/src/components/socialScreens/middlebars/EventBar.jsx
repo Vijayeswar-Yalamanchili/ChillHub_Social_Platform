@@ -17,25 +17,27 @@ function EventBar() {
       let result = res.data.getusers
       // console.log(result);
       let updatedNewFriends = result.filter((e)=>e._id !== id)
-      console.log(updatedNewFriends)
-
-      // const userDate = new Date(e.dob)
-      // const userDob = (userDate.getDate())+ "/" +(userDate.getMonth()+1) + "/" +(userDate.getFullYear())
-      const todayDate = new Date()
-      // console.log(todayDate);
-      // const today = (todayDate.getFullYear()) + "-" + (todayDate.getMonth()+1) + "-" + (todayDate.getDate())
-      // console.log(today);
+      // console.log(updatedNewFriends)
       const todayBday = updatedNewFriends.filter((e) => {
-        if(e.dob !== todayDate){
-          console.log(e.dob,todayDate);
+
+        const d1 = new Date(e.dob)
+        const d2 = new Date() 
+        console.log("userDob :" + d1)
+        console.log("TodayDate :" + d2)
+        // console.log(e.dob)
+        if(d1 === d2){
+          // return d1
+          console.log("same")
+        }else{
+          console.log("diff");
         }
       })
-      console.log(todayBday)
-      // if(res.status === 200){
-      //   toast.success(res.data.message)
-      //   setUsers(todayBday)
-      //   // console.log(res.data.getusers)
-      // }
+      // console.log(todayBday)
+      if(res.status === 200){
+        toast.success(res.data.message)
+        setUsers(todayBday)
+        // console.log(res.data.getusers)
+      }
     } catch (error) {
       console.log(error.message);
         // toast.error(error.response.data.message || error.message)

@@ -39,7 +39,7 @@ const registerLoginSchema = new mongoose.Schema({
         required : false
     },
     dob: {
-        type: String,
+        type: Date,
         required : false
     },
     forgotPassToken:{

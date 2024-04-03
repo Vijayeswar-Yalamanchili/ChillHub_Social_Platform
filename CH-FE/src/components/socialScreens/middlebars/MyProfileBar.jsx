@@ -10,7 +10,7 @@ function MyProfileBar() {
   const [show, setShow] = useState(false)
   const [selectedFile, setSelectedFile] = useState()
   const [inputBio, setInputBio] = useState('')
-  const [dob, setDob] = useState('')
+  const [dob, setDob] = useState()
   const [bioText, setBioText] = useState([])
 
   const handleClose = () => setShow(false)
