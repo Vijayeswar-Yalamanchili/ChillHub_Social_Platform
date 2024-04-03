@@ -35,7 +35,8 @@ router.post('/home/adduserdatas',auth.authenticate,auth.getUserEmail,uploadContr
 router.get('/home/getuserdatas/:id', auth.authenticate, usersDataController.getUsersData)
 
 //frds datas
-router.put('/home/addfriend/:id/:friendId',auth.authenticate,auth.getUserEmail,usersController.addFriend)
-router.get('/home/getusers/:id', auth.authenticate, usersController.getUsers)       //suggestion frds
+router.put('/home/addfriend/:id/:friendId',auth.authenticate,usersController.addFriend)
+router.get('/home/getusers/:id', auth.authenticate, usersController.getUsers)       //suggestion frds & todayBdays
+router.get('/home/getmyfriends/:id', auth.authenticate, usersController.getMyFriends)
 
 export default router

@@ -69,7 +69,7 @@ function Feedbar() {
     }
   }
 
-  const handleEditSubmit = async(e) => {
+  const handleEditSubmit = async(postId) => {
     try {
       console.log("qq");
       e.preventDefault()
@@ -82,7 +82,7 @@ function Feedbar() {
       const decodedToken = jwtDecode(token)
       const id = decodedToken.id      
       console.log(id)
-      console.log(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`);
+      // console.log(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`);
       let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,editedFormProps,{
         headers:{
           "Content-Type" : "multipart/form-data",
@@ -106,7 +106,9 @@ function Feedbar() {
     try {
       if(postId !== ""){
         const updatedPosts = posts.filter((e)=> e._id !== postId)
+        console.log(updatedPosts);
         setPosts(updatedPosts)
+        console.log(updatedPosts);
         let token = localStorage.getItem('loginToken')
         let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
         if(res.status === 200){
@@ -126,7 +128,6 @@ function Feedbar() {
         const updatedPosts = posts.filter((e)=> e._id == postId)
         setEditInputStr(updatedPosts[0].feededData)
         setEditSelectedFile(updatedPosts[0].imageUrl)
-        // handleEditSubmit(postId)
       }
     } catch (error) {
       // toast.error(error.response.data.message || error.message)
@@ -268,7 +269,7 @@ function Feedbar() {
 
     {/* Edit post modal */}
     <Modal show={editShow} onHide={handleEditClose}>
-      <Form onSubmit={handleEditSubmit} > 
+      <Form > 
         <Modal.Header closeButton>
           <Modal.Title>Update Feed</Modal.Title>
         </Modal.Header>
@@ -300,7 +301,7 @@ function Feedbar() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleEditClose}>Cancel</Button>
-          <Button variant="primary" type='submit'>Update</Button>
+        <Button variant="primary" onClick={() => handleEditSubmit(postId)}>Update</Button>
         </Modal.Footer>
         </Form>
     </Modal>

@@ -33,25 +33,21 @@ function SuggestFriends() {
     const handleAddFriend = async(friendId) => {
       try {
         if(friendId !== ""){
-          const frdsList = friends.filter((e)=> e.id === friendId)
+          // console.log(friendId)
+          const frdsList = friends.filter((e)=> e.id !== friendId)
+          const addNewFrdsList = users.filter((e)=> e._id !== friendId)
+          setUsers(addNewFrdsList)
           setFriends(frdsList)
           let getToken = localStorage.getItem('loginToken')
           const decodedToken = jwtDecode(getToken)
           const id = decodedToken.id
-          console.log(`${ApiRoutes.ADDFRIEND.path}/${id}/${friendId}`);
           let res = await AxiosService.put(`${ApiRoutes.ADDFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})
-          console.log(res)
+          // console.log(res)
         }
       } catch (error) {
         // toast.error(error.response.data.message || error.message)
         console.log(error.message);
-      }
-      // console.log("clicked");
-      // let getToken = localStorage.getItem('loginToken')
-      // const decodedToken = jwtDecode(getToken)
-      // const id = decodedToken.id
-      // console.log(id);
-      
+      }      
     }
 
     useEffect(()=> {

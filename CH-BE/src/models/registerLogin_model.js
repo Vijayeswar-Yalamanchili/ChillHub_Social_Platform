@@ -59,8 +59,8 @@ const registerLoginSchema = new mongoose.Schema({
         default:"user"
     },
     friends : {
-        type : String,
-        // default: [],
+        type : Array,
+        default: [],
         required : false
     },
     createdAt:{

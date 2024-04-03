@@ -17,22 +17,39 @@ const getUsers = async(req,res) => {
 
 const addFriend = async(req,res) => {
     try {
-        console.log(req.user)
-        // const friends = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$set : {friends : req.user.id}})
+        // console.log("qwe", req.params)
+        const friends = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$push : {friends : req.params.friendId}})
         // console.log(friends) 
-        // res.status(200).send({
-        //     message:"friends added",
-        //     // friends
-        // }) 
+        res.status(200).send({
+            message:"friends added",
+            friends
+        }) 
     } catch (error) {
-        console.log("err");
+        // console.log("err");
         res.status(500).send({
             message:"Internal Server Error in adding friends"
         })
     }
 }
 
+const getMyFriends = async(req,res) => {
+    try {
+        console.log(req.params);
+        const getMyFrds = await RegisterLoginModel.findOne({_id : req.params.id})
+        console.log(getMyFrds)   
+        // res.status(200).send({
+        //     message:"users fetched",
+        //     getusers
+        // })       
+    } catch (error) {
+        res.status(500).send({
+            message:"Internal Server Error in getting all users"
+        }) 
+    }
+}
+
 export default{
     getUsers,
-    addFriend
+    addFriend,
+    getMyFriends
 }

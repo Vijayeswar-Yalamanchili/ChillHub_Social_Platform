@@ -80,7 +80,7 @@ const getUserPosts = async(req,res) => {
 
 const updatePost = async(req,res) => {
     try {
-        console.log("qwe")
+        console.log(req.params)
         let postToBeUpdated = await FeedDatasModel.findOne()
         console.log(postToBeUpdated);
     } catch (error) {
