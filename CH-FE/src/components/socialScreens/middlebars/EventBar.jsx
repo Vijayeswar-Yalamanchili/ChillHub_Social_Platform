@@ -15,14 +15,14 @@ function EventBar() {
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
       let result = res.data.getusers
-      let updatedNewFriends = result.filter((e)=>e._id !== id)
+      let updatedNewFriends = result.filter((e)=>e._id !== id)    //filter users
       // console.log(updatedNewFriends)
-      const todayBday = updatedNewFriends.filter((e) => {
-        const d1 = new Date(e.dob)
-        let D1 = d1.getDate() + "/" + (d1.getMonth()+1) + "/" + d1.getFullYear()
-        const d2 = new Date() 
-        let D2 = d2.getDate() + "/" + (d2.getMonth()+1) + "/" + d2.getFullYear()
-        if(D1 === D2){
+      const todayBday = updatedNewFriends.filter((e) => {       //filter todaysBirthdayUsers
+        const date1 = new Date(e.dob)
+        let userBdayDate = date1.getDate() + "/" + (date1.getMonth()+1) + "/" + date1.getFullYear()
+        const date2 = new Date() 
+        let todayDate = date2.getDate() + "/" + (date2.getMonth()+1) + "/" + date2.getFullYear()
+        if(userBdayDate === todayDate){
           return e._id
         }
       })
@@ -43,7 +43,7 @@ function EventBar() {
   return <>
     <h5>Today</h5>
     <div>
-        <Row xs={1} md={1} className="g-5 m-0">
+        <Row md={1} lg={2} className="g-5 m-0">
             {
               users.map((e,i) => {
                 return <div key={e._id} className='mt-3'>

@@ -61,7 +61,7 @@ function SuggestFriends() {
     return <>
         <h5>Suggest Friends</h5>
         <div>
-            <Row xs={1} md={2} className="g-5 m-0">
+            <Row md={1} lg={2} className="g-5 m-0">
                 {
                   users.map((e,i) => {
                     return <div key={e._id} className='mt-3'>
