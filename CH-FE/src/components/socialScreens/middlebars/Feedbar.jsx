@@ -71,6 +71,7 @@ function Feedbar() {
 
   const handleEditSubmit = async(e) => {
     try {
+      console.log("qq");
       e.preventDefault()
       const formData = new FormData()
       formData.append('feededData',editInputStr)
