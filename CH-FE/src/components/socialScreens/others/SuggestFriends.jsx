@@ -5,8 +5,7 @@ import ApiRoutes from '../../../utils/ApiRoutes';
 import { jwtDecode } from "jwt-decode";
 import { toast } from 'react-toastify';
 
-function SuggestFriends() {
-    const [users, setUsers] = useState([])
+function SuggestFriends({users,setUsers}) {
     const [friends, setFriends] = useState([])
 
     const getUsers = async() => {

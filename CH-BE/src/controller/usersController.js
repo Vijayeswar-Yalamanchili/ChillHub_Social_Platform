@@ -34,16 +34,22 @@ const addFriend = async(req,res) => {
 
 const getMyFriends = async(req,res) => {
     try {
-        console.log(req.params);
+        // console.log("req.params",req)
         const getMyFrds = await RegisterLoginModel.findOne({_id : req.params.id})
-        console.log(getMyFrds)   
-        // res.status(200).send({
-        //     message:"users fetched",
-        //     getusers
-        // })       
+        console.log("getMyFrds")
+        if(getMyFrds){
+            console.log(getMyFrds.friends)
+            // const myfrd = await RegisterLoginModel.findOne({frdId : req})
+            console.log(req);
+            res.status(200).send({
+                message:"my frds fetched",
+                getMyFrds
+            })
+        }
+        
     } catch (error) {
         res.status(500).send({
-            message:"Internal Server Error in getting all users"
+            message:"Internal Server Error in getting myfrds"
         }) 
     }
 }
