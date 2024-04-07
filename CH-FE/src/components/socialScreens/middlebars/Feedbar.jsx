@@ -22,43 +22,30 @@ function Feedbar() {
   const [editInputStr, setEditInputStr] = useState()
   const [editSelectedFile, setEditSelectedFile] = useState()
 
+
   const isLoggedIn = true
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
   const handleEditClose = () => {
     setCurrentPostId('')
-    setEditShow(false)
-    
+    setEditShow(false)    
   }
+
   const handleEditShow = (postId) => {
     setEditShow(true)
     setCurrentPostId(postId)
   }
 
-  const handleChange = (e) => {
-    console.log(e.target.files[0])
-    setSelectedFile(URL.createObjectURL(e.target.files[0]));
-    console.log(URL.createObjectURL(e.target.files[0]));
-  }
-
-  const handleEditChange = (e) => {
-    // console.log(e.target.files[0])
-    setEditSelectedFile(URL.createObjectURL(e.target.files[0]));
-    // console.log(URL.createObjectURL(e.target.files[0]));
-  }  
-
   const handleSubmit = async(e) => {
     try {
       e.preventDefault()
-      const formData = new FormData(e.target)
+      const formData = new FormData()
+      formData.append('feededData', inputStr)
       formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
-      // formProps.append('imageUrl', selectedFile)
-      // console.log(formProps);
-      setInputStr('') 
-      setSelectedFile('')
-      setShow(false)
+      console.log(formProps,selectedFile);
       let token = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
@@ -66,7 +53,10 @@ function Feedbar() {
           "Authorization" : `${token}`        
         }
       })
-      // console.log(res)
+      console.log(res)
+      setInputStr('') 
+      setSelectedFile('')
+      setShow(false)
       const updatedPosts = [...posts,res.data.postData]
       setPosts(updatedPosts)
       if(res.status === 200){
@@ -81,29 +71,43 @@ function Feedbar() {
     try {
       console.log(postId)
       const formData = new FormData()
-      formData.append('feededData',editInputStr)
-      formData.append('imageUrl',editSelectedFile)
+      formData.append('feededData', editInputStr)
+      formData.append('imageUrl', editSelectedFile)
       const formProps = Object.fromEntries(formData)
-      console.log(formData)
+      // console.log(formProps,editSelectedFile);
       let token = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(token)
       const id = decodedToken.id      
-      console.log(id, formProps) 
-      let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,{formProps},{
+      console.log("userId: "+id, " &","postId: "+postId, formProps) 
+      let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
         headers:{
           "Content-Type" : "multipart/form-data",
           "Authorization" : `${token}`        
         }
       })
-      console.log(res.data.postToBeUpdate.feededData)
-      // if(res.status === 200){
-      //   console.log("qwe");
-      //   handleEditClose()
-      //   toast.success(res.data.message)
-      // }
+      console.log(res)
+      if(res.status === 200){
+        toast.success(res.data.message)
+      }
     } catch (error) {
-      console.log(error.message);
+        console.log(error.message)
         // toast.error(error.response.data.message || error.message)
+    }
+  }
+
+  const handleEditPost = async(postId) => {
+    try {
+      console.log("clicked edit btn");
+      if(postId !== ""){
+        // console.log(postId)
+        handleEditShow(postId)
+        const updatedPosts = posts.filter((e)=> e._id == postId)
+        setEditInputStr(updatedPosts[0].feededData)
+        setEditSelectedFile(updatedPosts[0].imageUrl)
+      }
+    } catch (error) {
+      // toast.error(error.response.data.message || error.message)
+      console.log(error.message);
     }
   }
 
@@ -122,21 +126,6 @@ function Feedbar() {
       }
     } catch (error) {
         toast.error(error.response.data.message || error.message)
-    }
-  }
-
-  const handleEditPost = async(postId) => {
-    try {
-      if(postId !== ""){
-        // console.log(postId)
-        handleEditShow(postId)
-        const updatedPosts = posts.filter((e)=> e._id == postId)
-        setEditInputStr(updatedPosts[0].feededData)
-        setEditSelectedFile(updatedPosts[0].imageUrl)
-      }
-    } catch (error) {
-      // toast.error(error.response.data.message || error.message)
-      console.log(error.message);
     }
   }
 
@@ -254,7 +243,7 @@ function Feedbar() {
             
             <Button className='attachIcon mx-2' type='button'>
               <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-              <input type="file" name="img-file" id="file" onChange={handleChange} className='attachImgIcon' accept="image/*"/>
+              <input type="file" name="img-file" id="file" onChange={(e) => setSelectedFile(URL.createObjectURL(e.target.files[0]))} className='attachImgIcon' accept="image/*"/>
             </Button>
           {
             showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
@@ -283,7 +272,7 @@ function Feedbar() {
                     defaultValue={editInputStr} onChange={(e)=>setEditInputStr(e.target.value)}/>              
           </Form.Group>
           {
-            editSelectedFile === " " || editSelectedFile === "undefined" ? null :
+            !editSelectedFile ? null :
             <div style={{margin : "1rem 0"}}><img src={editSelectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>
           }
           <div>
@@ -293,7 +282,7 @@ function Feedbar() {
             
             <Button className='attachIcon mx-2' type='button'>
               <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-              <input type="file" name="img-file" id="file" onChange={handleEditChange} className='attachImgIcon' accept="image/*"/>
+              <input type="file" name="img-file" id="file" onChange={(e) => setEditSelectedFile(URL.createObjectURL(e.target.files[0]))} className='attachImgIcon' accept="image/*"/>
             </Button>
           {
             showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
