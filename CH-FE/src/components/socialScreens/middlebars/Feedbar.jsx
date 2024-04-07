@@ -7,7 +7,6 @@ import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
 import { faEdit, faPaperclip} from '@fortawesome/free-solid-svg-icons'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
-import dummyFeedImg from '../../../assets/jpg/dummyFeedImg.jpg'
 import { jwtDecode } from "jwt-decode"
 
 function Feedbar() {
@@ -22,7 +21,6 @@ function Feedbar() {
   const [editInputStr, setEditInputStr] = useState()
   const [editSelectedFile, setEditSelectedFile] = useState()
 
-
   const isLoggedIn = true
 
   const handleClose = () => setShow(false)
@@ -30,7 +28,7 @@ function Feedbar() {
 
   const handleEditClose = () => {
     setCurrentPostId('')
-    setEditShow(false)    
+    setEditShow(false)
   }
 
   const handleEditShow = (postId) => {
@@ -45,12 +43,11 @@ function Feedbar() {
       formData.append('feededData', inputStr)
       formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
-      console.log(formProps,selectedFile);
       let token = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
           "Content-Type" : "multipart/form-data",
-          "Authorization" : `${token}`        
+          "Authorization" : `${token}`
         }
       })
       console.log(res)
@@ -69,20 +66,17 @@ function Feedbar() {
 
   const handleEditSubmit = async(postId) => {
     try {
-      console.log(postId)
       const formData = new FormData()
       formData.append('feededData', editInputStr)
       formData.append('imageUrl', editSelectedFile)
       const formProps = Object.fromEntries(formData)
-      // console.log(formProps,editSelectedFile);
       let token = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(token)
-      const id = decodedToken.id      
-      console.log("userId: "+id, " &","postId: "+postId, formProps) 
+      const id = decodedToken.id
       let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
         headers:{
           "Content-Type" : "application/json",
-          "Authorization" : `${token}`        
+          "Authorization" : `${token}`
         }
       })
       console.log(res)
@@ -90,24 +84,20 @@ function Feedbar() {
         toast.success(res.data.message)
       }
     } catch (error) {
-        console.log(error.message)
-        // toast.error(error.response.data.message || error.message)
+        toast.error(error.response.data.message || error.message)
     }
   }
 
   const handleEditPost = async(postId) => {
     try {
-      console.log("clicked edit btn");
       if(postId !== ""){
-        // console.log(postId)
         handleEditShow(postId)
         const updatedPosts = posts.filter((e)=> e._id == postId)
         setEditInputStr(updatedPosts[0].feededData)
         setEditSelectedFile(updatedPosts[0].imageUrl)
       }
     } catch (error) {
-      // toast.error(error.response.data.message || error.message)
-      console.log(error.message);
+      toast.error(error.response.data.message || error.message)
     }
   }
 
@@ -115,9 +105,7 @@ function Feedbar() {
     try {
       if(postId !== ""){
         const updatedPosts = posts.filter((e)=> e._id !== postId)
-        console.log(updatedPosts);
         setPosts(updatedPosts)
-        console.log(updatedPosts);
         let token = localStorage.getItem('loginToken')
         let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
         if(res.status === 200){
@@ -135,7 +123,6 @@ function Feedbar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      // console.log(res);
       if(res.status === 200){
         // toast.success(res.data.message)
         setPosts(res.data.getpost.reverse())
@@ -148,7 +135,7 @@ function Feedbar() {
   const handleLikeBtn = async(postId) => {
     try {
       if(postId !== ""){
-        const updatedPosts = posts.map((e)=> { 
+        const updatedPosts = posts.map((e)=> {
           if(e._id == postId){
             e.currentLikeStatus = !e.currentLikeStatus
           }
@@ -165,7 +152,6 @@ function Feedbar() {
 
   let getDetailsToken = localStorage.getItem('loginToken')
   const decodeduserDetailsToken = jwtDecode(getDetailsToken)
-  // console.log(decodeduserDetailsToken);
 
   useEffect(() => {
     getPostData()
@@ -199,7 +185,6 @@ function Feedbar() {
                     }
                   </div>                  
                   <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
-                  {/* <Card.Img variant="top" src={e.imageUrl ||  ? `http://localhost:8000/postImages/${e.imageUrl}` : dummyFeedImg} alt='feedPost' className='postImage'/> */}
                   <Card.Text className='m-2'>{e.feededData}</Card.Text>
                   <div className='d-flex flex-row'>
                     <Card.Text className='m-2'>0 Comments</Card.Text>
