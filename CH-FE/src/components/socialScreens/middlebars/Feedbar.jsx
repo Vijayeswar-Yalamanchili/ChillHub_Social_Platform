@@ -79,7 +79,10 @@ function Feedbar() {
           "Authorization" : `${token}`
         }
       })
-      console.log(res)
+      // console.log(res)
+      setEditInputStr('')
+      setEditSelectedFile('')
+      setEditShow(false)
       if(res.status === 200){
         toast.success(res.data.message)
       }

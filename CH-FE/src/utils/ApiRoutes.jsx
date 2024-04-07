@@ -55,6 +55,10 @@ const ApiRoutes = {
         path : '/home/addfriend',
         authenticate :true
     },
+    REMOVEFRIEND : {
+        path : '/home/removefriend',
+        authenticate : true
+    },
     GETMYFRIENDS : {
         path : '/home/getmyfriends',
         authenticate : true

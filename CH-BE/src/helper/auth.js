@@ -50,7 +50,7 @@ const decodeForgotPassToken = async(token) => {
 const authenticate = async(req,res,next) => {
         // console.log(req);
         let token = req?.headers?.authorization 
-        // let token = req?.headers?.authorization 
+        // let token  = req?.headers?.authorization?.split(' ')[1]
         // console.log(token)
         if(token){
             let payload = await decodeLoginToken(token)

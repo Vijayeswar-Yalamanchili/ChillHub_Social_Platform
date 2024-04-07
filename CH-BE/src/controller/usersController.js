@@ -1,48 +1,114 @@
 import RegisterLoginModel from '../models/registerLogin_model.js'
 
 const getUsers = async(req,res) => {
-    try {
-        const getusers = await RegisterLoginModel.find()
-        // console.log(getusers)   
-        res.status(200).send({
-            message:"users fetched",
-            getusers
-        })       
-    } catch (error) {
+    if(req.params.id){
+        try {
+            const getusers = await RegisterLoginModel.find()
+            // console.log(getusers) 
+            res.status(200).send({
+                message:"users fetched",
+                getusers
+            })
+        } catch (error) {
+            res.status(500).send({
+                message:"Internal Server Error in getting all users"
+            }) 
+        }
+    }else{
         res.status(500).send({
-            message:"Internal Server Error in getting all users"
-        }) 
+            message : "Something went wrong in fetching all users"
+        })
     }
 }
 
 const addFriend = async(req,res) => {
-    try {
-        // console.log("qwe", req.params)
-        const friends = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$push : {friends : req.params.friendId}})
-        // console.log(friends) 
-        res.status(200).send({
-            message:"friends added",
-            friends
-        }) 
-    } catch (error) {
-        // console.log("err");
-        res.status(500).send({
-            message:"Internal Server Error in adding friends"
+    if(req.params.id !== req.params.friendId){
+        try {
+            const user = await RegisterLoginModel.findById({_id : req.params.id})
+            if(user){
+                if (user.friends.includes(req.params.friendId)) {
+                    res.status(400).send({
+                        message:"Can't follow the same user twice"
+                    })
+                }else{
+                    const addFriendInUser = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$push : {friends : req.params.friendId}})
+                    const addFriendInFriend = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.friendId},{$push : {friends : req.params.id}})
+                    // console.log(addFriendInUser,addFriendInFriend);
+                    res.status(200).send({
+                        message:"Friend Added",
+                        addFriendInUser,
+                        addFriendInFriend
+                    })
+                }                 
+            }else{
+                res.status(400).send({
+                    message:"User Not found"
+                })
+            }            
+        } catch (error) {
+            res.status(500).send({
+                message:"Internal Server Error in adding friends"
+            })
+        }
+    }else{
+        res.status(400).send({
+            message:"FriendId & UserID are same"
+        })
+    }
+}
+
+const removeFriend = async(req,res) => {
+    if(req.params.id !== req.params.friendId){
+        try {
+            const user = await RegisterLoginModel.findById({_id : req.params.id})
+            if(user){
+                if (!user.friends.includes(req.params.friendId)) {
+                    res.status(400).send({
+                        message:"Can't unfollow someone you don't follow in the first place"
+                    })
+                }else{
+                    const removeFriendInUser = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$pull : {friends : req.params.friendId}})
+                    const removeFriendInFriend = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.friendId},{$pull : {friends : req.params.id}})
+                    // console.log(addFriendInUser,addFriendInFriend);
+                    res.status(200).send({
+                        message:"Removed Friend",
+                        removeFriendInUser,
+                        removeFriendInFriend
+                    })
+                }                 
+            }else{
+                res.status(400).send({
+                    message:"User Not found"
+                })
+            }            
+        } catch (error) {
+            res.status(500).send({
+                message:"Internal Server Error in removing friends"
+            })
+        }
+    }else{
+        res.status(400).send({
+            message:"FriendId & UserID arent same"
         })
     }
 }
 
 const getMyFriends = async(req,res) => {
     try {
-        // console.log("req.params",req)
-        const getMyFrds = await RegisterLoginModel.find()
-        // console.log("getMyFrds")
-        res.status(200).send({
-            message:"my frds fetched",
-            getMyFrds
-        })
-        
-        
+        const user = await RegisterLoginModel.findById({_id : req.params.id})
+        // console.log(user)
+        if(user){
+            const myFriendsList = await Promise.all(
+                user.friends.map((friendId) => {
+                    return RegisterLoginModel.findById(friendId).select("-password")
+                })
+            )
+            if (myFriendsList.length > 0) {
+                res.status(200).send({
+                    message:"my frds fetched",myFriendsList
+                })
+            } 
+        }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in getting myfrds"
@@ -51,7 +117,8 @@ const getMyFriends = async(req,res) => {
 }
 
 export default{
-    getUsers,
     addFriend,
+    removeFriend,
+    getUsers,
     getMyFriends
 }

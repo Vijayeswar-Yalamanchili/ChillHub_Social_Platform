@@ -36,6 +36,7 @@ router.get('/home/getuserdatas/:id', auth.authenticate, usersDataController.getU
 
 //frds datas
 router.put('/home/addfriend/:id/:friendId',auth.authenticate,usersController.addFriend)
+router.put('/home/removefriend/:id/:friendId',auth.authenticate,usersController.removeFriend)
 router.get('/home/getusers/:id', auth.authenticate, usersController.getUsers)       //suggestion frds & todayBdays
 router.get('/home/getmyfriends/:id', auth.authenticate, usersController.getMyFriends)
 
