@@ -24,7 +24,7 @@ const getUsersData = async(req,res) => {
     try {
         console.log("qwe");
         const getData = await RegisterLoginModel.findOne({_id:req.params.id})
-        console.log(getData)
+        // console.log(getData)
         if(getData === null){
             res.status(204).send({
                 message:"No Bio Found"

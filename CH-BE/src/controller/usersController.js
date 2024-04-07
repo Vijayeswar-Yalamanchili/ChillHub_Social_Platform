@@ -36,7 +36,7 @@ const getMyFriends = async(req,res) => {
     try {
         // console.log("req.params",req)
         const getMyFrds = await RegisterLoginModel.find()
-        console.log("getMyFrds")
+        // console.log("getMyFrds")
         res.status(200).send({
             message:"my frds fetched",
             getMyFrds

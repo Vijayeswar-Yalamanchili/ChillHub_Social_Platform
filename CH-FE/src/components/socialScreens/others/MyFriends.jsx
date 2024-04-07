@@ -13,7 +13,7 @@ function MyFriends({myFriends, setMyFriends}) {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
-      console.log(res.data.getMyFrds)
+      // console.log(res.data.getMyFrds)
       if(res.status === 200){
         toast.success(res.data.message)
         setMyFriends(res.data.getMyFrds)
@@ -23,6 +23,7 @@ function MyFriends({myFriends, setMyFriends}) {
       toast.error(error.response.data.message || error.message)
     }
   }
+  
   useEffect(()=> {
     getMyFriends()
   },[])
@@ -31,7 +32,7 @@ function MyFriends({myFriends, setMyFriends}) {
     <h5>Friends</h5>
         <div>
             <Row md={1} lg={2} className="g-5 m-0">
-              {console.log(myFriends,typeof(myFriends))}
+              {/* {console.log(myFriends,typeof(myFriends))} */}
                 { myFriends.map((e,i) => {
                     return <div key={e._id} className='mt-3'>
                       <Col >
