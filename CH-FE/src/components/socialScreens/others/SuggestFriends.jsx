@@ -15,11 +15,11 @@ function SuggestFriends({users,setUsers}) {
         const decodedToken = jwtDecode(getToken)
         const id = decodedToken.id
         let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
-        console.log(res)
+        // console.log(res)
         let result = res.data.getusers
         let updatedNewFriends = result.filter((e)=>e._id !== id)
         if(res.status === 200){
-          toast.success(res.data.message)
+          // toast.success(res.data.message)
           setUsers(updatedNewFriends)
         }
       } catch (error) {

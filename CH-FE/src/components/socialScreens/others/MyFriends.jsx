@@ -15,7 +15,7 @@ function MyFriends({myFriends, setMyFriends}) {
       let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
       // console.log(res)
       if(res.status === 200){
-        toast.success(res.data.message)
+        // toast.success(res.data.message)
         setMyFriends(res.data.myFriendsList)
       }
     } catch (error) {
