@@ -80,15 +80,15 @@ const getUserPosts = async(req,res) => {
 
 const updatePost = async(req,res) => {
     try {
-        console.log("ppp",req.body)
-        // const {feededData,imageUrl} = req.body
-        // // let postToBeUpdated = await FeedDatasModel.findOne({_id : req.params.postId})
-        // let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : feededData, imageUrl : imageUrl }})
-        // // console.log(postToBeUpdated)
-        // console.log(postToBeUpdate)
+        // console.log("ppp",req.body)
+        const {feededData,imageUrl} = req.body
+        // let postToBeUpdated = await FeedDatasModel.findOne({_id : req.params.postId})
+        let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : feededData, "imageUrl" : imageUrl }})
+        // console.log(postToBeUpdated)
+        console.log(postToBeUpdate)
         res.status(200).send({
             message:"Post Updated",
-            
+            postToBeUpdate
         })
     } catch (error) {
         res.status(500).send({

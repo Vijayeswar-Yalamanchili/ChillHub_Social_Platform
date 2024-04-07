@@ -81,7 +81,7 @@ function Feedbar() {
       console.log("userId: "+id, " &","postId: "+postId, formProps) 
       let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
         headers:{
-          "Content-Type" : "multipart/form-data",
+          "Content-Type" : "application/json",
           "Authorization" : `${token}`        
         }
       })
