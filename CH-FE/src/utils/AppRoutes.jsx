@@ -77,9 +77,14 @@ const AppRoutes = [
     },
     {
         path:'*',
-        element : <Navigate to={'/'}/>,
+        element : <ErrorScreen/>,
         exact:true
     }
+    // {
+    //     path:'*',
+    //     element : <Navigate to={'/'}/>,
+    //     exact:true
+    // }
 ]
 
 export default AppRoutes

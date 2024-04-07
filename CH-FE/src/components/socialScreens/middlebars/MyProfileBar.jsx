@@ -17,9 +17,7 @@ function MyProfileBar() {
   const handleShow = () => setShow(true)
 
   const handleChange = (e) => {
-    // console.log(e.target.files[0])
     setSelectedFile(URL.createObjectURL(e.target.files[0]));
-    // console.log(URL.createObjectURL(e.target.files[0]));
   }
 
   const handleSubmit = async(e) => {
@@ -39,8 +37,7 @@ function MyProfileBar() {
           "Content-Type" : "multipart/form-data",
           "Authorization" : ` ${LoginToken}`        
         }
-      })      
-      // console.log(res);
+      })
       if(res.status === 200){
         toast.success(res.data.message)
       }      

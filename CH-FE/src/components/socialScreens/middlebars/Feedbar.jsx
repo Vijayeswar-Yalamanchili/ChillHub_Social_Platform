@@ -16,11 +16,9 @@ function Feedbar() {
   const [posts, setPosts] = useState([])
   const [selectedFile, setSelectedFile] = useState()
   const [currentPostId, setCurrentPostId] = useState()
-
   const [editShow, setEditShow] = useState(false)
   const [editInputStr, setEditInputStr] = useState()
   const [editSelectedFile, setEditSelectedFile] = useState()
-
   const isLoggedIn = true
 
   const handleClose = () => setShow(false)
@@ -79,7 +77,6 @@ function Feedbar() {
           "Authorization" : `${token}`
         }
       })
-      // console.log(res)
       setEditInputStr('')
       setEditSelectedFile('')
       setEditShow(false)

@@ -16,7 +16,6 @@ function EventBar() {
       let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
       let result = res.data.getusers
       let updatedNewFriends = result.filter((e)=>e._id !== id)    //filter users
-      // console.log(updatedNewFriends)
       const todayBday = updatedNewFriends.filter((e) => {       //filter todaysBirthdayUsers
         const date1 = new Date(e.dob)
         let userBdayDate = date1.getDate() + "/" + (date1.getMonth()+1) + "/" + date1.getFullYear()
@@ -26,7 +25,6 @@ function EventBar() {
           return e._id
         }
       })
-      // console.log(todayBday)
       if(res.status === 200){
         // toast.success(res.data.message)
         setUsers(todayBday)
@@ -55,7 +53,6 @@ function EventBar() {
                         <Card.Body>
                           <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                           <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button>
-                          {/* <Button variant="primary">Go somewhere</Button> */}
                         </Card.Body>
                       </Card>
                     </Col>

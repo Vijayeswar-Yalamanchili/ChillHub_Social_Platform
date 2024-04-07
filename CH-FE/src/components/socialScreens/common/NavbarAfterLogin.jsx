@@ -10,7 +10,6 @@ import {useLogout} from '../../../hooks/UseLogout'
 function NavbarAfterLogin() {
 
     let logout = useLogout()
-    // let isLoggedIn = true
     let notifications = ["Notification 1","Notification 2","Notification 3","Notification 4","Notification 5"]
 
     const [notify,setNotify] = useState(false);
