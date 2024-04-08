@@ -183,5 +183,5 @@ export default {
     forgotPassword,
     verifyCode,
     resetPassword,
-    logout
+    // logout
 }
