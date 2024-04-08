@@ -20,7 +20,7 @@ router.post('/register',registerLoginController.register)
 router.put('/forgotPassword',registerLoginController.forgotPassword)
 router.get('/forgotPassword/:id/verify/:token',registerLoginController.verifyCode)
 router.put('/resetPassword',registerLoginController.resetPassword)
-router.put('/home/logout',registerLoginController.logout)
+// router.put('/home/logout',registerLoginController.logout)
 
 //AfterLogin
 router.get('/home',auth.authenticate,auth.userGuard,postController.home)

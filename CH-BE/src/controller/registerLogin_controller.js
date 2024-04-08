@@ -1,4 +1,4 @@
-                                                                         import auth from '../helper/auth.js'
+import auth from '../helper/auth.js'
 import RegisterLoginModel from '../models/registerLogin_model.js'
 import forgotPasswordMail from '../helper/emailService.js'
 
@@ -160,22 +160,22 @@ const resetPassword = async(req,res) => {
     }
 }
 
-const logout = async(req,res) => {
-    try {
-        const user = await RegisterLoginModel.findOne({_id : req.params.id})
-        if(user){
-            
-            let logout =  await RegisterLoginModel.findOneAndUpdate({_id : req.params.id},{ "$set": { isLoggedIn: false }})
-            res.status(200).send({
-                message : "Logged Out Successfully"
-            })
-        }
-    } catch (error) {
-        res.status(500).send({
-            message : "Internal server error in logging out",
-        })
-    }
-}
+// const logout = async(req,res) => {
+//     try {
+//         const user = await RegisterLoginModel.findOne({_id : req.params.id})
+//         if(user){
+
+//             let logout =  await RegisterLoginModel.findOneAndUpdate({_id : req.params.id},{ "$set": { isLoggedIn: false }})
+//             res.status(200).send({
+//                 message : "Logged Out Successfully"
+//             })
+//         }
+//     } catch (error) {
+//         res.status(500).send({
+//             message : "Internal server error in logging out",
+//         })
+//     }
+// }
 
 export default {
     register,
