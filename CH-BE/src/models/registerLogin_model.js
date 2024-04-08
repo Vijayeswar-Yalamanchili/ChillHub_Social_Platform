@@ -50,6 +50,10 @@ const registerLoginSchema = new mongoose.Schema({
         type:String,
         required:[false,"required"]
     },
+    isLoggedIn : {
+        type:Boolean,
+        default:false,
+    },
     status:{
         type:Boolean,
         default:true

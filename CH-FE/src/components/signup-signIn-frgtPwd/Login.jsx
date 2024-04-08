@@ -28,15 +28,10 @@ function Login() {
           password:Yup.string().required('Password is required').matches(/^[a-zA-Z0-9!@#$%^&*]{8,15}$/,'Enter a valid Password')
         }),
         onSubmit : async(values) => {
-            try {    
-                // console.log(values);
+            try {
                 let res = await AxiosService.post(`${ApiRoutes.LOGIN.path}`,values)
-                // console.log(res);
                 if(res.status === 200){
                     localStorage.setItem('loginToken',res.data.loginToken)
-                    // localStorage.setItem('userDataToken',res.data.userDataToken)
-                    // localStorage.setItem('id',res.data.id)
-                    // localStorage.setItem('userDP',res.data.userDP)
                     navigate('/home')
                 }
             } catch (error) {

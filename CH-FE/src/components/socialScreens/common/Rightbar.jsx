@@ -4,7 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle} from '@fortawesome/free-solid-svg-icons'
 
 function Rightbar() {
+
   let frdsList = ["Ram","Vijayeswar","San","kumar","Jhon","Raman","Vijay Kumar","Eshwar","Sandy","kumaresan","James"]
+
+  const getMyOnlineFriends = async() => {
+    
+  }
+
   return <>
     <div className="rightBar">
       <div className="friendsList mt-3">

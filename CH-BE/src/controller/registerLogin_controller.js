@@ -8,6 +8,7 @@ const login = async(req,res) => {
         const user = await RegisterLoginModel.findOne({email:email})
         if(user){
             if(await auth.hashCompare(password,user.password)){
+                
                 const loginToken = await auth.createLoginToken({
                     id : user._id,
                     name : `${user.firstName} ${user.lastName}`,
@@ -18,6 +19,7 @@ const login = async(req,res) => {
                     bio : user.bio,
                     role:user.role     
                 })
+                await RegisterLoginModel.findOneAndUpdate({email:email},{ "$set": { isLoggedIn: true }})
                 res.status(200).send({
                     message:"Login successfull",
                     loginToken,
@@ -158,10 +160,28 @@ const resetPassword = async(req,res) => {
     }
 }
 
+const logout = async(req,res) => {
+    try {
+        const user = await RegisterLoginModel.findOne({_id : req.params.id})
+        if(user){
+            
+            let logout =  await RegisterLoginModel.findOneAndUpdate({_id : req.params.id},{ "$set": { isLoggedIn: false }})
+            res.status(200).send({
+                message : "Logged Out Successfully"
+            })
+        }
+    } catch (error) {
+        res.status(500).send({
+            message : "Internal server error in logging out",
+        })
+    }
+}
+
 export default {
     register,
     login,
     forgotPassword,
     verifyCode,
-    resetPassword
+    resetPassword,
+    logout
 }

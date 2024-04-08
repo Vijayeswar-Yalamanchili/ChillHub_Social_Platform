@@ -66,7 +66,11 @@ const ApiRoutes = {
     POSTREACTION : {
         path : '/home/updatePostReaction',
         authenticate :true
-    }
+    },
+    LOGOUT : {
+        path : '/home/logout',
+        authenticate : true
+   },
 }
 
 export default ApiRoutes
