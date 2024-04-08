@@ -17,7 +17,8 @@ function SuggestFriends({users,setUsers}) {
         let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
         // console.log(res)
         let result = res.data.getusers
-        let updatedNewFriends = result.filter((e)=>e._id !== id)
+        console.log(res.data.getusers);
+        let updatedNewFriends = result.filter((e)=>e._id !== id)        
         if(res.status === 200){
           // toast.success(res.data.message)
           setUsers(updatedNewFriends)
@@ -31,18 +32,20 @@ function SuggestFriends({users,setUsers}) {
     const handleAddFriend = async(friendId) => {
       try {
         if(friendId !== ""){
-          console.log(friendId)
+          // console.log(friendId)
           const frdsList = friends.filter((e)=> e.id !== friendId)
-          console.log(frdsList);
+          // console.log(frdsList)
           const addNewFrdsList = users.filter((e)=> e._id !== friendId)
-          console.log(addNewFrdsList);
-          setUsers(addNewFrdsList)
-          setFriends(frdsList)
+          // console.log(addNewFrdsList)
           let getToken = localStorage.getItem('loginToken')
           const decodedToken = jwtDecode(getToken)
           const id = decodedToken.id
           let res = await AxiosService.put(`${ApiRoutes.ADDFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})
-          // console.log(res)
+          console.log(res)
+          if(res.status === 200){
+            setUsers(addNewFrdsList)
+            setFriends(frdsList)
+          }
         }
       } catch (error) {
         toast.error(error.response.data.message || error.message)
@@ -59,7 +62,7 @@ function SuggestFriends({users,setUsers}) {
         <div>
             <Row md={1} lg={2} className="g-5 m-0">
                 {
-                  users.map((e,i) => {
+                  users.map((e) => {
                     return <div key={e._id} className='mt-3'>
                       <Col >
                         <Card style={{ width: '18rem' }} >

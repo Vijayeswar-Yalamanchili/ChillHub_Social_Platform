@@ -13,7 +13,7 @@ function EventBar() {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERSBDAY.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
       let result = res.data.getusers
       let updatedNewFriends = result.filter((e)=>e._id !== id)    //filter users
       const todayBday = updatedNewFriends.filter((e) => {       //filter todaysBirthdayUsers

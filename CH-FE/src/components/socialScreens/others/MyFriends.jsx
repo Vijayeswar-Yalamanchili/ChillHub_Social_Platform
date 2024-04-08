@@ -33,7 +33,7 @@ function MyFriends({myFriends, setMyFriends}) {
         const decodedToken = jwtDecode(getToken)
         const id = decodedToken.id
         let res = await AxiosService.put(`${ApiRoutes.REMOVEFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})
-        console.log(res)
+        // console.log(res)
         
       }
     } catch (error) {

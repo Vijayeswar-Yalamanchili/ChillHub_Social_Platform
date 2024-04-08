@@ -1,10 +1,44 @@
 import RegisterLoginModel from '../models/registerLogin_model.js'
 
 const getUsers = async(req,res) => {
+    try {
+        const getusers = await RegisterLoginModel.find()
+        if(getusers){
+            // const user = await RegisterLoginModel.findById({_id : req.params.id})
+            // if(user){
+            //     const myFriendsList = await Promise.all(
+            //         user.friends.map((friendId) => {
+            //             return RegisterLoginModel.findById(friendId).select("-password")
+            //         })
+            //     )
+            //     // console.log(myFriendsList)
+            //     // if (myFriendsList.length >= 1) {
+                    res.status(200).send({
+                        message:"my frds fetched",
+                        // myFriendsList,
+                        getusers
+                        
+                    })
+                // }else{
+                //     res.status(200).send({
+                //         message:"my frds fetched",
+                //         getusers
+                //     })
+                // }
+            
+        }
+       
+    } catch (error) {
+        res.status(500).send({
+            message:"Internal Server Error in getting all users"
+        }) 
+    }
+}
+
+const getUsersBday = async(req,res) => {
     if(req.params.id){
         try {
             const getusers = await RegisterLoginModel.find()
-            // console.log(getusers) 
             res.status(200).send({
                 message:"users fetched",
                 getusers
@@ -120,5 +154,6 @@ export default{
     addFriend,
     removeFriend,
     getUsers,
-    getMyFriends
+    getMyFriends,
+    getUsersBday
 }
