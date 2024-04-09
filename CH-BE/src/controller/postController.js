@@ -15,7 +15,6 @@ const home = async(req,res)=>{
 const createPost = async(req,res) => {
     try {
         const postData = await FeedDatasModel.create({...req.body,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
-        // console.log(postData,"sdfd")
         if(postData){
             res.status(200).send({
                 message:"Feed created",
@@ -23,7 +22,7 @@ const createPost = async(req,res) => {
             })
         }else {
             res.status(400).send({
-                message: "qwe"
+                message: "Something went wrong!!!"
             })
         }
     } catch (error) {
@@ -36,9 +35,7 @@ const createPost = async(req,res) => {
 const getPosts = async(req,res) => {
     try {
         const getpost = await FeedDatasModel.find()
-        // console.log(getpost)
         if(getpost.length >= 1){
-            // getpost.reverse()
             res.status(200).send({
                 message:"posts data fetch by id successful",
                 getpost
@@ -58,9 +55,7 @@ const getPosts = async(req,res) => {
 const getUserPosts = async(req,res) => {
     try {
         const getuserpost = await FeedDatasModel.find({ownerID : req.params.id})
-        // console.log(getuserpost)
         if(getuserpost.length > 0){
-            // getuserpost.reverse()
             res.status(200).send({
                 message:"Userposts data fetch by id successful",
                 getuserpost
@@ -75,17 +70,12 @@ const getUserPosts = async(req,res) => {
             message:"Internal Server Error in getting Userposts"
         }) 
     }
-
 }
 
 const updatePost = async(req,res) => {
     try {
-        // console.log("ppp",req.body)
         const {feededData,imageUrl} = req.body
-        // let postToBeUpdated = await FeedDatasModel.findOne({_id : req.params.postId})
         let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : feededData, "imageUrl" : imageUrl }})
-        // console.log(postToBeUpdated)
-        console.log(postToBeUpdate)
         res.status(200).send({
             message:"Post Updated",
             postToBeUpdate
@@ -99,13 +89,11 @@ const updatePost = async(req,res) => {
 
 const deleteUserPost = async(req,res) => {
     try {
-        // console.log("re",req.params.id,"qq") 
         let postToBeDeleted = await FeedDatasModel.findOneAndDelete({_id:req.params.id})
-        // console.log(postToBeDeleted,"hi")
-                res.status(200).send({
-                    message:"Post deleted please refresh",
-                    postToBeDeleted,
-                })
+        res.status(200).send({
+            message:"Post deleted please refresh",
+            postToBeDeleted,
+        })
     } catch (error) {
         console.log(error)
         res.status(500).send({ 
@@ -116,13 +104,11 @@ const deleteUserPost = async(req,res) => {
 
 const updatePostLikeStatus = async(req,res) => {
     try {
-        // console.log("re",req.params.id,"qq") 
         let postToBeReacted = await FeedDatasModel.findOneAndUpdate({_id:req.params.id},[ { "$set": { "currentLikeStatus": { "$eq": [false, "$currentLikeStatus"] } } } ])
-        // console.log(postToBeReacted,"hi")
-                res.status(200).send({
-                    message:"Post reaction updated",
-                    postToBeReacted,
-                })
+        res.status(200).send({
+            message:"Post reaction updated",
+            postToBeReacted,
+        })
     } catch (error) {
         console.log(error)
         res.status(500).send({

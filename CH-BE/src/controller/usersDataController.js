@@ -2,7 +2,10 @@ import RegisterLoginModel from '../models/registerLogin_model.js'
 
 const addUsersData = async(req,res) => {
     try {
-        const addDatas = await RegisterLoginModel.findOneAndUpdate({_id:req.user.id},{$set : {"imageDP" : req.body.imageDP, "bio" : req.body.bio, "dob" : req.body.dob}})
+        const addDatas = await RegisterLoginModel.findOneAndUpdate(
+            {_id:req.user.id},
+            {$set : {"imageDP" : req.body.imageDP, "bio" : req.body.bio, "dob" : req.body.dob}
+        })
         if(addDatas){
             res.status(200).send({
                 message:"users datas added",
@@ -22,9 +25,7 @@ const addUsersData = async(req,res) => {
 
 const getUsersData = async(req,res) => {
     try {
-        console.log("qwe");
         const getData = await RegisterLoginModel.findOne({_id:req.params.id})
-        // console.log(getData)
         if(getData === null){
             res.status(204).send({
                 message:"No Bio Found"

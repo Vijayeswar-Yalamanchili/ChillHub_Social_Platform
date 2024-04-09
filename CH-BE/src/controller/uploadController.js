@@ -8,13 +8,13 @@ const poststorage = multer.diskStorage({
         cb(null, 'postImages')
     },
     filename: function (req, file, cb) {
-        console.log(file);
+        // console.log(file);
         const uniqueSuffix = Date.now()
         cb(null, uniqueSuffix + path.extname(file.originalname))
     //   cb(null, uniqueSuffix + file.originalname)
     }
-}) 
-  
+})
+
 const postUpload = multer({ storage: poststorage })
 
 //for DP
@@ -26,8 +26,8 @@ const profilePicstorage = multer.diskStorage({
         const uniqueSuffix = Date.now()
         cb(null, uniqueSuffix + path.extname(file.originalname))
     }
-}) 
-  
+})
+
 const profilePicUpload = multer({ storage: profilePicstorage })
 
 export default {

@@ -4,34 +4,15 @@ const getUsers = async(req,res) => {
     try {
         const getusers = await RegisterLoginModel.find()
         if(getusers){
-            // const user = await RegisterLoginModel.findById({_id : req.params.id})
-            // if(user){
-            //     const myFriendsList = await Promise.all(
-            //         user.friends.map((friendId) => {
-            //             return RegisterLoginModel.findById(friendId).select("-password")
-            //         })
-            //     )
-            //     // console.log(myFriendsList)
-            //     // if (myFriendsList.length >= 1) {
-                    res.status(200).send({
-                        message:"my frds fetched",
-                        // myFriendsList,
-                        getusers
-                        
-                    })
-                // }else{
-                //     res.status(200).send({
-                //         message:"my frds fetched",
-                //         getusers
-                //     })
-                // }
-            
+            res.status(200).send({
+                message:"my frds fetched",
+                getusers
+            })
         }
-       
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in getting all users"
-        }) 
+        })
     }
 }
 
@@ -46,7 +27,7 @@ const getUsersBday = async(req,res) => {
         } catch (error) {
             res.status(500).send({
                 message:"Internal Server Error in getting all users"
-            }) 
+            })
         }
     }else{
         res.status(500).send({
@@ -67,18 +48,17 @@ const addFriend = async(req,res) => {
                 }else{
                     const addFriendInUser = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$push : {friends : req.params.friendId}})
                     const addFriendInFriend = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.friendId},{$push : {friends : req.params.id}})
-                    // console.log(addFriendInUser,addFriendInFriend);
                     res.status(200).send({
                         message:"Friend Added",
                         addFriendInUser,
                         addFriendInFriend
                     })
-                }                 
+                }
             }else{
                 res.status(400).send({
                     message:"User Not found"
                 })
-            }            
+            }
         } catch (error) {
             res.status(500).send({
                 message:"Internal Server Error in adding friends"
@@ -103,18 +83,17 @@ const removeFriend = async(req,res) => {
                 }else{
                     const removeFriendInUser = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$pull : {friends : req.params.friendId}})
                     const removeFriendInFriend = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.friendId},{$pull : {friends : req.params.id}})
-                    // console.log(addFriendInUser,addFriendInFriend);
                     res.status(200).send({
                         message:"Removed Friend",
                         removeFriendInUser,
                         removeFriendInFriend
                     })
-                }                 
+                }
             }else{
                 res.status(400).send({
                     message:"User Not found"
                 })
-            }            
+            }
         } catch (error) {
             res.status(500).send({
                 message:"Internal Server Error in removing friends"
@@ -130,7 +109,6 @@ const removeFriend = async(req,res) => {
 const getMyFriends = async(req,res) => {
     try {
         const user = await RegisterLoginModel.findById({_id : req.params.id})
-        // console.log(user)
         if(user){
             const myFriendsList = await Promise.all(
                 user.friends.map((friendId) => {
@@ -141,12 +119,12 @@ const getMyFriends = async(req,res) => {
                 res.status(200).send({
                     message:"my frds fetched",myFriendsList
                 })
-            } 
+            }
         }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in getting myfrds"
-        }) 
+        })
     }
 }
 
