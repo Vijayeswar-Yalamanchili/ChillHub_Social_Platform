@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import {Nav,Navbar,Button,Container,Form,Modal} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"
+import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faBell, faUser, faMagnifyingGlass, faU, faL} from '@fortawesome/free-solid-svg-icons'
+import { faBell, faUser, faMagnifyingGlass, faU, faL} from '@fortawesome/free-solid-svg-icons'
 import logo from '../../../assets/png/ChillHub.png'
 import {useLogout} from '../../../hooks/UseLogout'
+import AxiosService from '../../../utils/AxiosService'
+import ApiRoutes from '../../../utils/ApiRoutes'
 
 function NavbarAfterLogin() {
 
@@ -20,6 +23,20 @@ function NavbarAfterLogin() {
     
     let tokenForUsername = localStorage.getItem('loginToken')
     const decodedUsernameToken = jwtDecode(tokenForUsername)
+
+    const handleLogout = async() => {
+        try {
+            let getToken = localStorage.getItem('loginToken')
+            const decodedToken = jwtDecode(getToken)
+            const id = decodedToken.id
+            let res = await AxiosService.put(`${ApiRoutes.LOGOUT.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            if(res.status === 200){
+              logout()
+            }
+          } catch (error) {
+              toast.error(error.response.data.message || error.message)
+          }
+    }
 
     return <>
         <Navbar expand="lg" className="navbarBg">
@@ -98,7 +115,7 @@ function NavbarAfterLogin() {
                             <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>My Profile
                         </span>
                     </Link>
-                    <Link to={'/'} className="list-group-item list-group-item-action" onClick={logout}>
+                    <Link  className="list-group-item list-group-item-action" onClick={handleLogout}>
                         <span className='d-flex align-items-center' style={{gap:"5px"}}>
                             <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Logout
                         </span>
