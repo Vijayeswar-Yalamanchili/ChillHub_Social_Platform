@@ -128,10 +128,33 @@ const getMyFriends = async(req,res) => {
     }
 }
 
+const getMyOnlineFriends = async(req,res) => {
+    try {
+        const user = await RegisterLoginModel.findById({_id : req.params.id})
+        if(user){
+            const myFriendsList = await Promise.all(
+                user.friends.map((friendId) => {
+                    return RegisterLoginModel.findById(friendId).select("-password")
+                })
+            )
+            if (myFriendsList.length > 0) {
+                res.status(200).send({
+                    message:"my frds fetched",myFriendsList
+                })
+            }
+        }
+    } catch (error) {
+        res.status(500).send({
+            message:"Internal Server Error in getting myfrds"
+        })
+    }
+}
+
 export default{
     addFriend,
     removeFriend,
     getNewFrds,
     getMyFriends,
-    getUsersBday
+    getUsersBday,
+    getMyOnlineFriends
 }

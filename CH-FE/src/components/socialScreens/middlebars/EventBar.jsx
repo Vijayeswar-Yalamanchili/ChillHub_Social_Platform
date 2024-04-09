@@ -26,7 +26,6 @@ function EventBar() {
         }
       })
       if(res.status === 200){
-        // toast.success(res.data.message)
         setUsers(todayBday)
       }
     } catch (error) {
@@ -42,32 +41,32 @@ function EventBar() {
     <div className='mt-4'>
       <h5>Today</h5>
       <div>
-          <Row md={1} lg={2} className="g-5 m-0">
-              {  
-              !users.length == "" ?
-                users.map((e,i) => {
-                  return <div key={e._id} className='mt-3'>
-                    <Col >
-                      <Card style={{ width: '18rem' }} >
-                        <Card.Img variant="top" src={e.imageDP} />
-                        <Card.Body>
-                          <Card.Title>{e.firstName} {e.lastName}</Card.Title>
-                          <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  </div>
-                }) 
-                : 
-                <div >
-                  <Card style={{ width: '18rem' }} >
-                    <Card.Body>
-                      <Card.Text>No Birthdays</Card.Text>                  
-                    </Card.Body>
-                  </Card>
+        <Row md={1} lg={2} className="g-5 m-0">
+          {  
+            !users.length == "" ?
+              users.map((e,i) => {
+                return <div key={e._id} className='mt-3'>
+                  <Col >
+                    <Card style={{ width: '18rem' }} >
+                      <Card.Img variant="top" src={e.imageDP} />
+                      <Card.Body>
+                        <Card.Title>{e.firstName} {e.lastName}</Card.Title>
+                        <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
                 </div>
-              }
-          </Row>
+              }) 
+              : 
+              <div >
+                <Card style={{ width: '18rem' }} >
+                  <Card.Body>
+                    <Card.Text>No Birthdays</Card.Text>                  
+                  </Card.Body>
+                </Card>
+              </div>
+          }
+        </Row>
       </div>
     </div>
   </>

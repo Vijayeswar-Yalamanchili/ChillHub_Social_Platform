@@ -15,28 +15,22 @@ function SuggestFriends({users,setUsers}) {
         const decodedToken = jwtDecode(getToken)
         const id = decodedToken.id
         let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
-        // console.log(res)
         let result = res.data.getusers
         console.log(res.data.getusers);
         let updatedNewFriends = result.filter((e)=>e._id !== id)        
         if(res.status === 200){
-          // toast.success(res.data.message)
           setUsers(updatedNewFriends)
         }
       } catch (error) {
-        console.log(error.message);
-          // toast.error(error.response.data.message || error.message)
+        toast.error(error.response.data.message || error.message)
       }
     }
 
     const handleAddFriend = async(friendId) => {
       try {
         if(friendId !== ""){
-          // console.log(friendId)
           const frdsList = friends.filter((e)=> e.id !== friendId)
-          // console.log(frdsList)
           const addNewFrdsList = users.filter((e)=> e._id !== friendId)
-          // console.log(addNewFrdsList)
           let getToken = localStorage.getItem('loginToken')
           const decodedToken = jwtDecode(getToken)
           const id = decodedToken.id
@@ -49,7 +43,6 @@ function SuggestFriends({users,setUsers}) {
         }
       } catch (error) {
         toast.error(error.response.data.message || error.message)
-        // console.log(error.message)
       }      
     }
 
@@ -70,7 +63,6 @@ function SuggestFriends({users,setUsers}) {
                           <Card.Body>
                             <Card.Title>{e.firstName} {e.lastName} {e._id}</Card.Title>
                             <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button>
-                            {/* <Button variant="primary">Go somewhere</Button> */}
                           </Card.Body>
                         </Card>
                       </Col>

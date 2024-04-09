@@ -41,5 +41,6 @@ router.put('/home/removefriend/:id/:friendId',auth.authenticate,usersController.
 router.get('/home/getusers/:id', auth.authenticate, usersController.getNewFrds)
 router.get('/home/getUsersBday/:id', auth.authenticate, usersController.getUsersBday)
 router.get('/home/getmyfriends/:id', auth.authenticate, usersController.getMyFriends)
+router.get('/home/getmyonlinefriends/:id', auth.authenticate, usersController.getMyOnlineFriends)
 
 export default router 

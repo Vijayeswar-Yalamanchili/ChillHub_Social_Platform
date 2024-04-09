@@ -67,6 +67,10 @@ const ApiRoutes = {
         path : '/home/getmyfriends',
         authenticate : true
     },
+    GETMYONLINEFRIENDS : {
+        path : '/home/getmyonlinefriends',
+        authenticate : true
+    },
     POSTREACTION : {
         path : '/home/updatePostReaction',
         authenticate :true

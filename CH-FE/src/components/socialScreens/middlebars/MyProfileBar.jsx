@@ -53,13 +53,11 @@ function MyProfileBar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      // console.log(res)
       if(res.status === 200){
-        // toast.success(res.data.message)
         setBioText(res.data.getData)
       }
     } catch (error) {
-        toast.error( error.message)
+        toast.error(error.response.data.message || error.message)
     }
   }
 

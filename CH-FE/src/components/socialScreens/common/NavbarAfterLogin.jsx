@@ -33,9 +33,9 @@ function NavbarAfterLogin() {
             if(res.status === 200){
               logout()
             }
-          } catch (error) {
-              toast.error(error.response.data.message || error.message)
-          }
+        } catch (error) {
+            toast.error(error.response.data.message || error.message)
+        }
     }
 
     return <>
@@ -59,9 +59,7 @@ function NavbarAfterLogin() {
                     </Form>
 
                     <div className=' d-flex justify-content-between flex-row align-items-center'>
-                        {/* <Link to={'/mytimeline'} style={{textDecoration:'none'}}> */}
-                            <div style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div>
-                        {/* </Link> */}
+                        <div style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div>
                         
                         <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
                         <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>
