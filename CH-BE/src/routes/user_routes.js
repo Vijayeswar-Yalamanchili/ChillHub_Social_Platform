@@ -24,7 +24,7 @@ router.put('/home/logout/:id',auth.authenticate,registerLoginController.logout)
 
 //AfterLogin
 router.get('/home',auth.authenticate,auth.userGuard,postController.home)
-router.post('/home/addpost',auth.authenticate,auth.getUserEmail,uploadController.postUpload.single('img-file') ,postController.createPost) 
+router.post('/home/addpost',auth.authenticate,auth.getUserEmail,uploadController.postUpload.single('img-file') ,postController.createPost)
 router.get('/home/getposts/:id', auth.authenticate, postController.getPosts)
 router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPosts)
 router.delete('/home/deleteuserpost/:id',auth.authenticate, postController.deleteUserPost)
@@ -38,7 +38,7 @@ router.get('/home/getuserdatas/:id', auth.authenticate, usersDataController.getU
 //frds datas
 router.put('/home/addfriend/:id/:friendId',auth.authenticate,usersController.addFriend)
 router.put('/home/removefriend/:id/:friendId',auth.authenticate,usersController.removeFriend)
-router.get('/home/getusers/:id', auth.authenticate, usersController.getUsers)       //suggestion frds & todayBdays
+router.get('/home/getusers/:id', auth.authenticate, usersController.getNewFrds)
 router.get('/home/getUsersBday/:id', auth.authenticate, usersController.getUsersBday)
 router.get('/home/getmyfriends/:id', auth.authenticate, usersController.getMyFriends)
 

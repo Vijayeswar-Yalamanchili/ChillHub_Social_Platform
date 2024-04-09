@@ -1,6 +1,6 @@
 import RegisterLoginModel from '../models/registerLogin_model.js'
 
-const getUsers = async(req,res) => {
+const getNewFrds = async(req,res) => {
     try {
         const getusers = await RegisterLoginModel.find()
         if(getusers){
@@ -131,7 +131,7 @@ const getMyFriends = async(req,res) => {
 export default{
     addFriend,
     removeFriend,
-    getUsers,
+    getNewFrds,
     getMyFriends,
     getUsersBday
 }
