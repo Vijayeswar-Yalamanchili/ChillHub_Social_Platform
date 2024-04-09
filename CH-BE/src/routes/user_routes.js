@@ -14,7 +14,7 @@ const router = express.Router()
 // })
 
 
-// Register & Login
+// Register, Login & Logout
 router.post('/',registerLoginController.login)
 router.post('/register',registerLoginController.register)
 router.put('/forgotPassword',registerLoginController.forgotPassword)
