@@ -27,7 +27,7 @@ function Leftbar() {
             <FontAwesomeIcon icon={faComments} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Messages
           </span>
         </Link>
-        <div className="dropdown">
+        {/* <div className="dropdown">
           <Link to={''} className="list-group-item list-group-item-action">
             <span className='d-flex align-items-center' style={{gap:"5px"}}>
               <FontAwesomeIcon icon={faGroupArrowsRotate} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Pages
@@ -37,7 +37,7 @@ function Leftbar() {
               <a href="#">Create Page</a>
               <a href="#">Page 1</a>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   </>
