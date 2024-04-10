@@ -17,7 +17,6 @@ function Rightbar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETMYONLINEFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
-      console.log(res.data.myFriendsList)
       let result = res.data.myFriendsList
       let onlineFrds = result.filter((e)=> e.isLoggedIn === true)
       if(res.status === 200){

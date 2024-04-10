@@ -1,4 +1,5 @@
 import FeedDatasModel from "../models/postModel.js"
+import RegisterLoginModel from "../models/registerLogin_model.js"
 
 const home = async(req,res)=>{
     try {
@@ -34,11 +35,16 @@ const createPost = async(req,res) => {
 
 const getPosts = async(req,res) => {
     try {
+        // console.log(req.params)
         const getpost = await FeedDatasModel.find()
         if(getpost.length >= 1){
+            const user = await RegisterLoginModel.findById({_id : req.params.id})
+            const frdsPost = user?.friends
+            // console.log(frdsPost)
             res.status(200).send({
                 message:"posts data fetch by id successful",
-                getpost
+                getpost,
+                frdsPost
             })
         }else {
             res.status(204).send({

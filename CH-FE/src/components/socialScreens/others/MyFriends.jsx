@@ -12,7 +12,7 @@ function MyFriends({myFriends, setMyFriends}) {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
+      let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
       if(res.status === 200){
         setMyFriends(res.data.myFriendsList)
       }
@@ -29,12 +29,10 @@ function MyFriends({myFriends, setMyFriends}) {
         let getToken = localStorage.getItem('loginToken')
         const decodedToken = jwtDecode(getToken)
         const id = decodedToken.id
-        let res = await AxiosService.put(`${ApiRoutes.REMOVEFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})
-        // console.log(res)
-        
+        let res = await AxiosService.put(`${ApiRoutes.REMOVEFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})      
       }
     } catch (error) {
-      // toast.error(error.response.data.message || error.message)
+      toast.error(error.response.data.message || error.message)
       console.log(error.message)
     }   
   }

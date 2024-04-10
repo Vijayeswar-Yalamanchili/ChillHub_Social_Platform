@@ -123,10 +123,15 @@ function Feedbar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      if(res.status === 200){
-        // toast.success(res.data.message)
-        setPosts(res.data.getpost.reverse())
-      }
+      console.log(res.data)
+      const getpostResult = res.data.getpost
+      const frdspostResult = res.data.frdsPost
+      let postsfeed = frdspostResult.filter((e,i)=> e[i] === getpostResult.ownerID)
+      console.log(postsfeed);
+      // if(res.status === 200){
+      //   // toast.success(res.data.message)
+      //   setPosts(res.data.postsfeed.reverse())
+      // }
     } catch (error) {
         toast.error(error.response.data.message || error.message)
     }

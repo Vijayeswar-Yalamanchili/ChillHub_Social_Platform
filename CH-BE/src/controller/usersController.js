@@ -46,8 +46,8 @@ const addFriend = async(req,res) => {
                         message:"Can't follow the same user twice"
                     })
                 }else{
-                    const addFriendInUser = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$push : {friends : req.params.friendId}})
-                    const addFriendInFriend = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.friendId},{$push : {friends : req.params.id}})
+                    const addFriendInUser = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$push : {friends : {userId : req.params.friendId}}})
+                    const addFriendInFriend = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.friendId},{$push : {friends : {userId : req.params.id}}})
                     res.status(200).send({
                         message:"Friend Added",
                         addFriendInUser,
@@ -76,13 +76,13 @@ const removeFriend = async(req,res) => {
         try {
             const user = await RegisterLoginModel.findById({_id : req.params.id})
             if(user){
-                if (!user.friends.includes(req.params.friendId)) {
+                if (user.friends.includes(req.params.friendId)) {
                     res.status(400).send({
                         message:"Can't unfollow someone you don't follow in the first place"
                     })
                 }else{
-                    const removeFriendInUser = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$pull : {friends : req.params.friendId}})
-                    const removeFriendInFriend = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.friendId},{$pull : {friends : req.params.id}})
+                    const removeFriendInUser = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.id},{$pull : {friends : {userId : req.params.friendId}}})
+                    const removeFriendInFriend = await RegisterLoginModel.findByIdAndUpdate({_id:req.params.friendId},{$pull : {friends : {userId : req.params.id}}})
                     res.status(200).send({
                         message:"Removed Friend",
                         removeFriendInUser,
@@ -111,13 +111,18 @@ const getMyFriends = async(req,res) => {
         const user = await RegisterLoginModel.findById({_id : req.params.id})
         if(user){
             const myFriendsList = await Promise.all(
-                user.friends.map((friendId) => {
-                    return RegisterLoginModel.findById(friendId).select("-password")
+                user.friends.map((e) => {
+                    return RegisterLoginModel.findById(e.userId).select("-password")
                 })
             )
+            // console.log(myFriendsList, "hi")
             if (myFriendsList.length > 0) {
                 res.status(200).send({
                     message:"my frds fetched",myFriendsList
+                })
+            }else{
+                res.status(400).send({
+                    message : "No friends found"
                 })
             }
         }
@@ -133,8 +138,8 @@ const getMyOnlineFriends = async(req,res) => {
         const user = await RegisterLoginModel.findById({_id : req.params.id})
         if(user){
             const myFriendsList = await Promise.all(
-                user.friends.map((friendId) => {
-                    return RegisterLoginModel.findById(friendId).select("-password")
+                user.friends.map((e) => {
+                    return RegisterLoginModel.findById(e.userId).select("-password")
                 })
             )
             if (myFriendsList.length > 0) {
