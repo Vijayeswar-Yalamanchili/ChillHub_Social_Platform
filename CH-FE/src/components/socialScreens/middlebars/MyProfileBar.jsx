@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form,Button,Modal } from 'react-bootstrap'
+import { Form,Button,Modal,Image } from 'react-bootstrap'
 import UserTimeline from './UserTimeline'
 import { toast } from 'react-toastify'
 import AxiosService from '../../../utils/AxiosService'
@@ -69,7 +69,7 @@ function MyProfileBar() {
     <div className='mt-4' style={{width:"100%"}}>
       <div className='profileDatas d-flex justify-content-between flex-row align-items' style={{gap: "5%"}}>
         <div className='profilePicImageArea'>
-          <img src={bioText.imageDP} className='imageFile'/>          
+          <Image src={bioText.imageDP} className='imageFile' roundedCircle />          
         </div>
         <div className='bioText'>
           <div>{bioText.bio}</div>
@@ -93,7 +93,7 @@ function MyProfileBar() {
           
           <div className='profilePic d-flex justify-content-around flex-row align-items-center'>
             <div className='profilePicImageArea'>
-              <img src={selectedFile} className='imageFile'/>          
+              <Image src={selectedFile} className='imageFile' roundedCircle />          
             </div>
             <Button type='button' variant='secondary' > 
               <label htmlFor="file">Edit Picture</label>

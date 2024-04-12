@@ -40,12 +40,23 @@ const getPosts = async(req,res) => {
         if(getpost.length >= 1){
             const user = await RegisterLoginModel.findById({_id : req.params.id})
             const frdsPost = user?.friends
-            // console.log(frdsPost)
+            let postsfeed = frdsPost.filter((e)=> {
+                return getpost.filter((ele)=> {
+                  return ele.ownerID === e.userId
+                })
+              })
+           if(postsfeed.length >= 1){
+            // console.log(postsfeed.length);
+            // const {userId} = postsfeed
+            // let frdsFeed = await FeedDatasModel.find()
+            // console.log(frdsFeed)
             res.status(200).send({
                 message:"posts data fetch by id successful",
                 getpost,
-                frdsPost
+                frdsPost,
+                // frdsFeed
             })
+           }
         }else {
             res.status(204).send({
                 message:"No posts available",

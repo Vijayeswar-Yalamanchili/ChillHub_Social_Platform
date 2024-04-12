@@ -357,9 +357,7 @@
 .userImage{
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    /* background-color: red; */
 }
 
 .openAddFeedBtn{
@@ -406,8 +404,6 @@
     aspect-ratio: 16/9;
     object-fit: contain;
     margin-top: 2px;
-    /* border-top-right-radius: 15px !important;
-    border-top-left-radius: 15px !important; */
 }
 
 .likeBtn{
@@ -451,9 +447,6 @@
 .imageFile{
     width: 11rem;
     height: 11rem;
-    border: none !important;
-    border-radius: 50%;
-    /* position: absolute; */
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -466,5 +459,4 @@
     outline: none;
     border-radius: 15px !important;
     padding: 2%;
-    /* height: 450px; */
 }

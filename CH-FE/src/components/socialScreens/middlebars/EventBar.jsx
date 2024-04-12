@@ -51,7 +51,7 @@ function EventBar() {
                       <Card.Img variant="top" src={e.imageDP} />
                       <Card.Body>
                         <Card.Title>{e.firstName} {e.lastName}</Card.Title>
-                        <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button>
+                        {/* <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button> */}
                       </Card.Body>
                     </Card>
                   </Col>

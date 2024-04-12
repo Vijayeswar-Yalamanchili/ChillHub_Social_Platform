@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Row, Col,Button,Card,Modal,Form} from 'react-bootstrap'
+import {Row, Col,Button,Card,Modal,Form, Image} from 'react-bootstrap'
 import EmojiPicker from 'emoji-picker-react'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -128,11 +128,12 @@ function Feedbar() {
       const frdspostResult = res.data.frdsPost
       let postsfeed = frdspostResult.filter((e,i)=> e[i] === getpostResult.ownerID)
       console.log(postsfeed);
-      // if(res.status === 200){
-      //   // toast.success(res.data.message)
-      //   setPosts(res.data.postsfeed.reverse())
-      // }
+      if(res.status === 200){
+        // toast.success(res.data.message)
+        setPosts(res.data.postsfeed.reverse())
+      }
     } catch (error) {
+        console.log(error.message)
         toast.error(error.response.data.message || error.message)
     }
   }
@@ -165,12 +166,12 @@ function Feedbar() {
   return <>
     <div className='mt-4 px-4'>
       <div className='d-flex flex-row justify-content-between'>
-        {isLoggedIn? <img src={decodeduserDetailsToken.imageDP} className='userImage'/>: null}
+        {isLoggedIn? <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/> : null}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
       </div>
       <div className="feedArea mt-3">
         {
-          posts.map((e,i)=>{
+          posts.map((e)=>{
             return <div key={e._id}>
               <Col>
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
