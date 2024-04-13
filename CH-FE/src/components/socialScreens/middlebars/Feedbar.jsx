@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import {Row, Col,Button,Card,Modal,Form, Image} from 'react-bootstrap'
+import {Row, Col,Button,Card,Modal,Form, Image } from 'react-bootstrap'
 import EmojiPicker from 'emoji-picker-react'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
-import { faEdit, faPaperclip} from '@fortawesome/free-solid-svg-icons'
+import {faPaperPlane, faEdit, faPaperclip} from '@fortawesome/free-solid-svg-icons'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import { jwtDecode } from "jwt-decode"
@@ -17,8 +17,10 @@ function Feedbar() {
   const [selectedFile, setSelectedFile] = useState()
   const [currentPostId, setCurrentPostId] = useState()
   const [editShow, setEditShow] = useState(false)
-  const [editInputStr, setEditInputStr] = useState()
+  const [editInputStr, setEditInputStr] = useState('')
   const [editSelectedFile, setEditSelectedFile] = useState()
+  const [commentInput,setCommentInput] = useState()
+  const [comments,setComments] = useState([])
   const isLoggedIn = true
 
   const handleClose = () => setShow(false)
@@ -123,14 +125,14 @@ function Feedbar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      console.log(res.data)
+      // console.log(res.data)
       const getpostResult = res.data.getpost
       const frdspostResult = res.data.frdsPost
       let postsfeed = frdspostResult.filter((e,i)=> e[i] === getpostResult.ownerID)
-      console.log(postsfeed);
+      // console.log(postsfeed);
       if(res.status === 200){
         // toast.success(res.data.message)
-        setPosts(res.data.postsfeed.reverse())
+        setPosts(res.data.getpost.reverse())
       }
     } catch (error) {
         console.log(error.message)
@@ -156,11 +158,53 @@ function Feedbar() {
     }
   }
 
+  const handleComment = async(postId) => {
+    try {
+      console.log(postId);
+      const formData = new FormData()
+      formData.append('commentText', commentInput)
+      const formProps = Object.fromEntries(formData)
+      console.log(formProps)
+      let token = localStorage.getItem('loginToken')
+      const decodedToken = jwtDecode(token)
+      const id = decodedToken.id
+      console.log(id);
+      let res = await AxiosService.post(`${ApiRoutes.COMMENTUSERPOST.path}/${id}/${postId}`,formProps,{
+        headers:{
+          "Content-Type" : "application/json",
+          "Authorization" : `${token}`
+        }
+      })
+      console.log(res);
+      setCommentInput('')
+    } catch (error) {
+      toast.error(error.response.data.message || error.message)
+    }
+  }
+
+  const getComments = async() => {
+    try {
+      let getToken = localStorage.getItem('loginToken')
+      const decodedToken = jwtDecode(getToken)
+      const id = decodedToken.id
+      // let res = await AxiosService.get(`${ApiRoutes.GETCOMMENTUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      // console.log(res.data.getuserpostcomment)
+      // if(res.status === 200){
+      //   // toast.success(res.data.message)
+      //   setComments(res.data.getuserpostcomment.reverse())
+      // }
+    } catch (error) {
+      console.log(error.message)
+        // toast.error(error.response.data.message || error.message)
+    }
+  }
+
   let getDetailsToken = localStorage.getItem('loginToken')
   const decodeduserDetailsToken = jwtDecode(getDetailsToken)
 
   useEffect(() => {
-    getPostData()
+    getPostData(),
+    getComments()
   },[]) 
 
   return <>
@@ -175,8 +219,12 @@ function Feedbar() {
             return <div key={e._id}>
               <Col>
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                  <div className='postHeader py-2 px-3 d-flex justify-content-between flex-row align-items-center'>
-                    <div className="fw-bold">{e.ownerName}</div>
+                  <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
+                    {/* <div className="fw-bold">{e.ownerName}</div> */}
+                    <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
+                      <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
+                       <div><b>{e.ownerName}</b></div>
+                    </div>
                     {e.ownerName === decodeduserDetailsToken.name ? 
                     <div>
                       <Button type='button' variant='none' onClick={() => handleEditPost(e._id)}>
@@ -197,13 +245,48 @@ function Feedbar() {
                   </div>
                   <Card.Body className='p-0'>
                     <Row>
-                      {!e.currentLikeStatus  ? 
-                          <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Like</Button></Col> 
-                        : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Liked</Button></Col>
+                      {
+                        !e.currentLikeStatus  ? 
+                            <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Like</Button></Col> 
+                          : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Liked</Button></Col>
                       } 
-                      <Col style={{padding:"0px"}}><Button variant="light" className='commentBtn' style={{ width: '100%' }}>Comment</Button></Col>
                       <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
                     </Row>
+                    
+                    <div className='commentSection'>
+                      <div className='px-2'>
+                        <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
+                          <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
+                          <div><b>{e.ownerName}</b></div>
+                        </div>
+                        <Form className='my-2 d-flex justify-content-between' style={{width : "100%"}}>
+                          <Form.Group className="commentArea">
+                            <Form.Control type="text" placeholder="Enter your Comment" name='commentText'defaultValue={commentInput} onChange={(e)=>setCommentInput(e.target.value)}/>
+                          </Form.Group>
+                          <Button onClick={()=>handleComment(e._id)} style={{backgroundColor : "transparent", border : "none"}}>
+                            <FontAwesomeIcon icon={faPaperPlane} style={{color: "#EB8D8D",width : "1.25rem",height : "1.25rem"}}/>
+                          </Button>
+                        </Form>
+                      </div>
+                      <div className='px-2'>
+                        {
+                          comments.map((e)=> {
+                            return <div key={e._id}>
+                              <Col>
+                                <Card>
+                                  <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
+                                    <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
+                                    <div><b>{decodeduserDetailsToken.name}</b></div>
+                                  </div>
+                                  <Card.Body className='p-2'>{e.commentText}</Card.Body>
+                                </Card>
+                              </Col>
+                              
+                            </div>
+                          })
+                        }
+                      </div>
+                    </div>
                   </Card.Body>
                 </Card>
               </Col>

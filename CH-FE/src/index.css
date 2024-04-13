@@ -407,20 +407,24 @@
 }
 
 .likeBtn{
-    border-right: 1px solid rgba(0, 0, 0, 0.338) !important;;
-    border-bottom-left-radius: 15px !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.338) !important;
+    border-bottom-left-radius: 0px !important;
     border-top-left-radius: 0px !important;
 }
 
-.commentBtn{
+/* .commentBtn{
     border-left: 1px solid rgba(0, 0, 0, 0.338) !important;
     border-right: 1px solid rgba(0, 0, 0, 0.338) !important;
-}
+} */
 
 .reportBtn{
-    border-bottom-right-radius: 15px !important;
+    border-bottom-right-radius: 0px !important;
     border-left: 1px solid rgba(0, 0, 0, 0.338) !important;
     border-top-right-radius: 0px !important;
+}
+
+.commentArea{
+    width: 100%;
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */

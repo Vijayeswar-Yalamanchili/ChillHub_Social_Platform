@@ -5,6 +5,7 @@ import auth from '../helper/auth.js'
 import uploadController from '../controller/uploadController.js'
 import usersDataController from '../controller/usersDataController.js'
 import usersController from '../controller/usersController.js'
+import commentsController from '../controller/commentsController.js'
 // import multer from 'multer'
 
 const router = express.Router()
@@ -30,6 +31,8 @@ router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPo
 router.delete('/home/deleteuserpost/:id',auth.authenticate, postController.deleteUserPost)
 router.post('/home/updatepost/:id/:postId',auth.authenticate,postController.updatePost)
 router.put('/home/updatePostReaction/:id', postController.updatePostLikeStatus)
+router.post('/home/commentuserpost/:id/:postId', auth.authenticate,auth.getUserEmail,commentsController.addComments)
+router.get('/home/getcommentuserpost/:id', auth.authenticate,commentsController.getComments)
 
 // User Profile Datas
 router.post('/home/adduserdatas',auth.authenticate,auth.getUserEmail,uploadController.profilePicUpload.single('imageDP'),usersDataController.addUsersData)

@@ -39,6 +39,14 @@ const ApiRoutes = {
         path : '/home/deleteuserpost',
         authenticate : true
     },
+    COMMENTUSERPOST : {
+        path : '/home/commentuserpost',
+        authenticate : true
+    },
+    GETCOMMENTUSERPOST : {
+        path : '/home/getcommentuserpost',
+        authenticate : true
+    },
     ADDUSERBIO : {
         path : '/home/adduserdatas',
         authenticate : true
