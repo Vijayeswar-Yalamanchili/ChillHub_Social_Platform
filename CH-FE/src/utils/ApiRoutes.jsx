@@ -19,6 +19,10 @@ const ApiRoutes = {
         path : '/home',
         authenticate : false
     },
+    SEARCHDATA : {
+        path : '/home/searchdata',
+        authenticate : true
+    },
     ADDPOST : {
         path : '/home/addpost',
         authenticate : true

@@ -17,6 +17,8 @@ function NavbarAfterLogin() {
 
     const [notify,setNotify] = useState(false);
     const [myProfile, setMyProfile] = useState(false)
+    const [searchQuery, setSearchQuery] = useState("")
+    const [searchResults, setSearchResults] = useState([])
 
     const handleNotify = () => setNotify(!notify)
     const handleMyProfile = () => setMyProfile(!myProfile)
@@ -38,6 +40,33 @@ function NavbarAfterLogin() {
         }
     }
 
+    const handleSearchChange = (searchValue) => {
+        // console.log(searchValue)
+        setSearchQuery(searchValue)
+        getSearchData(searchValue)
+    }
+
+    const getSearchData = async(searchValue) => {
+        try {
+            let getToken = localStorage.getItem('loginToken')
+            const decodedToken = jwtDecode(getToken)
+            const id = decodedToken.id
+            console.log(id,searchValue);
+            let res = await AxiosService.get(`${ApiRoutes.SEARCHDATA.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            // console.log(res.data.searchDatas)
+            let result = res.data.searchDatas
+            // console.log(result.firstName);
+            let filteredData = result.filter((user)=> {
+                return searchValue && user && (user.firstName + user.lastName) && (user.firstName + user.lastName).toLowerCase().includes(searchValue)
+            })
+            // console.log(filteredData)
+            setSearchResults(filteredData)
+        } catch (error) {
+            console.log(error.message)
+            toast.error(error.response.data.message || error.message)
+        }
+    }
+
     return <>
         <Navbar expand="lg" className="navbarBg">
             <Container fluid className='containerBlock'>
@@ -50,15 +79,26 @@ function NavbarAfterLogin() {
                     </span>
                 </Navbar.Brand>
 
-                <div className='navbarMenu d-flex justify-content-between'>
-                    <Form>
-                        <Form.Control type="search" placeholder="Search" id="searchbar" className="me-2" aria-label="Search"/>
-                        <Button className='searchIcon'>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} size='xl' style={{color: "white"}}/>
-                        </Button>
-                    </Form>
-
-                    <div className=' d-flex justify-content-between flex-row align-items-center'>
+                <div className='searchField'>                        
+                    <div className='searchBlock'>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "black"}}/>  
+                        <input placeholder='Search friends here ...' className='searchBar' value={searchQuery} onChange={(e)=>handleSearchChange(e.target.value)}/>
+                    </div>
+                    {
+                        searchQuery === ""? null : 
+                        <div className='searchResultsList'>
+                        {
+                            searchResults !== "" ?
+                             searchResults.map((e)=> {
+                                return <div className='searchResultValue'>{e.firstName} {e.lastName}</div>
+                            }) : null
+                        }
+                    </div>
+                    }
+                </div>
+                
+                <div className='navbarMenu d-flex justify-content-end'>
+                    <div className='d-flex justify-content-between flex-row align-items-center'>
                         <div style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div>
                         
                         <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>

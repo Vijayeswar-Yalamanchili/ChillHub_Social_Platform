@@ -152,6 +152,14 @@
     background-color: transparent !important;
 }
 
+.searchResultValue{
+    padding: 10px;
+}
+
+.searchResultValue:hover{
+    background-color: rgb(244, 244, 244);
+}
+
 .NavIcon{
     width: 3.5rem;
     height: 3.5rem;
@@ -208,12 +216,18 @@
         width: 22% !important;
         margin-right: 2.5rem !important;
     }
+    .searchBlock{
+        display: none !important;
+    }
 }
 
 @media screen and (min-width : 576px) and (max-width : 768px){
     .navbarMenu{
         width: 17% !important;
         margin-right: 2rem !important;
+    }
+    .searchBlock{
+        display: none !important;
     }
 }
 
@@ -249,12 +263,31 @@
         width: 15%;
         margin-right: 1rem;
     }
-    #searchbar{
+    .containerBlock{
+        margin-top: -10px;
+    }
+    .searchBlock{
+        width: 22rem;
+        background-color: white;
+        border-radius: 10px;
+        height: 2.5rem;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .searchBar {
+        border: none;
+        outline: none;
+        width: 100%;
+        padding: 0 5px;
+    }
+    /* #searchbar{
         display: none !important;
     }
     .searchIcon{
         display: block !important;
-    }
+    } */
 }
 
 @media screen and (min-width: 992px){
@@ -265,24 +298,60 @@
         display: none !important;
     }
     .navbarMenu{
-        width: 75%;
+        width: 20% !important;
     }
-    #searchbar{
+    .searchField{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 1rem;
+        left: 25rem;
+    }
+    .searchBlock{        
+        width: 25rem;
+        background-color: white;
+        border-radius: 10px;
+        height: 2.5rem;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .searchBar {
+        border: none;
+        outline: none;
+        width: 100%;
+        padding: 0 5px;
+    }
+    .searchResultsList{
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 0 8px #ddd;
+        border-radius: 10px;
+        margin-top: 0.5rem;
+        /* padding: 10px; */
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+    /* #searchbar{
         display: block !important;
         width: 25rem !important;
     }
     .searchIcon{
         display: none !important;
-    }
+    } */
 }
 
 @media screen and (min-width: 1025px){
-    #searchbar{
+    /* #searchbar{
         display: block !important;
         width: 25rem !important;
+    } */
+    .searchField{
+        margin-left: 6rem;
     }
     .navbarMenu{
-        width: 65%;
+        width: 25% !important;
     }
 }
 

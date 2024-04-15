@@ -6,6 +6,7 @@ import uploadController from '../controller/uploadController.js'
 import usersDataController from '../controller/usersDataController.js'
 import usersController from '../controller/usersController.js'
 import commentsController from '../controller/commentsController.js'
+import searchController from '../controller/searchController.js'
 // import multer from 'multer'
 
 const router = express.Router()
@@ -25,6 +26,7 @@ router.put('/home/logout/:id',auth.authenticate,registerLoginController.logout)
 
 //AfterLogin
 router.get('/home',auth.authenticate,auth.userGuard,postController.home)
+router.get('/home/searchdata/:id',auth.authenticate,searchController.searchData)
 router.post('/home/addpost',auth.authenticate,auth.getUserEmail,uploadController.postUpload.single('img-file') ,postController.createPost)
 router.get('/home/getposts/:id', auth.authenticate, postController.getPosts)
 router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPosts)
