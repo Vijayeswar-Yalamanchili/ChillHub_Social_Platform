@@ -138,7 +138,7 @@
     align-items: center;
 }
 
-#searchbar{
+/* #searchbar{
     outline:none;
     border:none;
     border-radius: 1.25em;
@@ -150,7 +150,7 @@
 .searchIcon{
     border: none !important;
     background-color: transparent !important;
-}
+} */
 
 .searchResultValue{
     padding: 10px;
@@ -235,7 +235,7 @@
     .rightbarNofication{
         background-color: #EB8D8D;
         color: white;
-        width: 50% !important;
+        width: max-content !important;
     }
     .NavIcon{
         display: none !important;
@@ -246,12 +246,12 @@
     .notificationsDrpdwn{
         position: absolute !important;
         right: 5rem !important;
-        top: 11rem !important;
+        top: 8rem !important;
     }
     .myProfileDrpdwn{
         position: absolute !important;
         right: 5rem !important;
-        top: 13rem !important;
+        top: 10rem !important;
     }
     .collapse, .navbar-collapse{
         position: absolute;
@@ -305,7 +305,7 @@
         flex-direction: column;
         position: absolute;
         top: 1rem;
-        left: 25rem;
+        left: 20%;
     }
     .searchBlock{        
         width: 25rem;
@@ -342,17 +342,36 @@
     } */
 }
 
-@media screen and (min-width: 1025px){
+@media screen and (min-width: 1024px){
     /* #searchbar{
         display: block !important;
         width: 25rem !important;
     } */
     .searchField{
         margin-left: 6rem;
+        position: absolute;
+        top: 1rem;
+        left: 20%;
     }
     .navbarMenu{
         width: 25% !important;
     }
+}
+
+@media screen and (min-width: 1200px){
+    /* #searchbar{
+        display: block !important;
+        width: 25rem !important;
+    } */
+    .searchField{
+        margin-left: 6rem;
+        position: absolute;
+        top: 1rem;
+        left: 25%;
+    }
+    /* .navbarMenu{
+        width: 25% !important;
+    } */
 }
 
 /* ------------------------------------------------------------------------------------------------ */
