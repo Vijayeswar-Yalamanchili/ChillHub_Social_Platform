@@ -3,7 +3,6 @@ import {Container,Row, Col} from 'react-bootstrap';
 import NavbarAfterLogin from './common/NavbarAfterLogin'
 import Leftbar from './common/Leftbar';
 import Rightbar from './common/Rightbar'
-import Feedbar from './middlebars/Feedbar';
 import UserTimeline from './middlebars/UserTimeline';
 
 
