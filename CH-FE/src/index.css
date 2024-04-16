@@ -199,7 +199,7 @@
 
 @media screen and (max-width : 576px){
     .navbarMenu{
-        width: 15% !important;
+        width: 17% !important;
     }
     .searchBlock{
         display: none !important;
@@ -211,9 +211,9 @@
 
 @media screen and (min-width : 576px) and (max-width : 768px){
     .navbarMenu{
-        width: 25% !important;
+        width: 10% !important;
     }
-    .searchBlock{
+    .searchBlock, .userName{
         display: none !important;
     }
 }
@@ -419,6 +419,9 @@
     .leftBar {
         border: none;
     }
+    .rightBar{
+        display: none;
+    }
     .list-group-item{
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
@@ -481,6 +484,9 @@
     }
     .leftMenuIconRow{
         display: none !important;
+    }
+    .onlineBtn{
+        display: none;
     }
 }
 
