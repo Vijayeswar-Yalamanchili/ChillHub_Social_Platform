@@ -451,6 +451,15 @@
     }
 }
 
+@media screen and (min-width : 576px) and (max-width : 768px){
+    .rightBar{
+        display: block;
+    }
+    .rightBarSlide{
+        display: none;
+    }
+}
+
 @media screen and (max-width : 768px){
     .leftMenuText{
         display: none !important;
@@ -460,12 +469,6 @@
     }
     .leftMenuIconRow{
         display: none !important;
-    }
-    .rightBar{
-        display: none;
-    }
-    .rightBarSlide{
-        display: block;
     }
 }
 
