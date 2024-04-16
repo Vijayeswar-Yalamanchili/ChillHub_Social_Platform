@@ -68,15 +68,15 @@ function Rightbar() {
       {
         !sidebarOpen ? null :
           <div className='sidebar p-2'>
-            <h5>Friends Online</h5>
+            <h5 className='ms-2 mt-2'>Friends Online</h5>
             {
               <ul className="list-group list-group-flush" id="listFriend">
                 {
                   onlineFriends.length >= 1 ?
                     onlineFriends.map((e)=>{
-                      return <div key={e._id} className="list-group-item list-group-item-action p-0">
+                      return <div key={e._id} className="list-group-item list-group-item-action p-0" style={{backgroundColor : "transparent"}}>
                         <Button variant='none'>
-                          <li style={{listStyleType:"none",float:"left", gap:"5px"}} className='d-flex align-items-center'>
+                          <li style={{listStyleType:"none",float:"left", gap:"5px", color : "white   "}} className='d-flex align-items-center'>
                             <FontAwesomeIcon icon={faCircle} size='xl' style={{color: "#46F443", width:"8px"}}/>{e.firstName} {e.lastName}
                           </li>
                         </Button>
