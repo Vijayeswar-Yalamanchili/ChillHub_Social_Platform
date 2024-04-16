@@ -138,20 +138,6 @@
     align-items: center;
 }
 
-/* #searchbar{
-    outline:none;
-    border:none;
-    border-radius: 1.25em;
-    height: 2.5rem;
-    width: 20rem;
-    padding: 5%;
-}
-
-.searchIcon{
-    border: none !important;
-    background-color: transparent !important;
-} */
-
 .searchResultValue{
     padding: 10px;
 }
@@ -262,7 +248,6 @@
     }
     .navbarMenu{
         width: 25%;
-        /* margin-right: 1rem; */
     }
     .userName{
         display: block;
@@ -287,12 +272,6 @@
         width: 100%;
         padding: 0 5px;
     }
-    /* #searchbar{
-        display: none !important;
-    }
-    .searchIcon{
-        display: block !important;
-    } */
 }
 
 @media screen and (min-width: 992px){
@@ -334,24 +313,12 @@
         box-shadow: 0 0 8px #ddd;
         border-radius: 10px;
         margin-top: 0.5rem;
-        /* padding: 10px; */
         max-height: 200px;
         overflow-y: scroll;
     }
-    /* #searchbar{
-        display: block !important;
-        width: 25rem !important;
-    }
-    .searchIcon{
-        display: none !important;
-    } */
 }
 
 @media screen and (min-width: 1024px){
-    /* #searchbar{
-        display: block !important;
-        width: 25rem !important;
-    } */
     .searchField{
         margin-left: 6rem;
         position: absolute;
@@ -364,10 +331,6 @@
 }
 
 @media screen and (min-width: 1200px){
-    /* #searchbar{
-        display: block !important;
-        width: 25rem !important;
-    } */
     .searchField{
         margin-left: 6rem;
         position: absolute;
@@ -445,6 +408,80 @@
     margin-right: 5%;
 }
 
+@media screen and (max-width : 576px){
+    .leftMenuText{
+        display: none !important;
+    }
+    .leftMenuIcon{
+        display: block;
+        width: 3rem;
+    }
+    .leftBar {
+        border: none;
+    }
+    .list-group-item{
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    .onlineBtn{
+        position: absolute;
+        top: 18rem;
+        left: 0;
+        background-color: #bcb6b663;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0 15px 15px 0;
+    }
+    .onlineIcon{
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+    }
+    .sidebar{
+        position: fixed;
+        top: 5.1rem;
+        border-top-left-radius: 20px;
+        right: 0;
+        z-index: 1;
+        background-color: #EB8D8D;
+        color: white;
+        width: 12rem;
+        height: 100%;
+        overflow-y: scroll;
+    }
+}
+
+@media screen and (max-width : 768px){
+    .leftMenuText{
+        display: none !important;
+    }
+    .leftMenuIcon{
+        display: block !important;
+    }
+    .leftMenuIconRow{
+        display: none !important;
+    }
+    .rightBar{
+        display: none;
+    }
+    .rightBarSlide{
+        display: block;
+    }
+}
+
+@media screen and (min-width : 768px){
+    .leftMenuText{
+        display: block !important;
+    }
+    .leftMenuIcon{
+        display: none !important;
+    }
+    .leftMenuIconRow{
+        display: none !important;
+    }
+}
+
+
 /* FEEDBAR COMPONENT */
 
 .userImage{
@@ -505,11 +542,6 @@
     border-top-left-radius: 0px !important;
 }
 
-/* .commentBtn{
-    border-left: 1px solid rgba(0, 0, 0, 0.338) !important;
-    border-right: 1px solid rgba(0, 0, 0, 0.338) !important;
-} */
-
 .reportBtn{
     border-bottom-right-radius: 0px !important;
     border-left: 1px solid rgba(0, 0, 0, 0.338) !important;
@@ -519,6 +551,13 @@
 .commentArea{
     width: 100%;
 }
+
+@media screen and (max-width : 768px){
+    /* .feed{
+        
+    } */
+}
+
 
 /* ---------------------------------------------------------------------------------------------------------- */
 

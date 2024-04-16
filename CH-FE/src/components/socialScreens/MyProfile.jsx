@@ -12,9 +12,9 @@ function MyProfile() {
 
     <Container fluid>
       <Row>
-        <Col><Leftbar/></Col>
-        <Col xs md={6}><MyProfileBar/></Col>
-        <Col><Rightbar/></Col>
+        <Col xs={2} sm={2} md={3}><Leftbar/></Col>
+        <Col xs={10} sm md={6}><MyProfileBar/></Col>
+        <Col sm={3} md={3}><Rightbar/></Col>
       </Row>
     </Container>
   </>

@@ -11,9 +11,9 @@ function Events() {
 
     <Container fluid>
       <Row>
-        <Col ><Leftbar/></Col>
-        <Col xs lg={6}><EventBar/></Col>
-        <Col><Rightbar/></Col>
+        <Col xs={2} sm={2} md={3}><Leftbar/></Col>
+        <Col xs={10} sm md={6}><EventBar/></Col>
+        <Col sm={3} md={3}><Rightbar/></Col>
       </Row>
     </Container>
   </>

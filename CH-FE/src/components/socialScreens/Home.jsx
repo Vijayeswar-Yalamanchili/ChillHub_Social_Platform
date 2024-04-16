@@ -12,9 +12,9 @@ function Home() {
 
     <Container fluid style={{paddingTop : '5rem'}}>
       <Row>
-        <Col><Leftbar/></Col>
-        <Col xs md={6}><Feedbar/></Col>
-        <Col><Rightbar/></Col>
+        <Col xs={2} sm={2} md={3}><Leftbar/></Col>
+        <Col xs={10} sm md={6}><Feedbar/></Col>
+        <Col sm={3} md={3}><Rightbar/></Col>
       </Row>
     </Container>
   </>
