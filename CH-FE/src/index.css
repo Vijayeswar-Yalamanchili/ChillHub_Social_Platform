@@ -418,6 +418,7 @@
     }
     .leftBar {
         border: none;
+        /* border-right: 1px solid grey; */
     }
     .rightBar{
         display: none;
@@ -425,6 +426,9 @@
     .list-group-item{
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
+    }
+    .feed{
+        border-left: 1px solid grey;
     }
     .onlineBtn{
         position: absolute;
@@ -460,6 +464,9 @@
     }
     .rightBarSlide{
         display: none;
+    }
+    .leftbar{
+        border-right: 1px solid grey;
     }
 }
 

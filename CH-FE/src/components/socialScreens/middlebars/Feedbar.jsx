@@ -208,7 +208,7 @@ function Feedbar() {
   },[]) 
 
   return <>
-    <div className='feed mt-4 '>
+    <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
         {isLoggedIn? <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/> : null}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
