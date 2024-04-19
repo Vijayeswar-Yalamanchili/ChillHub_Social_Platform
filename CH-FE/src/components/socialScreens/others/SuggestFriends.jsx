@@ -1,9 +1,10 @@
 import React from 'react'
 import {Button,Card,Row,Col} from 'react-bootstrap'
-import AxiosService from '../../../utils/AxiosService';
-import ApiRoutes from '../../../utils/ApiRoutes';
 import { jwtDecode } from "jwt-decode";
 import { toast } from 'react-toastify';
+import AxiosService from '../../../utils/AxiosService';
+import ApiRoutes from '../../../utils/ApiRoutes';
+
 
 function SuggestFriends({users,setUsers}) {
 
