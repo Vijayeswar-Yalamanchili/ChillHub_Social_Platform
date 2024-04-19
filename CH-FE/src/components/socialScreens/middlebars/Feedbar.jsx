@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Row, Col,Button,Card,Modal,Form, Image } from 'react-bootstrap'
+import {Row, Col,Button,Card,Modal,Form, Image, ListGroup, ListGroupItem } from 'react-bootstrap'
 import EmojiPicker from 'emoji-picker-react'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -19,7 +19,7 @@ function Feedbar() {
   const [editShow, setEditShow] = useState(false)
   const [editInputStr, setEditInputStr] = useState('')
   const [editSelectedFile, setEditSelectedFile] = useState()
-  const [commentInput,setCommentInput] = useState()
+  const [commentInput,setCommentInput] = useState('')
   const [comments,setComments] = useState([])
   const isLoggedIn = true
 
@@ -163,19 +163,23 @@ function Feedbar() {
       const formData = new FormData()
       formData.append('commentText', commentInput)
       const formProps = Object.fromEntries(formData)
-      console.log(formProps)
-      let token = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(token)
-      const id = decodedToken.id
-      console.log(id);
-      let res = await AxiosService.post(`${ApiRoutes.COMMENTUSERPOST.path}/${id}/${postId}`,formProps,{
-        headers:{
-          "Content-Type" : "application/json",
-          "Authorization" : `${token}`
+      if(formProps.commentText === ""){
+        toast.warning("Please enter some Comment")
+      }else{
+        let token = localStorage.getItem('loginToken')
+        const decodedToken = jwtDecode(token)
+        const id = decodedToken.id
+        let res = await AxiosService.post(`${ApiRoutes.COMMENTUSERPOST.path}/${id}/${postId}`,formProps,{
+          headers:{
+            "Content-Type" : "application/json",
+            "Authorization" : `${token}`
+          }
+        })
+        // console.log(res);
+        if(res.status === 200){
+          setCommentInput('')
         }
-      })
-      console.log(res);
-      setCommentInput('')
+      }
     } catch (error) {
       toast.error(error.response.data.message || error.message)
     }
@@ -186,12 +190,13 @@ function Feedbar() {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      // let res = await AxiosService.get(`${ApiRoutes.GETCOMMENTUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      // console.log(res.data.getuserpostcomment)
-      // if(res.status === 200){
-      //   // toast.success(res.data.message)
-      //   setComments(res.data.getuserpostcomment.reverse())
-      // }
+      let res = await AxiosService.get(`${ApiRoutes.GETCOMMENTUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      console.log(res)
+      setComments(res.data.getuserpostcomment.reverse())
+      if(res.status === 200){
+        toast.success(res.data.message)
+        // setComments(res.data.getuserpostcomment.reverse())
+      }
     } catch (error) {
       console.log(error.message)
         // toast.error(error.response.data.message || error.message)
@@ -237,7 +242,7 @@ function Feedbar() {
                     null
                     }
                   </div>                  
-                  <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
+                  <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage' style={{height:"300px"}}/>
                   <Card.Text className='m-2'>{e.feededData}</Card.Text>
                   <div className='d-flex flex-row'>
                     <Card.Text className='m-2'>0 Comments</Card.Text>
@@ -252,38 +257,40 @@ function Feedbar() {
                       <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
                     </Row>
                     
-                    <div className='commentSection'>
+
+                    {/* comments */}
+                    <div className='commentSection mt-3'>
                       <div className='px-2'>
                         <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
                           <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
                           <div><b>{e.ownerName}</b></div>
                         </div>
                         <Form className='my-2 d-flex justify-content-between' style={{width : "100%"}}>
-                          <Form.Group className="commentArea">
-                            <Form.Control type="text" placeholder="Enter your Comment" name='commentText'defaultValue={commentInput} onChange={(e)=>setCommentInput(e.target.value)}/>
-                          </Form.Group>
+                          <div className='commentArea'><input type="text" id='commentArea' name="commentText" placeholder="Enter your Comment"  value={commentInput} onChange={(e)=>setCommentInput(e.target.value)}/></div>
                           <Button onClick={()=>handleComment(e._id)} style={{backgroundColor : "transparent", border : "none"}}>
                             <FontAwesomeIcon icon={faPaperPlane} style={{color: "#EB8D8D",width : "1.25rem",height : "1.25rem"}}/>
                           </Button>
                         </Form>
                       </div>
-                      <div className='px-2'>
-                        {
-                          comments.map((e)=> {
-                            return <div key={e._id}>
-                              <Col>
-                                <Card>
-                                  <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                                    <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
-                                    <div><b>{decodeduserDetailsToken.name}</b></div>
-                                  </div>
-                                  <Card.Body className='p-2'>{e.commentText}</Card.Body>
-                                </Card>
-                              </Col>
-                              
-                            </div>
-                          })
-                        }
+                      <div className='px-2 pb-2'>
+                        <Col>
+                          <Card>
+                            {
+                              comments && comments.map((e)=> {
+                                return <ul className="list-group list-group-flush" key={e._id}>
+                                    <li className='list-group-item'>
+                                      <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
+                                        <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
+                                        <div><b>{decodeduserDetailsToken.name}</b></div>
+                                      </div>
+                                      <div className='p-2'>{e.commentText}</div>
+                                    </li>
+                                  </ul>
+                              })
+                            }
+                            
+                          </Card>
+                        </Col>
                       </div>
                     </div>
                   </Card.Body>

@@ -16,14 +16,14 @@ const addComments = async(req,res)=>{
 
 const getComments = async(req,res)=>{
     try {
-        // console.log("scd")
-        const getuserpostcomment = await CommentsModel.find({postId : "66197f6ac37220e4d14f10f3"})
-        console.log(getuserpostcomment)
+        console.log(req.params)
+        const getuserpostcomment = await CommentsModel.find()
+        // console.log(getuserpostcomment)
         // if(getuserpostcomment){
-        //     res.status(200).send({
-        //         message:"comment fetched",
-        //         getuserpostcomment
-        //     }) 
+            res.status(200).send({
+                message:"comment fetched",
+                getuserpostcomment
+            }) 
         // }
     } catch (error) {
         res.status(500).send({
