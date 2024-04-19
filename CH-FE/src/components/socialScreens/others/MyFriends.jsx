@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {Card,Row,Col,Button} from 'react-bootstrap'
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
@@ -6,21 +6,6 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from 'react-toastify';
 
 function MyFriends({myFriends, setMyFriends}) {
-
-  const getMyFriends = async() => {
-    try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      console.log(res.data);
-      if(res.status === 200){
-        setMyFriends(res.data.myFriendsList)
-      }
-    } catch (error) {
-      toast.error(error.response.data.message || error.message)
-    }
-  }
 
   const handleRemoveFriend = async(friendId) => {
     try {
@@ -37,10 +22,6 @@ function MyFriends({myFriends, setMyFriends}) {
       console.log(error.message)
     }   
   }
-  
-  useEffect(()=> {
-    getMyFriends()
-  },[])
 
   return <>
     <h5>Friends</h5>

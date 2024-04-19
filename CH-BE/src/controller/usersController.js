@@ -3,10 +3,17 @@ import RegisterLoginModel from '../models/registerLogin_model.js'
 const getNewFrds = async(req,res) => {
     try {
         const getusers = await RegisterLoginModel.find()
+        const getCurrentUser = await RegisterLoginModel.findById({_id : req.params.id})
+        // const currentUserFrds = getCurrentUser.friends
+        // const allUsers = getusers
+        // console.log(currentUserFrds)
+        // const filteredNewFrds = allUsers.filter((e) => {return e._id !== currentUserFrds.userId})
+        // console.log(filteredNewFrds)        
         if(getusers){
             res.status(200).send({
                 message:"my frds fetched",
-                getusers
+                getusers,
+                // currentUserFrds
             })
         }
     } catch (error) {
@@ -115,10 +122,10 @@ const getMyFriends = async(req,res) => {
                     return RegisterLoginModel.findById(e.userId).select("-password")
                 })
             )
-            // console.log(myFriendsList, "hi")
             if (myFriendsList.length > 0) {
                 res.status(200).send({
-                    message:"my frds fetched",myFriendsList
+                    message:"my frds fetched",
+                    myFriendsList
                 })
             }else{
                 res.status(400).send({

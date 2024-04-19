@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react'
+import React from 'react'
 import {Button,Card,Row,Col} from 'react-bootstrap'
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
@@ -6,30 +6,10 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from 'react-toastify';
 
 function SuggestFriends({users,setUsers}) {
-  
-    const [friends, setFriends] = useState([])
-
-    const getUsers = async() => {
-      try {
-        let getToken = localStorage.getItem('loginToken')
-        const decodedToken = jwtDecode(getToken)
-        const id = decodedToken.id
-        let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
-        let result = res.data.getusers
-        // console.log(res.data.getusers);
-        let updatedNewFriends = result.filter((e)=>e._id !== id)        
-        if(res.status === 200){
-          setUsers(updatedNewFriends)
-        }
-      } catch (error) {
-        toast.error(error.response.data.message || error.message)
-      }
-    }
 
     const handleAddFriend = async(friendId) => {
       try {
         if(friendId !== ""){
-          const frdsList = friends.filter((e)=> e.id !== friendId)
           const addNewFrdsList = users.filter((e)=> e._id !== friendId)
           let getToken = localStorage.getItem('loginToken')
           const decodedToken = jwtDecode(getToken)
@@ -38,17 +18,12 @@ function SuggestFriends({users,setUsers}) {
           // console.log(res)
           if(res.status === 200){
             setUsers(addNewFrdsList)
-            setFriends(frdsList)
           }
         }
       } catch (error) {
         toast.error(error.response.data.message || error.message)
       }      
     }
-
-    useEffect(()=> {
-      getUsers()
-    },[])
 
     return <>
         <h5>Suggest Friends</h5>

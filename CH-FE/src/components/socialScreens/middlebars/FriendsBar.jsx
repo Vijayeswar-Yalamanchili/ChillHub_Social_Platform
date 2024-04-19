@@ -1,11 +1,62 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { toast } from 'react-toastify';
+import { jwtDecode } from "jwt-decode";
 import SuggestFriends from '../others/SuggestFriends'
 import MyFriends from '../others/MyFriends'
+import AxiosService from '../../../utils/AxiosService';
+import ApiRoutes from '../../../utils/ApiRoutes';
+
 
 function FriendsBar() {
 
   const [users, setUsers] = useState([])
   const [myFriends, setMyFriends] = useState([])
+
+  const getUsers = async() => {
+    try {
+      let getToken = localStorage.getItem('loginToken')
+      const decodedToken = jwtDecode(getToken)
+      const id = decodedToken.id
+      // console.log(id)
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
+      let usersResult = res.data.getusers
+      // let userFrdsResult = res.data.currentUserFrds
+      // console.log(res.data);
+      // let filteredNewFrds = usersResult.filter((e)=>{
+      //   if(e._id !== userFrdsResult.userId){
+      //       console.log(userFrdsResult);
+      //   }
+      // })
+      // console.log(filteredNewFrds);
+      let updatedNewFriends = usersResult.filter((e)=>e._id !== id)        
+      if(res.status === 200){
+        setUsers(updatedNewFriends)
+      }
+    } catch (error) {
+      toast.error(error.response.data.message || error.message)
+    }
+  }
+
+  const getMyFriends = async() => {
+    try {
+      let getToken = localStorage.getItem('loginToken')
+      const decodedToken = jwtDecode(getToken)
+      const id = decodedToken.id
+      let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      // console.log(res.data)
+      const result  = res.data.myFriendsList
+      if(res.status === 200){
+        setMyFriends(result)
+      }
+    } catch (error) {
+      toast.error(error.response.data.message || error.message)
+    }
+  }
+  
+  useEffect(()=> {
+    getUsers()
+    getMyFriends()
+  },[])
 
   return <>
     <div className='p-4'>
