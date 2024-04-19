@@ -13,6 +13,7 @@ function MyFriends({myFriends, setMyFriends}) {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      console.log(res.data);
       if(res.status === 200){
         setMyFriends(res.data.myFriendsList)
       }

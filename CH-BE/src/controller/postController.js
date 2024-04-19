@@ -33,31 +33,24 @@ const createPost = async(req,res) => {
     }
 }
 
-const getPosts = async(req,res) => {
+const getPost = async(req,res) => {
     try {
-        // console.log(req.params)
-        const getpost = await FeedDatasModel.find()
-        if(getpost.length >= 1){
-            const user = await RegisterLoginModel.findById({_id : req.params.id})
-            const frdsPost = user?.friends
-            let postsfeed = frdsPost.filter((e)=> {
-                return getpost.filter((ele)=> {
-                  return ele.ownerID === e.userId
-                })
-              })
-           if(postsfeed.length >= 1){
-            // console.log(postsfeed.length);
-            // const {userId} = postsfeed
-            // let frdsFeed = await FeedDatasModel.find()
-            // console.log(frdsFeed)
+        const user = await RegisterLoginModel.findById({_id : req.params.id})
+        if(user){
+            const posts = await Promise.all(
+                user.friends.map((e) => {
+                    return FeedDatasModel.find({ownerID : e.userId})
+                })             
+            )
+            const currentUserPosts =await FeedDatasModel.find({ownerID : req.params.id})
+            posts.push(currentUserPosts)
+            const flatPost = posts.flat()                                
             res.status(200).send({
-                message:"posts data fetch by id successful",
-                getpost,
-                frdsPost,
-                // frdsFeed
+                message:"posts data fetch by ID successful",
+                flatPost
             })
-           }
-        }else {
+        }
+        else {
             res.status(204).send({
                 message:"No posts available",
             })
@@ -73,6 +66,7 @@ const getUserPosts = async(req,res) => {
     try {
         const getuserpost = await FeedDatasModel.find({ownerID : req.params.id})
         if(getuserpost.length > 0){
+            console.log(getuserpost)
             res.status(200).send({
                 message:"Userposts data fetch by id successful",
                 getuserpost
@@ -137,7 +131,7 @@ const updatePostLikeStatus = async(req,res) => {
 export default {
     home,
     createPost,
-    getPosts,
+    getPost,
     getUserPosts,
     deleteUserPost,
     updatePost,
