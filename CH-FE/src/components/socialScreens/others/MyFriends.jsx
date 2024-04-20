@@ -7,7 +7,7 @@ import ApiRoutes from '../../../utils/ApiRoutes';
 
 
 function MyFriends({myFriends,setMyFriends,users, setUsers}) {
-  console.log(" MyFrds" , myFriends)
+  // console.log(" MyFrds" , myFriends)
 
   const handleRemoveFriend = async(friendId) => {
     try {
@@ -17,7 +17,11 @@ function MyFriends({myFriends,setMyFriends,users, setUsers}) {
         let getToken = localStorage.getItem('loginToken')
         const decodedToken = jwtDecode(getToken)
         const id = decodedToken.id
-        let res = await AxiosService.put(`${ApiRoutes.REMOVEFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})      
+        let res = await AxiosService.put(`${ApiRoutes.REMOVEFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})     
+        let frds = [...users,res.data.removeFriendInFriend]
+        if(res.status === 200){
+          setUsers(frds)
+        }
       }
     } catch (error) {
       toast.error(error.response.data.message || error.message)
