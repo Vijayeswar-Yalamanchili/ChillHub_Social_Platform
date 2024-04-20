@@ -66,7 +66,7 @@ const getUserPosts = async(req,res) => {
     try {
         const getuserpost = await FeedDatasModel.find({ownerID : req.params.id})
         if(getuserpost.length > 0){
-            console.log(getuserpost)
+            // console.log(getuserpost)
             res.status(200).send({
                 message:"Userposts data fetch by id successful",
                 getuserpost
