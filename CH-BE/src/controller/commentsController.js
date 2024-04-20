@@ -16,7 +16,7 @@ const addComments = async(req,res)=>{
 
 const getComments = async(req,res)=>{
     try {
-        console.log(req.params)
+        // console.log(req.params)
         const getuserpostcomment = await CommentsModel.find()
         // console.log(getuserpostcomment)
         // if(getuserpostcomment){
