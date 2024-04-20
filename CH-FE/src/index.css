@@ -500,6 +500,22 @@
 
 /* FEEDBAR COMPONENT */
 
+.commentsFetchArea{
+    max-height: 15rem;
+    overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.commentsFetchArea::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.commentsFetchArea {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 .userImage{
     width: 40px;
     height: 40px;

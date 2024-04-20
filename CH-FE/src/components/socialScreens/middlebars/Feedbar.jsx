@@ -185,7 +185,7 @@ function Feedbar() {
     }
   }
 
-  const getComments = async() => {
+  const getComments = async() => { 
     try {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
@@ -272,9 +272,10 @@ function Feedbar() {
                           </Button>
                         </Form>
                       </div>
+                      {/* getcommentsArea */}
                       <div className='px-2 pb-2'>
                         <Col>
-                          <Card>
+                          <Card className='commentsFetchArea'>
                             {
                               comments && comments.map((e)=> {
                                 return <ul className="list-group list-group-flush" key={e._id}>
