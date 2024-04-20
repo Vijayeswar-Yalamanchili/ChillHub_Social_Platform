@@ -99,7 +99,7 @@ function NavbarAfterLogin() {
                 
                 <div className='navbarMenu d-flex justify-content-between'>
                     <div className='d-flex justify-content-between flex-row align-items-center'>
-                        <div className='userName' style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div>
+                        <div className='userName' style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.firstName}</div>
                         
                         <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
                         <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>

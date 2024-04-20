@@ -25,7 +25,7 @@ function MyFriends({myFriends,setMyFriends,users, setUsers}) {
       }
     } catch (error) {
       toast.error(error.response.data.message || error.message)
-      console.log(error.message)
+      // console.log(error.message)
     }   
   }
 
