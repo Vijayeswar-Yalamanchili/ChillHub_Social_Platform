@@ -5,19 +5,25 @@ import { toast } from 'react-toastify';
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
 
+let temp = []
 
-function SuggestFriends({users,setUsers}) {
+function SuggestFriends({users,setUsers,setMyFriends}) {
 
     const handleAddFriend = async(friendId) => {
       try {
-        if(friendId !== ""){
+        if(friendId !== ""){          
           const addNewFrdsList = users.filter((e)=> e._id !== friendId)
+          const addNewFrdList = users.filter((e)=> {
+            e._id === friendId ? temp.push(e) : null
+          })
+          // console.log(temp, "hi")
           let getToken = localStorage.getItem('loginToken')
           const decodedToken = jwtDecode(getToken)
           const id = decodedToken.id
           let res = await AxiosService.put(`${ApiRoutes.ADDFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})
           // console.log(res)
           if(res.status === 200){
+            setMyFriends(temp)
             setUsers(addNewFrdsList)
           }
         }
@@ -37,7 +43,7 @@ function SuggestFriends({users,setUsers}) {
                         <Card style={{ width: '18rem' }} >
                           <Card.Img variant="top" src={e.imageDP} />
                           <Card.Body>
-                            <Card.Title>{e.firstName} {e.lastName} {e._id}</Card.Title>
+                            <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                             <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button>
                           </Card.Body>
                         </Card>

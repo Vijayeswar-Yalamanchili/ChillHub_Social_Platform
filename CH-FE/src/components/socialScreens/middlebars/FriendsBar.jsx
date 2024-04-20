@@ -6,7 +6,6 @@ import MyFriends from '../others/MyFriends'
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
 
-
 function FriendsBar() {
 
   const [users, setUsers] = useState([])
@@ -20,15 +19,11 @@ function FriendsBar() {
       // console.log(id)
       let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
       let usersResult = res.data.getusers
-      // let userFrdsResult = res.data.currentUserFrds
-      // console.log(res.data);
-      // let filteredNewFrds = usersResult.filter((e)=>{
-      //   if(e._id !== userFrdsResult.userId){
-      //       console.log(userFrdsResult);
-      //   }
-      // })
-      // console.log(filteredNewFrds);
-      let updatedNewFriends = usersResult.filter((e)=>e._id !== id)        
+      let userFrdsResult = res.data.currentUserFrds.map((e)=> e.userId)
+      const filteredNewFrds = usersResult.filter((e)=> {
+        return !userFrdsResult.includes(e._id)
+      })
+      let updatedNewFriends = filteredNewFrds.filter((e)=>e._id !== id)        
       if(res.status === 200){
         setUsers(updatedNewFriends)
       }
@@ -60,9 +55,9 @@ function FriendsBar() {
 
   return <>
     <div className='p-4'>
-      <MyFriends myFriends = {myFriends} setMyFriends ={setMyFriends}/>
+      <MyFriends myFriends = {myFriends} setMyFriends ={setMyFriends} users = {users} setUsers ={setUsers}/>
       <hr />
-      <SuggestFriends users = {users} setUsers ={setUsers}/> 
+      <SuggestFriends users = {users} setUsers ={setUsers} setMyFriends ={setMyFriends}/> 
     </div>
   </>
 }

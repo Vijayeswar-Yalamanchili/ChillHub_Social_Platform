@@ -4,16 +4,12 @@ const getNewFrds = async(req,res) => {
     try {
         const getusers = await RegisterLoginModel.find()
         const getCurrentUser = await RegisterLoginModel.findById({_id : req.params.id})
-        // const currentUserFrds = getCurrentUser.friends
-        // const allUsers = getusers
-        // console.log(currentUserFrds)
-        // const filteredNewFrds = allUsers.filter((e) => {return e._id !== currentUserFrds.userId})
-        // console.log(filteredNewFrds)        
+        const currentUserFrds = getCurrentUser.friends
         if(getusers){
             res.status(200).send({
                 message:"my frds fetched",
                 getusers,
-                // currentUserFrds
+                currentUserFrds
             })
         }
     } catch (error) {

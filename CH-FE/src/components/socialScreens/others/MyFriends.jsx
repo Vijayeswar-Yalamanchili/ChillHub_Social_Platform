@@ -6,7 +6,8 @@ import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
 
 
-function MyFriends({myFriends, setMyFriends}) {
+function MyFriends({myFriends,setMyFriends,users, setUsers}) {
+  console.log(" MyFrds" , myFriends)
 
   const handleRemoveFriend = async(friendId) => {
     try {
@@ -34,7 +35,7 @@ function MyFriends({myFriends, setMyFriends}) {
                         <Card style={{ width: '18rem' }} >
                           <Card.Img variant="top" src={e.imageDP} />
                           <Card.Body>
-                            <Card.Title>{e.firstName} {e.lastName} {e._id}</Card.Title>
+                            <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                             <Button variant="danger" onClick={()=>handleRemoveFriend(e._id)}>UnFriend</Button>
                           </Card.Body>
                         </Card>
