@@ -43,7 +43,9 @@ function Feedbar() {
       formData.append('feededData', inputStr)
       formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
+      console.log(formProps);
       let token = localStorage.getItem('loginToken')
+      console.log(token);
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
           "Content-Type" : "multipart/form-data",
@@ -190,13 +192,13 @@ function Feedbar() {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETCOMMENTUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      console.log(res)
-      setComments(res.data.getuserpostcomment.reverse())
-      if(res.status === 200){
-        toast.success(res.data.message)
-        // setComments(res.data.getuserpostcomment.reverse())
-      }
+      // let res = await AxiosService.get(`${ApiRoutes.GETCOMMENTUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      // console.log(res)
+      // setComments(res.data.getuserpostcomment.reverse())
+      // if(res.status === 200){
+      //   toast.success(res.data.message)
+      //   // setComments(res.data.getuserpostcomment.reverse())
+      // }
     } catch (error) {
       console.log(error.message)
         // toast.error(error.response.data.message || error.message)
@@ -241,7 +243,7 @@ function Feedbar() {
                      :
                     null
                     }
-                  </div>                  
+                  </div>               
                   <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage' style={{height:"300px"}}/>
                   <Card.Text className='m-2'>{e.feededData}</Card.Text>
                   <div className='d-flex flex-row'>
