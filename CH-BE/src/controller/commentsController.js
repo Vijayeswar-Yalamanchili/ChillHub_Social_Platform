@@ -2,7 +2,7 @@ import CommentsModel from "../models/commentsModel.js"
 
 const addComments = async(req,res)=>{
     try {
-        const addComment = await CommentsModel.create({...req.body, ownerId : req.params.id, postId : req.params.postId })
+        const addComment = await CommentsModel.create({...req.body, ownerName : req.user.name, ownerId : req.params.id, postId : req.params.postId })
         res.status(200).send({
             message:"comment Added",
             addComment
@@ -16,15 +16,18 @@ const addComments = async(req,res)=>{
 
 const getComments = async(req,res)=>{
     try {
-        // console.log(req.params)
+        console.log(req.params)
         const getuserpostcomment = await CommentsModel.find()
         // console.log(getuserpostcomment)
-        // if(getuserpostcomment){
+        const postComments = getuserpostcomment.filter((e)=> e.postId === req.params.postId)
+        console.log(postComments)
+        if(getuserpostcomment){
             res.status(200).send({
                 message:"comment fetched",
-                getuserpostcomment
+                getuserpostcomment,
+                postComments
             }) 
-        // }
+        }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in adding comments"

@@ -34,7 +34,7 @@ router.delete('/home/deleteuserpost/:id',auth.authenticate, postController.delet
 router.post('/home/updatepost/:id/:postId',auth.authenticate,postController.updatePost)
 router.put('/home/updatePostReaction/:id', postController.updatePostLikeStatus)
 router.post('/home/commentuserpost/:id/:postId', auth.authenticate,auth.getUserEmail,commentsController.addComments)
-router.get('/home/getcommentuserpost/:id', auth.authenticate,commentsController.getComments)
+router.get('/home/getcommentuserpost/:id/:postId', auth.authenticate,commentsController.getComments)
 
 // User Profile Datas
 router.post('/home/adduserdatas',auth.authenticate,auth.getUserEmail,uploadController.profilePicUpload.single('imageDP'),usersDataController.addUsersData)

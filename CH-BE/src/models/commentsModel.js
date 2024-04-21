@@ -5,14 +5,10 @@ const commentsSchema = new mongoose.Schema({
         type : String,
         required : false
     },
-    // ownerId : {
-    //     type : String,
-    //     required : false
-    // },
-    // ownerId : {
-    //     type : String,
-    //     required : false
-    // },
+    ownerName : {
+        type : String,
+        required : false
+    },
     postId : {
         type : String,
         required : false
