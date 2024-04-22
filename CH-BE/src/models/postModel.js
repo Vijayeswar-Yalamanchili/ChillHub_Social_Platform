@@ -23,6 +23,7 @@ const datasSchema = new mongoose.Schema({
         required : false
     },
     imageUrl: {
+        data : Buffer,
         type: String,
         required : false
     },    

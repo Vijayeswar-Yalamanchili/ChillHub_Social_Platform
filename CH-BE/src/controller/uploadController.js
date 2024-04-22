@@ -8,13 +8,13 @@ const poststorage = multer.diskStorage({
         cb(null, 'postImages')
     },
     filename: function (req, file, cb) {
-        // console.log(file);
+        // console.log("file,this.filename : ", file,this.filename)
         const uniqueSuffix = Date.now()
-        cb(null, uniqueSuffix + path.extname(file.originalname))
-    //   cb(null, uniqueSuffix + file.originalname)
+        // cb(null, uniqueSuffix + path.extname(file.originalname))
+      cb(null, uniqueSuffix + file.originalname)
     }
 })
-
+// const poststorage = multer.memoryStorage()
 const postUpload = multer({ storage: poststorage })
 
 //for DP

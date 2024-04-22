@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 
-function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
+function Posts({posts, setPosts,post,showEmojis, setShowEmojis,postImage, setPostImage}) {
 
     const [editShow, setEditShow] = useState(false)
     const [editInputStr, setEditInputStr] = useState('')
@@ -172,7 +172,7 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
                             null
                         }
                     </div>
-                    <Card.Img variant="top" src={post.imageUrl} alt='feedPost' className='postImage' style={{height:"300px"}}/>
+                    <Card.Img variant="top" src={`http://localhost:8000/`+postImage} alt='feedPost' className='postImage' style={{height:"300px"}}/>
                     <Card.Text className='m-2'>{post.feededData}</Card.Text>
                     <Card.Body className='p-0'>
                         <Row>

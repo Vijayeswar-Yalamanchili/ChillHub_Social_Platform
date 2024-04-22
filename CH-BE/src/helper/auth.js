@@ -48,7 +48,6 @@ const decodeForgotPassToken = async(token) => {
 
 //mailid based authentication
 const authenticate = async(req,res,next) => {
-        // console.log(req);
         let token = req?.headers?.authorization 
         // let token  = req?.headers?.authorization?.split(' ')[1]
         // console.log(token)

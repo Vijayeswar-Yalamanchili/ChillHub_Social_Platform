@@ -16,6 +16,7 @@ function Feedbar() {
   const [selectedFile, setSelectedFile] = useState()
   const [showEmojis, setShowEmojis] = useState(false)
   const [preview, setPreview] = useState()
+  const [postImage, setPostImage] = useState()
   const [posts, setPosts] = useState([])
   const [comments,setComments] = useState([])
   const isLoggedIn = true
@@ -34,8 +35,8 @@ function Feedbar() {
       let token = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
-          "Content-Type" : "multipart/form-data",
-          "Authorization" : `${token}`
+          "Authorization" : `${token}`,
+          'Content-Type': 'multipart/form-data'
         }
       })
       console.log(res)
@@ -58,16 +59,20 @@ function Feedbar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      const getpostResult = res.data.flatPost
+      console.log(res.data)
+      const getPostResult = res.data.flatPost
+      const images = getPostResult.map((e)=>e.imageUrl)
+      // console.log(images);
       if(res.status === 200){
         // toast.success(res.data.message)
-        setPosts(getpostResult)
+        setPosts(getPostResult)
+        setPostImage(images)
         // if(comments.length>0){
         //   setComments(comments)
         // }
       }
     } catch (error) {
-        // console.log(error.message)
+        console.log(error.message)
         toast.error(error.response.data.message || error.message)
     }
   }
@@ -89,7 +94,7 @@ function Feedbar() {
         {
           posts.map((post)=> (
             <div key={post._id}>
-              <Posts post={post} posts={posts} setPosts= {setPosts} comments={comments} setComments= {setComments} showEmojis={showEmojis} setShowEmojis= {setShowEmojis}/>
+              <Posts post={post} posts={posts} setPosts= {setPosts} comments={comments} setComments= {setComments} showEmojis={showEmojis} setShowEmojis= {setShowEmojis} postImage={postImage} setPostImage={setPostImage}/>
             </div>
           ))
         }
@@ -118,7 +123,7 @@ function Feedbar() {
             
             <Button className='attachIcon mx-2' type='button'>
               <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-              <input type="file" name="img-file" id="file" onChange={(e) => {
+              <input type="file" name='imageUrl' id="file" onChange={(e) => {
                 console.log(e.target.files[0]);
                 setSelectedFile(e.target.files[0])
                 setPreview(URL.createObjectURL(e.target.files[0]))
