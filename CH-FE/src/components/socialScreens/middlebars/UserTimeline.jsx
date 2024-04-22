@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import {Row, Col,Button,Card,Modal,Form,Image} from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState} from 'react'
+import { Row, Col, Button, Card, Modal, Form, Image } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
-import { faEdit,faPaperclip} from '@fortawesome/free-solid-svg-icons'
-import AxiosService from '../../../utils/AxiosService';
-import ApiRoutes from '../../../utils/ApiRoutes';
-import { jwtDecode } from "jwt-decode";
+import { faFaceSmile,faTrashCan } from '@fortawesome/free-regular-svg-icons'
+import { faEdit,faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import { jwtDecode } from "jwt-decode"
 import userPic from '../../../assets/svg/userProfilePic.svg'
+import AxiosService from '../../../utils/AxiosService'
+import ApiRoutes from '../../../utils/ApiRoutes'
+
 
 function UserTimeline() {
   const [posts, setPosts] = useState([])
@@ -29,17 +30,17 @@ function UserTimeline() {
   }
 
   const getUserPostData = async() => {
-      try {
-        let getToken = localStorage.getItem('loginToken')
-        const decodedToken = jwtDecode(getToken)
-        const id = decodedToken.id
-        let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-        if(res.status === 200){
-          setPosts(res.data.getuserpost.reverse())
-        }
-      } catch (error) {
-          toast.error(error.response.data.message || error.message)
+    try {
+      let getToken = localStorage.getItem('loginToken')
+      const decodedToken = jwtDecode(getToken)
+      const id = decodedToken.id
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      if(res.status === 200){
+        setPosts(res.data.getuserpost.reverse())
       }
+    } catch (error) {
+        toast.error(error.response.data.message || error.message)
+    }
   }
 
   const handleDeletePost = async(postId) => {
@@ -49,12 +50,12 @@ function UserTimeline() {
         setPosts(updatedPosts)
         let token = localStorage.getItem('loginToken')
         let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
-        if(res.status === 200){
-          toast.success(res.data.message)
+        if(res.status !== 200){
+          toast.success(error.message)
         }
       }
     } catch (error) {
-        toast.error(error.response.data.message || error.message)
+      toast.error(error.response.data.message || error.message)
     }
   }
 
@@ -74,15 +75,14 @@ function UserTimeline() {
           "Authorization" : `${token}`
         }
       })
-      console.log(res);
       setEditInputStr('')
       setEditSelectedFile('')
       setEditShow(false)
-      if(res.status === 200){
-        toast.success(res.data.message)
+      if(res.status !== 200){
+        toast.success(error.message)
       }
     } catch (error) {
-        toast.error(error.response.data.message || error.message)
+      toast.error(error.response.data.message || error.message)
     }
   }
 
@@ -113,7 +113,7 @@ function UserTimeline() {
         let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
       }
     } catch (error) {
-        toast.error(error.response.data.message || error.message)
+      toast.error(error.response.data.message || error.message)
     }
   }
 
@@ -135,7 +135,6 @@ function UserTimeline() {
                   <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
                     <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
                       {e.ownerImageDP ===" "|| e.ownerImageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${e.ownerImageDP}`} className='userImage' roundedCircle/>}
-                            {/* <Image src={`http://localhost:8000/${e.ownerImageDP}`} className='userImage' roundedCircle/> */}
                       <div><b>{e.ownerName}</b></div>
                     </div>
                     {e.ownerName === decodeduserDetailsToken.name ? 

@@ -16,17 +16,19 @@ const home = async(req,res)=>{
 const createPost = async(req,res) => {
     try {
         // console.log("req.body, req.file : ", req.body, req.file);
-        const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
-        if(postData){
-            res.status(200).send({
-                message:"Feed created",
-                postData
-            })
-        }else {
-            res.status(400).send({
-                message: "Something went wrong!!!"
-            })
-        }
+        // if(req.body.feededData !== "" || req.file.filename === ""){
+            const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
+            if(postData){
+                res.status(200).send({
+                    message:"Feed created",
+                    postData
+                })
+            }else {
+                res.status(400).send({
+                    message: "Something went wrong!!!"
+                })
+            }
+        // }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in adding post"

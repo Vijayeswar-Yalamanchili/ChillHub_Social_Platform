@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { toast } from 'react-toastify';
-import { jwtDecode } from "jwt-decode";
+import { toast } from 'react-toastify'
+import { jwtDecode } from "jwt-decode"
 import SuggestFriends from '../others/SuggestFriends'
 import MyFriends from '../others/MyFriends'
-import AxiosService from '../../../utils/AxiosService';
-import ApiRoutes from '../../../utils/ApiRoutes';
+import AxiosService from '../../../utils/AxiosService'
+import ApiRoutes from '../../../utils/ApiRoutes'
 
 function FriendsBar() {
 
@@ -16,7 +16,6 @@ function FriendsBar() {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      // console.log(id)
       let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
       let usersResult = res.data.getusers
       let userFrdsResult = res.data.currentUserFrds.map((e)=> e.userId)
@@ -38,7 +37,6 @@ function FriendsBar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      // console.log(res.data)
       const result  = res.data.myFriendsList
       if(res.status === 200){
         setMyFriends(result)

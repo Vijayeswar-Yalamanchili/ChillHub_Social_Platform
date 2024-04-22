@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import {Card, Form,Button,Modal,Image } from 'react-bootstrap'
+import { Form, Button, Modal, Image } from 'react-bootstrap'
 import UserTimeline from './UserTimeline'
 import { toast } from 'react-toastify'
+import { jwtDecode } from "jwt-decode"
+import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
-import { jwtDecode } from "jwt-decode";
-import userPic from '../../../assets/svg/userProfilePic.svg'
 
 function MyProfileBar() {
   const [show, setShow] = useState(false)
@@ -14,7 +14,6 @@ function MyProfileBar() {
   const [dob, setDob] = useState()
   const [userBioData, setUserBioData] = useState([])
   const [preview, setPreview] = useState()
-  // const [userImage, setUserImage] = useState()
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -42,11 +41,10 @@ function MyProfileBar() {
           "Authorization" : ` ${LoginToken}`        
         }
       })
-      if(res.status === 200){
-        toast.success(res.data.message)
+      if(res.status !== 200){
+        toast.success(error.message)
       }      
     } catch (error) {
-      console.log(error.message);
       toast.error(error.response.data.message || error.message)
     }    
   }
@@ -57,16 +55,11 @@ function MyProfileBar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      const getUserDataResult = res.data.getData
-      // const images = getUserDataResult.map((e)=>e.imageDP)
-      console.log(res.data);
       if(res.status === 200){
         setUserBioData(res.data.getData)
-        // setUserImage(images)
       }
     } catch (error) {
-      console.log(error.message);
-        // toast.error(error.response.data.message || error.message)
+        toast.error(error.response.data.message || error.message)
     }
   }
 
@@ -78,8 +71,7 @@ function MyProfileBar() {
     <div className='mt-4' style={{width:"100%"}}>
       <div className='profileDatas d-flex justify-content-between flex-row align-items' style={{gap: "5%"}}>
         <div className='profilePicImageArea'>
-        {userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} className='imageFile' roundedCircle/> : <Image src={`http://localhost:8000/${userBioData.imageDP}`} className='imageFile' roundedCircle/>}
-          {/* <Image src={`http://localhost:8000/${userBioData.imageDP}`} className='imageFile' roundedCircle />           */}
+          {userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} className='imageFile' roundedCircle/> : <Image src={`http://localhost:8000/${userBioData.imageDP}`} className='imageFile' roundedCircle/>}
         </div>
         <div className='userBioData'>
           <div>{userBioData.bio}</div>

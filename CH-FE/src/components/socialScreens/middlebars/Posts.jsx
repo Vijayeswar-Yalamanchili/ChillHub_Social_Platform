@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import {Row, Col,Button,Card,Modal,Form, Image, ListGroup, ListGroupItem } from 'react-bootstrap'
+import {Row, Col,Button,Card,Modal,Form, Image} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
 import {faPaperPlane, faEdit, faPaperclip} from '@fortawesome/free-solid-svg-icons'
@@ -11,7 +11,6 @@ import ApiRoutes from '../../../utils/ApiRoutes'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 
 function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, setPostImage}) {
-    console.log(post);
 
     const [editShow, setEditShow] = useState(false)
     const [editInputStr, setEditInputStr] = useState('')
@@ -48,8 +47,8 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
             setEditInputStr('')
             setEditSelectedFile('')
             setEditShow(false)
-            if(res.status === 200){
-                toast.success(res.data.message)
+            if(res.status !== 200){
+                toast.success(error.message)
             }
         } catch (error) {
             toast.error(error.response.data.message || error.message)
@@ -76,8 +75,8 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
                 setPosts(updatedPosts)
                 let token = localStorage.getItem('loginToken')
                 let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
-                if(res.status === 200){
-                    toast.success(res.data.message)
+                if(res.status !== 200){
+                    toast.success(error.message)
                 }
             }
         } catch (error) {
@@ -133,8 +132,6 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
     
     const getComments = async(postId) => { 
         try {
-            // console.log(postId)
-            
             let getToken = localStorage.getItem('loginToken')
             const decodedToken = jwtDecode(getToken)
             const id = decodedToken.id
@@ -151,7 +148,6 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
 
     let getDetailsToken = localStorage.getItem('loginToken')
     const decodeduserDetailsToken = jwtDecode(getDetailsToken)
-    console.log(decodeduserDetailsToken);
 
     return <>
         <div key={post._id}>
@@ -160,7 +156,6 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
                     <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
                         <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
                             {post.ownerImageDP ===" "|| post.ownerImageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${post.ownerImageDP}`} className='userImage' roundedCircle/>}
-                            {/* <Image src={`http://localhost:8000/${post.ownerImageDP}`} className='userImage' roundedCircle/> */}
                             <div><b>{post.ownerName}</b></div>
                         </div>
                         {post.ownerName === decodeduserDetailsToken.name ? 
@@ -176,6 +171,7 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
                             null
                         }
                     </div>
+                    {/* {post.imageUrl ? <Card.Img variant="top" src={`http://localhost:8000/${post.imageUrl}`} alt='feedPost' className='postImage' style={{height:"300px"}}/> : null} */}
                     <Card.Img variant="top" src={`http://localhost:8000/${post.imageUrl}`} alt='feedPost' className='postImage' style={{height:"300px"}}/>
                     <Card.Text className='m-2'>{post.feededData}</Card.Text>
                     <Card.Body className='p-0'>

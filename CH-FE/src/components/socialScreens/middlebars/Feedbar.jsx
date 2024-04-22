@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import {Row, Col,Button,Card,Modal,Form, Image, ListGroup, ListGroupItem } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Button, Modal, Form, Image } from 'react-bootstrap'
 import EmojiPicker from 'emoji-picker-react'
 import { toast } from 'react-toastify'
+import { jwtDecode } from "jwt-decode"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
-import {faPaperPlane, faEdit, faPaperclip} from '@fortawesome/free-solid-svg-icons'
+import { faFaceSmile } from '@fortawesome/free-regular-svg-icons'
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
-import { jwtDecode } from "jwt-decode"
 import Posts from './Posts'
-import userPic from '../../../assets/svg/userProfilePic.svg'
 
 function Feedbar() {
   const [user, setUser] = useState()
@@ -47,8 +47,8 @@ function Feedbar() {
       setShow(false)
       const updatedPosts = [...posts,res.data.postData]
       setPosts(updatedPosts)
-      if(res.status === 200){
-        toast.success(res.data.message)
+      if(res.status !== 200){
+        toast.success(error.message)
       }
     } catch (error) {
         toast.error(error.response.data.message || error.message)
@@ -61,18 +61,14 @@ function Feedbar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      // console.log(res.data)
       const getPostResult = res.data.flatPost
       const images = getPostResult.map((e)=>e.imageUrl)
-      // console.log(getPostResult,images);
       if(res.status === 200){
-        // toast.success(res.data.message)
-        setPosts(getPostResult)
+        setPosts(getPostResult.reverse())
         setPostImage(images)
         setUser(res.data.user)
       }
     } catch (error) {
-        console.log(error.message)
         toast.error(error.response.data.message || error.message)
     }
   }
@@ -87,7 +83,7 @@ function Feedbar() {
   return <>
     <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
-        {isLoggedIn? (decodeduserDetailsToken.imageDP=== " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
+        {isLoggedIn? (decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
       </div>
       <div className="feedArea mt-3">
@@ -139,9 +135,8 @@ function Feedbar() {
           <Button variant="secondary" onClick={handleClose}>Cancel</Button>
           <Button variant="primary" type='submit'>Post</Button>
         </Modal.Footer>
-        </Form>
+      </Form>
     </Modal>
-
   </>
 }
 

@@ -1,10 +1,10 @@
-import React,{ useEffect,useState } from 'react'
-import {Button,Card,Row,Col} from 'react-bootstrap'
-import AxiosService from '../../../utils/AxiosService';
-import ApiRoutes from '../../../utils/ApiRoutes';
-import { jwtDecode } from "jwt-decode";
-import { toast } from 'react-toastify';
+import React,{ useEffect, useState } from 'react'
+import { Card, Row, Col } from 'react-bootstrap'
+import { jwtDecode } from "jwt-decode"
+import { toast } from 'react-toastify'
 import userPic from '../../../assets/svg/userProfilePic.svg'
+import AxiosService from '../../../utils/AxiosService'
+import ApiRoutes from '../../../utils/ApiRoutes'
 
 function EventBar() {
   const [users, setUsers] = useState([])
@@ -52,7 +52,6 @@ function EventBar() {
                     {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic}/> : <Card.Img variant="top" src={`http://localhost:8000/${e.imageDP}`} />}
                       <Card.Body>
                         <Card.Title>{e.firstName} {e.lastName}</Card.Title>
-                        {/* <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button> */}
                       </Card.Body>
                     </Card>
                   </Col>
