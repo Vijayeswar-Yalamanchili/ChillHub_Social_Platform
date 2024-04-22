@@ -86,8 +86,8 @@ const getUserPosts = async(req,res) => {
 
 const updatePost = async(req,res) => {
     try {
-        const {feededData,imageUrl} = req.body
-        let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : feededData, "imageUrl" : imageUrl }})
+        console.log("req.body : ", req.body, "req.file : ", req.body, req.file)
+        let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : req.body.feededData, "imageUrl" : req.file.filename }})
         res.status(200).send({
             message:"Post Updated",
             postToBeUpdate

@@ -12,6 +12,7 @@ function UserTimeline() {
   const [posts, setPosts] = useState([])
   const [showEmojis, setShowEmojis] = useState(false)
   const [editShow, setEditShow] = useState(false)
+  const [editPreview, setEditPreview] = useState()
   const [editInputStr, setEditInputStr] = useState()
   const [editSelectedFile, setEditSelectedFile] = useState()
   const [currentPostId, setCurrentPostId] = useState()
@@ -62,15 +63,17 @@ function UserTimeline() {
       formData.append('feededData', editInputStr)
       formData.append('imageUrl', editSelectedFile)
       const formProps = Object.fromEntries(formData)
+      console.log(formProps)
       let token = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(token)
       const id = decodedToken.id
       let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
         headers:{
-          "Content-Type" : "application/json",
+          "Content-Type" : "multipart/form-data",
           "Authorization" : `${token}`
         }
       })
+      console.log(res);
       setEditInputStr('')
       setEditSelectedFile('')
       setEditShow(false)
@@ -143,7 +146,7 @@ function UserTimeline() {
                       null
                     }
                   </div>
-                  <Card.Img variant="top" src={e.imageUrl} alt='feedPost' className='postImage'/>
+                  <Card.Img variant="top" src={`http://localhost:8000/${e.imageUrl}`} alt='feedPost' className='postImage'/>
                   <Card.Text className='m-2'>{e.feededData}</Card.Text>
                   <div className='d-flex flex-row'>
                     <Card.Text className='m-2'>0 Comments</Card.Text>
@@ -178,8 +181,7 @@ function UserTimeline() {
                     defaultValue={editInputStr} onChange={(e)=>setEditInputStr(e.target.value)}/>              
           </Form.Group>
           {
-            !editSelectedFile ? null :
-            <div style={{margin : "1rem 0"}}><img src={editSelectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>
+            !editSelectedFile ? null : ( !editPreview ? null : <div style={{margin : "1rem 0"}}><img src={editPreview} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>)            
           }
           <div>
             <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
@@ -188,7 +190,10 @@ function UserTimeline() {
 
             <Button className='attachIcon mx-2' type='button'>
               <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-              <input type="file" name="img-file" id="file" onChange={(e) => setEditSelectedFile(URL.createObjectURL(e.target.files[0]))} className='attachImgIcon' accept="image/*"/>
+              <input type="file" name="img-file" id="file" onChange={(e) => {
+                setEditPreview(URL.createObjectURL(e.target.files[0]))
+                setEditSelectedFile(e.target.files[0])
+              }} className='attachImgIcon' accept="image/*"/>
             </Button>
           {
             showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {

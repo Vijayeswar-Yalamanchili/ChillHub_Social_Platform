@@ -14,8 +14,22 @@ const poststorage = multer.diskStorage({
       cb(null, uniqueSuffix + file.originalname)
     }
 })
-// const poststorage = multer.memoryStorage()
 const postUpload = multer({ storage: poststorage })
+
+//for Edit post Image 
+const editPoststorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        // console.log("dest");
+        cb(null, 'postImages')
+    },
+    filename: function (req, file, cb) {
+        // console.log("file,this.filename : ", file,this.filename)
+        const uniqueSuffix = Date.now()
+        // cb(null, uniqueSuffix + path.extname(file.originalname))
+      cb(null, uniqueSuffix + file.originalname)
+    }
+})
+const editPostUpload = multer({ storage: editPoststorage })
 
 //for DP
 const profilePicstorage = multer.diskStorage({
@@ -32,5 +46,6 @@ const profilePicUpload = multer({ storage: profilePicstorage })
 
 export default {
     postUpload,
+    editPostUpload,
     profilePicUpload
 }

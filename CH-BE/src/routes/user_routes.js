@@ -32,7 +32,7 @@ router.post('/home/addpost',auth.authenticate,auth.getUserEmail,uploadController
 router.get('/home/getposts/:id',  postController.getPost)
 router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPosts)
 router.delete('/home/deleteuserpost/:id',auth.authenticate, postController.deleteUserPost)
-router.post('/home/updatepost/:id/:postId',auth.authenticate,postController.updatePost)
+router.post('/home/updatepost/:id/:postId',auth.authenticate,uploadController.editPostUpload.single('imageUrl'),postController.updatePost)
 router.put('/home/updatePostReaction/:id', postController.updatePostLikeStatus)
 router.post('/home/commentuserpost/:id/:postId', auth.authenticate,auth.getUserEmail,commentsController.addComments)
 router.get('/home/getcommentuserpost/:id/:postId', auth.authenticate,commentsController.getComments)

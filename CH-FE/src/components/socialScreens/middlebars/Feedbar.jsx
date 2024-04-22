@@ -67,9 +67,6 @@ function Feedbar() {
         // toast.success(res.data.message)
         setPosts(getPostResult)
         setPostImage(images)
-        // if(comments.length>0){
-        //   setComments(comments)
-        // }
       }
     } catch (error) {
         console.log(error.message)
@@ -124,7 +121,6 @@ function Feedbar() {
             <Button className='attachIcon mx-2' type='button'>
               <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
               <input type="file" name='imageUrl' id="file" onChange={(e) => {
-                console.log(e.target.files[0]);
                 setSelectedFile(e.target.files[0])
                 setPreview(URL.createObjectURL(e.target.files[0]))
               }} className='attachImgIcon' accept="image/*"/>
