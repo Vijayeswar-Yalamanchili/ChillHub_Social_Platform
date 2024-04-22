@@ -15,6 +15,7 @@ function Feedbar() {
   const [inputStr, setInputStr] = useState('')
   const [selectedFile, setSelectedFile] = useState()
   const [showEmojis, setShowEmojis] = useState(false)
+  const [preview, setPreview] = useState()
   const [posts, setPosts] = useState([])
   const [comments,setComments] = useState([])
   const isLoggedIn = true
@@ -29,6 +30,7 @@ function Feedbar() {
       formData.append('feededData', inputStr)
       formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
+      console.log(formProps);
       let token = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
@@ -107,7 +109,7 @@ function Feedbar() {
                     defaultValue={inputStr} onChange={(e)=>setInputStr(e.target.value)}/>              
           </Form.Group>
           {
-            selectedFile ? <div style={{margin : "1rem 0"}}><img src={selectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div> : null
+            selectedFile ? (preview ? <div style={{margin : "1rem 0"}}><img src={preview} alt="selected file" style={{width: "100%", height : "15rem"}}/></div> : null) : null
           }
           <div>
             <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
@@ -116,7 +118,11 @@ function Feedbar() {
             
             <Button className='attachIcon mx-2' type='button'>
               <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-              <input type="file" name="img-file" id="file" onChange={(e) => setSelectedFile(URL.createObjectURL(e.target.files[0]))} className='attachImgIcon' accept="image/*"/>
+              <input type="file" name="img-file" id="file" onChange={(e) => {
+                console.log(e.target.files[0]);
+                setSelectedFile(e.target.files[0])
+                setPreview(URL.createObjectURL(e.target.files[0]))
+              }} className='attachImgIcon' accept="image/*"/>
             </Button>
           {
             showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
