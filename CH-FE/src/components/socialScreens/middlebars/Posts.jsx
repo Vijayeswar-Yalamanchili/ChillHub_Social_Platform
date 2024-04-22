@@ -172,7 +172,7 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis,postImage, setPos
                             null
                         }
                     </div>
-                    <Card.Img variant="top" src={`http://localhost:8000/`+postImage} alt='feedPost' className='postImage' style={{height:"300px"}}/>
+                    <Card.Img variant="top" src={`http://localhost:8000/${post.imageUrl}`} alt='feedPost' className='postImage' style={{height:"300px"}}/>
                     <Card.Text className='m-2'>{post.feededData}</Card.Text>
                     <Card.Body className='p-0'>
                         <Row>

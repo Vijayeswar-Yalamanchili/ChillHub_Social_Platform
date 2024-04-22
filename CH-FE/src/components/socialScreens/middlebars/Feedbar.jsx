@@ -62,7 +62,7 @@ function Feedbar() {
       console.log(res.data)
       const getPostResult = res.data.flatPost
       const images = getPostResult.map((e)=>e.imageUrl)
-      // console.log(images);
+      console.log(getPostResult,images);
       if(res.status === 200){
         // toast.success(res.data.message)
         setPosts(getPostResult)
