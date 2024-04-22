@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Row, Col,Button,Card,Modal,Form} from 'react-bootstrap';
+import {Row, Col,Button,Card,Modal,Form,Image} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
@@ -7,6 +7,7 @@ import { faEdit,faPaperclip} from '@fortawesome/free-solid-svg-icons'
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
 import { jwtDecode } from "jwt-decode";
+import userPic from '../../../assets/svg/userProfilePic.svg'
 
 function UserTimeline() {
   const [posts, setPosts] = useState([])
@@ -132,7 +133,11 @@ function UserTimeline() {
               <Col>
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                   <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
-                    <div className="fw-bold">{e.ownerName}</div>
+                    <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
+                      {e.ownerImageDP ===" "|| e.ownerImageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${e.ownerImageDP}`} className='userImage' roundedCircle/>}
+                            {/* <Image src={`http://localhost:8000/${e.ownerImageDP}`} className='userImage' roundedCircle/> */}
+                      <div><b>{e.ownerName}</b></div>
+                    </div>
                     {e.ownerName === decodeduserDetailsToken.name ? 
                       <div>
                         <Button type='button' variant='none' onClick={() => handleEditPost(e._id)}>

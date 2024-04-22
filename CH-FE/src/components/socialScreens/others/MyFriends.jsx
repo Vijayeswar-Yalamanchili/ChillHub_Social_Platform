@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from 'react-toastify';
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
-
+import userPic from '../../../assets/svg/userProfilePic.svg'
 
 function MyFriends({myFriends,setMyFriends,users, setUsers}) {
   // console.log(" MyFrds" , myFriends)
@@ -37,7 +37,7 @@ function MyFriends({myFriends,setMyFriends,users, setUsers}) {
                     return <div key={e._id} className='mt-3'>
                       <Col >
                         <Card style={{ width: '18rem' }} >
-                          <Card.Img variant="top" src={e.imageDP} />
+                        {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic}/> : <Card.Img variant="top" src={`http://localhost:8000/${e.imageDP}`} />}
                           <Card.Body>
                             <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                             <Button variant="danger" onClick={()=>handleRemoveFriend(e._id)}>UnFriend</Button>

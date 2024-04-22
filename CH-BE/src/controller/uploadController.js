@@ -38,7 +38,8 @@ const profilePicstorage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now()
-        cb(null, uniqueSuffix + path.extname(file.originalname))
+        // cb(null, uniqueSuffix + path.extname(file.originalname))
+        cb(null, uniqueSuffix + file.originalname)
     }
 })
 

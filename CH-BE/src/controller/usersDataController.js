@@ -2,20 +2,22 @@ import RegisterLoginModel from '../models/registerLogin_model.js'
 
 const addUsersData = async(req,res) => {
     try {
+        console.log("req.body : ", req.body, "req.file : ", req.body, req.file)
         const addDatas = await RegisterLoginModel.findOneAndUpdate(
             {_id:req.user.id},
-            {$set : {"imageDP" : req.body.imageDP, "bio" : req.body.bio, "dob" : req.body.dob}
+            {$set : {"imageDP" : req.file.filename, "bio" : req.body.bio, "dob" : req.body.dob}
         })
-        if(addDatas){
-            res.status(200).send({
-                message:"users datas added",
-                addDatas
-            })
-        }else {
-            res.status(400).send({
-                message: "error is storing userDatas"
-            })
-        }
+        console.log(addDatas);
+        // if(addDatas){
+        //     res.status(200).send({
+        //         message:"users datas added",
+        //         addDatas
+        //     })
+        // }else {
+        //     res.status(400).send({
+        //         message: "error is storing userDatas"
+        //     })
+        // }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in adding userbiodata"

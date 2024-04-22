@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from 'react-toastify';
 import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
+import userPic from '../../../assets/svg/userProfilePic.svg'
 
 let temp = []
 
@@ -36,12 +37,13 @@ function SuggestFriends({users,setUsers,setMyFriends}) {
         <h5>Suggest Friends</h5>
         <div>
             <Row md={1} lg={1} xl={2} className="g-5 m-0">
+              {console.log(users)}
                 {
                   users.map((e) => {
                     return <div key={e._id} className='mt-3'>
                       <Col >
                         <Card style={{ width: '18rem' }} >
-                          <Card.Img variant="top" src={e.imageDP} />
+                          {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic}/> : <Card.Img variant="top" src={`http://localhost:8000/${e.imageDP}`} />}
                           <Card.Body>
                             <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                             <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button>

@@ -35,6 +35,7 @@ const registerLoginSchema = new mongoose.Schema({
         required : false
     },
     imageDP: {
+        data : Buffer,
         type: String,
         required : false
     },

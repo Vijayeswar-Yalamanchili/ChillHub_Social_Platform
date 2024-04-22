@@ -75,7 +75,7 @@ const getUserEmail = async(req,res,next) => {
     let token = req?.headers?.authorization
     if(token){
         let payload = await decodeLoginToken(token)
-        // console.log(payload);
+        console.log(payload);
         req.user = payload
         // req.userid = payload.id
         next()        

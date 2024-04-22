@@ -26,6 +26,11 @@ const datasSchema = new mongoose.Schema({
         data : Buffer,
         type: String,
         required : false
+    },
+    ownerImageDP: {
+        data : Buffer,
+        type: String,
+        required : false
     },    
     createdAt:{
         type:Date,

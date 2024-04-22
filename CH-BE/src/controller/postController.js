@@ -16,7 +16,7 @@ const home = async(req,res)=>{
 const createPost = async(req,res) => {
     try {
         // console.log("req.body, req.file : ", req.body, req.file);
-        const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
+        const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
         if(postData){
             res.status(200).send({
                 message:"Feed created",
@@ -48,7 +48,8 @@ const getPost = async(req,res) => {
             const flatPost = posts.flat()                                
             res.status(200).send({
                 message:"posts data fetch by ID successful",
-                flatPost
+                flatPost,
+                user
             })
         }
         else {

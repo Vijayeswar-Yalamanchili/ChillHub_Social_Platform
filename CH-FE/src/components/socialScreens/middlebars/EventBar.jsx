@@ -4,6 +4,7 @@ import AxiosService from '../../../utils/AxiosService';
 import ApiRoutes from '../../../utils/ApiRoutes';
 import { jwtDecode } from "jwt-decode";
 import { toast } from 'react-toastify';
+import userPic from '../../../assets/svg/userProfilePic.svg'
 
 function EventBar() {
   const [users, setUsers] = useState([])
@@ -48,7 +49,7 @@ function EventBar() {
                 return <div key={e._id} className='mt-3'>
                   <Col >
                     <Card style={{ width: '18rem' }} >
-                      <Card.Img variant="top" src={e.imageDP} />
+                    {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic}/> : <Card.Img variant="top" src={`http://localhost:8000/${e.imageDP}`} />}
                       <Card.Body>
                         <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                         {/* <Button variant="primary" onClick={()=>handleAddFriend(e._id)}>Add Friend</Button> */}

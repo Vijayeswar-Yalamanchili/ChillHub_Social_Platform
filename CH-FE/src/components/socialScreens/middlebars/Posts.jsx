@@ -8,8 +8,10 @@ import { jwtDecode } from "jwt-decode"
 import { toast } from 'react-toastify'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
+import userPic from '../../../assets/svg/userProfilePic.svg'
 
-function Posts({posts, setPosts,post,showEmojis, setShowEmojis,postImage, setPostImage}) {
+function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, setPostImage}) {
+    console.log(post);
 
     const [editShow, setEditShow] = useState(false)
     const [editInputStr, setEditInputStr] = useState('')
@@ -149,6 +151,7 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis,postImage, setPos
 
     let getDetailsToken = localStorage.getItem('loginToken')
     const decodeduserDetailsToken = jwtDecode(getDetailsToken)
+    console.log(decodeduserDetailsToken);
 
     return <>
         <div key={post._id}>
@@ -156,7 +159,8 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis,postImage, setPos
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                     <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
                         <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                            <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
+                            {post.ownerImageDP ===" "|| post.ownerImageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${post.ownerImageDP}`} className='userImage' roundedCircle/>}
+                            {/* <Image src={`http://localhost:8000/${post.ownerImageDP}`} className='userImage' roundedCircle/> */}
                             <div><b>{post.ownerName}</b></div>
                         </div>
                         {post.ownerName === decodeduserDetailsToken.name ? 

@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import { Form,Button,Modal,Image } from 'react-bootstrap'
+import {Card, Form,Button,Modal,Image } from 'react-bootstrap'
 import UserTimeline from './UserTimeline'
 import { toast } from 'react-toastify'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import { jwtDecode } from "jwt-decode";
+import userPic from '../../../assets/svg/userProfilePic.svg'
 
 function MyProfileBar() {
   const [show, setShow] = useState(false)
   const [selectedFile, setSelectedFile] = useState()
   const [inputBio, setInputBio] = useState('')
   const [dob, setDob] = useState()
-  const [bioText, setBioText] = useState([])
+  const [userBioData, setUserBioData] = useState([])
+  const [preview, setPreview] = useState()
+  // const [userImage, setUserImage] = useState()
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
   const handleChange = (e) => {
-    setSelectedFile(URL.createObjectURL(e.target.files[0]));
+    setSelectedFile(e.target.files[0])
+    setPreview(URL.createObjectURL(e.target.files[0]))
   }
 
   const handleSubmit = async(e) => {
@@ -53,11 +57,16 @@ function MyProfileBar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      const getUserDataResult = res.data.getData
+      // const images = getUserDataResult.map((e)=>e.imageDP)
+      console.log(res.data);
       if(res.status === 200){
-        setBioText(res.data.getData)
+        setUserBioData(res.data.getData)
+        // setUserImage(images)
       }
     } catch (error) {
-        toast.error(error.response.data.message || error.message)
+      console.log(error.message);
+        // toast.error(error.response.data.message || error.message)
     }
   }
 
@@ -69,10 +78,11 @@ function MyProfileBar() {
     <div className='mt-4' style={{width:"100%"}}>
       <div className='profileDatas d-flex justify-content-between flex-row align-items' style={{gap: "5%"}}>
         <div className='profilePicImageArea'>
-          <Image src={bioText.imageDP} className='imageFile' roundedCircle />          
+        {userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} className='imageFile' roundedCircle/> : <Image src={`http://localhost:8000/${userBioData.imageDP}`} className='imageFile' roundedCircle/>}
+          {/* <Image src={`http://localhost:8000/${userBioData.imageDP}`} className='imageFile' roundedCircle />           */}
         </div>
-        <div className='bioText'>
-          <div>{bioText.bio}</div>
+        <div className='userBioData'>
+          <div>{userBioData.bio}</div>
         </div>
       </div>          
       <Button variant="primary" type='submit' className='updateProfileBtn' onClick={handleShow}>Update Profile</Button>
@@ -93,7 +103,7 @@ function MyProfileBar() {
           
           <div className='profilePic d-flex justify-content-around flex-row align-items-center'>
             <div className='profilePicImageArea'>
-              <Image src={selectedFile} className='imageFile' roundedCircle />          
+              <Image src={preview} className='imageFile' roundedCircle />          
             </div>
             <Button type='button' variant='secondary' > 
               <label htmlFor="file">Edit Picture</label>
