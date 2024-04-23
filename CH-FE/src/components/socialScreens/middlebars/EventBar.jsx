@@ -15,15 +15,14 @@ function EventBar() {
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERSBDAY.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
-      let result = res.data.getusers
-      let updatedNewFriends = result.filter((e)=>e._id !== id)    //filter users
-      const todayBday = updatedNewFriends.filter((e) => {       //filter todaysBirthdayUsers
+      let result = res.data.flatPost
+      const todayBday = result.filter((e) => {       //filter todaysBirthdayUsers
         const date1 = new Date(e.dob)
         let userBdayDate = date1.getDate() + "/" + (date1.getMonth()+1) + "/" + date1.getFullYear()
         const date2 = new Date() 
         let todayDate = date2.getDate() + "/" + (date2.getMonth()+1) + "/" + date2.getFullYear()
         if(userBdayDate === todayDate){
-          return e._id
+           return e._id
         }
       })
       if(res.status === 200){

@@ -20,22 +20,24 @@ const getNewFrds = async(req,res) => {
 }
 
 const getUsersBday = async(req,res) => {
-    if(req.params.id){
-        try {
-            const getusers = await RegisterLoginModel.find()
+    try {
+        const user = await RegisterLoginModel.findById({_id : req.params.id})
+        if(user){
+            const posts = await Promise.all(
+                user.friends.map((e) => {
+                    return RegisterLoginModel.find({_id : e.userId})
+                })             
+            )
+            const flatPost = posts.flat()                           
             res.status(200).send({
-                message:"users fetched",
-                getusers
-            })
-        } catch (error) {
-            res.status(500).send({
-                message:"Internal Server Error in getting all users"
+                message:"frds bday data fetch by based on frdsID successful",
+                flatPost
             })
         }
-    }else{
+    } catch (error) {
         res.status(500).send({
-            message : "Something went wrong in fetching all users"
-        })
+            message:"Internal Server Error in getting frds bday"
+        }) 
     }
 }
 
