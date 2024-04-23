@@ -134,7 +134,7 @@ function UserTimeline() {
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                   <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
                     <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                      {e.ownerImageDP ===" "|| e.ownerImageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${e.ownerImageDP}`} className='userImage' roundedCircle/>}
+                      {e.ownerImageDP ===" "|| e.ownerImageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${e.ownerImageDP}`} className='userImage' roundedCircle/>}
                       <div><b>{e.ownerName}</b></div>
                     </div>
                     {e.ownerName === decodeduserDetailsToken.name ? 
@@ -150,7 +150,7 @@ function UserTimeline() {
                       null
                     }
                   </div>
-                  <Card.Img variant="top" src={`http://localhost:8000/${e.imageUrl}`} alt='feedPost' className='postImage'/>
+                  <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${e.imageUrl}`} alt='feedPost' className='postImage'/>
                   <Card.Text className='m-2'>{e.feededData}</Card.Text>
                   <div className='d-flex flex-row'>
                     <Card.Text className='m-2'>0 Comments</Card.Text>
