@@ -36,6 +36,7 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
             formData.append('feededData', editInputStr)
             formData.append('imageUrl', editSelectedFile)
             const formProps = Object.fromEntries(formData)
+            console.log(formProps);
             let token = localStorage.getItem('loginToken')
             const decodedToken = jwtDecode(token)
             const id = decodedToken.id
@@ -61,6 +62,7 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
             if(postId !== ""){
                 handleEditShow(postId)
                 const updatedPosts = posts.filter((e)=> e._id == postId)
+                console.log(updatedPosts)
                 setEditInputStr(updatedPosts[0].feededData)
                 setEditSelectedFile(updatedPosts[0].imageUrl)
             }
@@ -239,7 +241,7 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
                     defaultValue={editInputStr} onChange={(e)=>setEditInputStr(e.target.value)}/>              
           </Form.Group>
           {
-            !editSelectedFile ? null : (!editPreview ? null : <div style={{margin : "1rem 0"}}><img src={editSelectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>)            
+            !editSelectedFile &&  !editPreview ? null :  <div style={{margin : "1rem 0"}}><img src={editPreview} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>
           }
           <div>
             <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
