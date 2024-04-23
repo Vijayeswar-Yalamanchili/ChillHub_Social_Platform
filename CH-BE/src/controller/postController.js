@@ -15,8 +15,6 @@ const home = async(req,res)=>{
 
 const createPost = async(req,res) => {
     try {
-        // console.log("req.body, req.file : ", req.body, req.file);
-        // if(req.body.feededData !== "" || req.file.filename === ""){
             const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
             if(postData){
                 res.status(200).send({
@@ -28,7 +26,6 @@ const createPost = async(req,res) => {
                     message: "Something went wrong!!!"
                 })
             }
-        // }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in adding post"
@@ -89,7 +86,7 @@ const getUserPosts = async(req,res) => {
 
 const updatePost = async(req,res) => {
     try {
-        console.log("req.body : ", req.body, "req.file : ", req.file)
+        // console.log("req.body : ", req.body, "req.file : ", req.file)
         let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : req.body.feededData, "imageUrl" : req.file.filename }})
         res.status(200).send({
             message:"Post Updated",

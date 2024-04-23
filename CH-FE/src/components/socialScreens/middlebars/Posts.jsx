@@ -18,6 +18,7 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
     const [editPreview, setEditPreview] = useState()
     const [commentInput,setCommentInput] = useState('')
     const [comments,setComments] = useState([])
+    const [commentsBlock,setCommentsBlock] = useState(false)
     const [currentPostId, setCurrentPostId] = useState()
     
     const handleEditClose = () => {
@@ -104,6 +105,16 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
             toast.error(error.response.data.message || error.message)
         }
     }
+
+    const handleCommentBlock = async(postId) => {
+        try {
+            setCommentsBlock(!commentsBlock)
+            getComments(postId)
+            
+        } catch (error) {
+            toast.error(error.response.data.message || error.message)
+        }
+    }
     
     const handleComment = async(postId) => {
         try {
@@ -182,46 +193,49 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
                                 !post.currentLikeStatus  ? 
                                     <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={() => handleLikeBtn(post._id)} style={{ width: '100%' }}>Like</Button></Col> 
                                     : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={() => handleLikeBtn(post._id)} style={{ width: '100%' }}>Liked</Button></Col>
-                            } 
+                            }
+                            <Col style={{padding:"0px"}}><Button variant="light" className='commentBtn' style={{ width: '100%' }} onClick={()=>handleCommentBlock(post._id)}>Comment</Button></Col> 
                             <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
                         </Row>
                       
                       
                         {/* comments */}
-                         <div className='commentSection mt-3'>
-                            <div className='px-2'>
-                                <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                                    <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
-                                    <div><b>{post.ownerName}</b></div>
+                        { !commentsBlock ? null : 
+                            <div className='commentSection mt-3'>
+                                <div className='px-2'>
+                                    <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
+                                        <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
+                                        <div><b>{decodeduserDetailsToken.name}</b></div>
+                                    </div>
+                                    <Form className='my-2 d-flex justify-content-between' style={{width : "100%"}}>
+                                        <div className='commentArea'><input type="text" id='commentArea' name="commentText" placeholder="Enter your Comment"  value={commentInput} onChange={(e)=>setCommentInput(e.target.value)}/></div>
+                                        <Button onClick={()=>handleComment(post._id)} style={{backgroundColor : "transparent", border : "none"}}>
+                                            <FontAwesomeIcon icon={faPaperPlane} style={{color: "#EB8D8D",width : "1.25rem",height : "1.25rem"}}/>
+                                        </Button>
+                                    </Form>
                                 </div>
-                                <Form className='my-2 d-flex justify-content-between' style={{width : "100%"}}>
-                                    <div className='commentArea'><input type="text" id='commentArea' name="commentText" placeholder="Enter your Comment"  value={commentInput} onChange={(e)=>setCommentInput(e.target.value)}/></div>
-                                    <Button onClick={()=>handleComment(post._id)} style={{backgroundColor : "transparent", border : "none"}}>
-                                        <FontAwesomeIcon icon={faPaperPlane} style={{color: "#EB8D8D",width : "1.25rem",height : "1.25rem"}}/>
-                                    </Button>
-                                </Form>
+                                {/* getcommentsArea */}
+                                <div className='px-2 pb-2'>
+                                    <Col>
+                                        <Card className='commentsFetchArea'>
+                                            {
+                                                comments && comments.map((e)=> {
+                                                    return <ul className="list-group list-group-flush" key={e._id}>
+                                                        <li className='list-group-item'>
+                                                            <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
+                                                                <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
+                                                                <div><b>{e.ownerName}</b></div>
+                                                            </div>
+                                                            <div className='p-2'>{e.commentText}</div>
+                                                        </li>
+                                                    </ul>
+                                                })
+                                            }    
+                                        </Card>
+                                    </Col>
+                                </div>
                             </div>
-                            {/* getcommentsArea */}
-                            <div className='px-2 pb-2'>
-                                <Col>
-                                    <Card className='commentsFetchArea'>
-                                        {
-                                            comments && comments.map((e)=> {
-                                                return <ul className="list-group list-group-flush" key={e._id}>
-                                                    <li className='list-group-item'>
-                                                        <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                                                            <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
-                                                            <div><b>{e.ownerName}</b></div>
-                                                        </div>
-                                                        <div className='p-2'>{e.commentText}</div>
-                                                    </li>
-                                                </ul>
-                                            })
-                                        }    
-                                    </Card>
-                                </Col>
-                            </div>
-                        </div>
+                        }  
                     </Card.Body>
                 </Card>
             </Col>

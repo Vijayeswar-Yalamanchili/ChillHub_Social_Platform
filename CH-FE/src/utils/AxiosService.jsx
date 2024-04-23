@@ -9,8 +9,6 @@ const AxiosService = axios.create({
     }
 })
 
-console.log(AxiosService);
-
 AxiosService.interceptors.request.use((config)=>{
     const token = sessionStorage.getItem('loginToken')
     if(token){
