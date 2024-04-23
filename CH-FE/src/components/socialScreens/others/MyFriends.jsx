@@ -36,7 +36,7 @@ function MyFriends({myFriends,setMyFriends,users, setUsers}) {
               return <div key={e._id} className='mt-3'>
                 <Col >
                   <Card style={{ width: '18rem' }} >
-                    {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic}/> : <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${e.imageDP}`} />}
+                    {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic}/> : <Card.Img variant="top" src={`http://localhost:8000/${e.imageDP}`} />}
                     <Card.Body>
                       <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                       <Button variant="danger" onClick={()=>handleRemoveFriend(e._id)}>UnFriend</Button>

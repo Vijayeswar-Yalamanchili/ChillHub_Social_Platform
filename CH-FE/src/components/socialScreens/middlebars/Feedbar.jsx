@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { jwtDecode } from "jwt-decode"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFaceSmile } from '@fortawesome/free-regular-svg-icons'
-import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import { faCropSimple, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
@@ -33,6 +33,7 @@ function Feedbar() {
       formData.append('feededData', inputStr)
       formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
+      console.log(formProps);
       let token = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
@@ -81,7 +82,7 @@ function Feedbar() {
   return <>
     <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
-        {isLoggedIn? (decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
+        {isLoggedIn? (decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
       </div>
       <div className="feedArea mt-3">

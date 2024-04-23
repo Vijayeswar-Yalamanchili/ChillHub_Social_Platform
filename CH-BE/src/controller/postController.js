@@ -15,6 +15,7 @@ const home = async(req,res)=>{
 
 const createPost = async(req,res) => {
     try {
+        console.log("req.body");
             const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
             if(postData){
                 res.status(200).send({
