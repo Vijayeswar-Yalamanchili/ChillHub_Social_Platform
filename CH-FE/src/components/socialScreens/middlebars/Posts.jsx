@@ -15,6 +15,7 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
     const [editShow, setEditShow] = useState(false)
     const [editInputStr, setEditInputStr] = useState('')
     const [editSelectedFile, setEditSelectedFile] = useState()
+    const [editPreview, setEditPreview] = useState()
     const [commentInput,setCommentInput] = useState('')
     const [comments,setComments] = useState([])
     const [currentPostId, setCurrentPostId] = useState()
@@ -40,15 +41,15 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
             const id = decodedToken.id
             let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
               headers:{
-                "Content-Type" : "application/json",
+                "Content-Type" : "multipart/form-data",
                 "Authorization" : `${token}`
               }
             })
             setEditInputStr('')
             setEditSelectedFile('')
             setEditShow(false)
-            if(res.status !== 200){
-                toast.success(error.message)
+            if(res.status === 200){
+                toast.success(res.data.message)
             }
         } catch (error) {
             toast.error(error.response.data.message || error.message)
@@ -238,8 +239,7 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
                     defaultValue={editInputStr} onChange={(e)=>setEditInputStr(e.target.value)}/>              
           </Form.Group>
           {
-            !editSelectedFile ? null :
-            <div style={{margin : "1rem 0"}}><img src={editSelectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>
+            !editSelectedFile ? null : (!editPreview ? null : <div style={{margin : "1rem 0"}}><img src={editSelectedFile} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>)            
           }
           <div>
             <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
@@ -248,7 +248,10 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
             
             <Button className='attachIcon mx-2' type='button'>
               <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-              <input type="file" name="img-file" id="file" onChange={(e) => setEditSelectedFile(URL.createObjectURL(e.target.files[0]))} className='attachImgIcon' accept="image/*"/>
+              <input type="file" name="imageUrl" id="file" onChange={(e) => {
+                setEditPreview(URL.createObjectURL(e.target.files[0]))
+                setEditSelectedFile((e.target.files[0]))
+              }} className='attachImgIcon' accept="image/*"/>
             </Button>
           {
             showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
