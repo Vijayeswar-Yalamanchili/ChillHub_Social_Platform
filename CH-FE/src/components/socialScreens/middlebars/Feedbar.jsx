@@ -82,7 +82,7 @@ function Feedbar() {
   return <>
     <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
-        {isLoggedIn? (decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`http://localhost:8000/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
+        {isLoggedIn? (decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
       </div>
       <div className="feedArea mt-3">
