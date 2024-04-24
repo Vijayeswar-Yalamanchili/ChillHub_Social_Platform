@@ -46,8 +46,8 @@ function Feedbar() {
       setShow(false)
       const updatedPosts = [...posts,res.data.postData]
       setPosts(updatedPosts)
-      if(res.status !== 200){
-        toast.success(error.message)
+      if(res.status === 200){
+        toast.success(res.data.message)
       }
     } catch (error) {
         toast.error(error.response.data.message || error.message)
