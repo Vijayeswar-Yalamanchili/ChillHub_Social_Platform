@@ -41,16 +41,13 @@ function Feedbar() {
           'Content-Type': 'multipart/form-data'
         }
       })
-      // setInputStr('') 
-      // setSelectedFile('')
-      // setShow(false)
+      setInputStr('') 
+      setSelectedFile('')
+      setShow(false)
       const updatedPosts = [...posts,res.data.postData]
       setPosts(updatedPosts)
-      if(res.status === 200){
-        // toast.success(error.message)
-        setInputStr('') 
-        setSelectedFile('')
-        setShow(false)
+      if(res.status !== 200){
+        toast.success(error.message)
       }
     } catch (error) {
         toast.error(error.response.data.message || error.message)
