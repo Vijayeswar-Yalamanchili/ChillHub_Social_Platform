@@ -23,11 +23,11 @@ function Leftbar() {
             <FontAwesomeIcon icon={faPeopleGroup} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Friends
           </span>
         </Link>
-        <Link to={'/messages'} className="list-group-item list-group-item-action">
+        {/* <Link to={'/messages'} className="list-group-item list-group-item-action">
           <span className='d-flex align-items-center' style={{gap:"5px"}}>
             <FontAwesomeIcon icon={faComments} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Messages
           </span>
-        </Link>
+        </Link> */}
         {/* <div className="dropdown">
           <Link to={''} className="list-group-item list-group-item-action">
             <span className='d-flex align-items-center' style={{gap:"5px"}}>

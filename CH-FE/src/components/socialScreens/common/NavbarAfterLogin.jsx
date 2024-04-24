@@ -104,14 +104,14 @@ function NavbarAfterLogin() {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
                         <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>
                             <Nav className='ms-auto'>
-                                <Nav.Link>
+                                {/* <Nav.Link>
                                     <Button className='NavIcon mx-2' onClick={()=>handleNotify()}>
                                         <FontAwesomeIcon icon={faBell} size='xl' style={{color: "#EB8D8D"}}/>
                                     </Button>
                                      <Button className='navText ' onClick={()=>handleNotify()} >
                                         <div className='d-flex justify-content-between'><FontAwesomeIcon icon={faBell} size='xl' style={{color: "white"}}/>Notifications</div>
                                      </Button>
-                                </Nav.Link>
+                                </Nav.Link> */}
                                 <Nav.Link>
                                     <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()}>
                                         <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D"}}/>
