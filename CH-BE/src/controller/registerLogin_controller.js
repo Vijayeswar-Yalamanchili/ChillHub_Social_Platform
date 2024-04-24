@@ -101,7 +101,6 @@ const forgotPassword = async(req,res) => {
 const verifyCode = async(req,res) => {
     try {
         const dataToVerify = await RegisterLoginModel.findOne({emailHash: req.params.id,forgotPassToken: req.params.token})
-        // console.log(dataToVerify)
         if(dataToVerify){
             await RegisterLoginModel.findOneAndUpdate({ _id: dataToVerify._id },
                 { $set: {  userPassID: "", userPassToken: "" } }

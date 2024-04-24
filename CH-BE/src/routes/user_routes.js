@@ -27,7 +27,6 @@ router.put('/home/logout/:id',auth.authenticate,registerLoginController.logout)
 //AfterLogin
 router.get('/home',auth.authenticate,auth.userGuard,postController.home)
 router.get('/home/searchdata/:id',auth.authenticate,searchController.searchData)
-// router.post('/home/addpost',auth.authenticate,auth.getUserEmail ,postController.createPost)
 router.post('/home/addpost',auth.authenticate,auth.getUserEmail,uploadController.postUpload.single('imageUrl') ,postController.createPost)
 router.get('/home/getposts/:id',  postController.getPost)
 router.get('/home/getuserposts/:id', auth.authenticate, postController.getUserPosts)

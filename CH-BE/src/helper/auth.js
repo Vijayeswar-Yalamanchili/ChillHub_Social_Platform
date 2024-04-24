@@ -21,7 +21,6 @@ const hashCompare = async(data, hash) => {
 //generating jwt's
 
 const createLoginToken = async(payload) => {
-    // console.log(process.env.JWT_SECRETKEY_LOGIN);
     let loginToken = await Jwt.sign(payload,process.env.JWT_SECRETKEY_LOGIN,{
         expiresIn : process.env.JWT_EXPIRY_LOGIN 
     })
@@ -77,7 +76,6 @@ const getUserEmail = async(req,res,next) => {
         let payload = await decodeLoginToken(token)
         // console.log(payload);
         req.user = payload
-        // req.userid = payload.id
         next()        
     }else{
         res.status(500).send({
@@ -114,6 +112,5 @@ export default {
     createForgotPassToken,
     authenticate,
     userGuard,
-    getUserEmail,
-    // validateUserEmail
+    getUserEmail
 }

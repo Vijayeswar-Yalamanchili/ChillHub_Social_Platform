@@ -15,18 +15,17 @@ const home = async(req,res)=>{
 
 const createPost = async(req,res) => {
     try {
-        console.log("req.body");
-            const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
-            if(postData){
-                res.status(200).send({
-                    message:"Feed created",
-                    postData
-                })
-            }else {
-                res.status(400).send({
-                    message: "Something went wrong!!!"
-                })
-            }
+        const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
+        if(postData){
+            res.status(200).send({
+                message:"Feed created",
+                postData
+            })
+        }else {
+            res.status(400).send({
+                message: "Something went wrong!!!"
+            })
+        }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in adding post"
@@ -68,7 +67,6 @@ const getUserPosts = async(req,res) => {
     try {
         const getuserpost = await FeedDatasModel.find({ownerID : req.params.id})
         if(getuserpost.length > 0){
-            // console.log(getuserpost)
             res.status(200).send({
                 message:"Userposts data fetch by id successful",
                 getuserpost
@@ -87,7 +85,6 @@ const getUserPosts = async(req,res) => {
 
 const updatePost = async(req,res) => {
     try {
-        // console.log("req.body : ", req.body, "req.file : ", req.file)
         let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : req.body.feededData, "imageUrl" : req.file.filename }})
         res.status(200).send({
             message:"Post Updated",

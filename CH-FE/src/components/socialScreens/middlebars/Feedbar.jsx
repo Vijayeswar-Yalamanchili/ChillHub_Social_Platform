@@ -33,7 +33,6 @@ function Feedbar() {
       formData.append('feededData', inputStr)
       formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
-      console.log(formProps);
       let token = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{

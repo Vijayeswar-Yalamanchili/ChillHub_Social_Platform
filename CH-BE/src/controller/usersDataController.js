@@ -7,17 +7,16 @@ const addUsersData = async(req,res) => {
             {_id:req.user.id},
             {$set : {"imageDP" : req.file.filename, "bio" : req.body.bio, "dob" : req.body.dob}
         })
-        console.log(addDatas);
-        // if(addDatas){
-        //     res.status(200).send({
-        //         message:"users datas added",
-        //         addDatas
-        //     })
-        // }else {
-        //     res.status(400).send({
-        //         message: "error is storing userDatas"
-        //     })
-        // }
+        if(addDatas){
+            res.status(200).send({
+                message:"users datas added",
+                addDatas
+            })
+        }else {
+            res.status(400).send({
+                message: "error is storing userDatas"
+            })
+        }
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in adding userbiodata"

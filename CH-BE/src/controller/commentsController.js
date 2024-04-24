@@ -16,11 +16,8 @@ const addComments = async(req,res)=>{
 
 const getComments = async(req,res)=>{
     try {
-        console.log(req.params)
         const getuserpostcomment = await CommentsModel.find()
-        // console.log(getuserpostcomment)
         const postComments = getuserpostcomment.filter((e)=> e.postId === req.params.postId)
-        console.log(postComments)
         if(getuserpostcomment){
             res.status(200).send({
                 message:"comment fetched",
