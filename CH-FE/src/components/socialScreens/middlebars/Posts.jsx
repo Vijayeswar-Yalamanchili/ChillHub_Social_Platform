@@ -160,9 +160,9 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
         }
     }
 
-    useEffect(() => {
-        getComments()
-      },[]) 
+    // useEffect(() => {
+    //     getComments()
+    //   },[]) 
 
     let getDetailsToken = localStorage.getItem('loginToken')
     const decodeduserDetailsToken = jwtDecode(getDetailsToken)
