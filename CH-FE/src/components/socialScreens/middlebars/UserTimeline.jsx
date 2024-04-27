@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode"
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
+import Posts from './Posts'
 
 
 function UserTimeline() {
@@ -28,37 +29,7 @@ function UserTimeline() {
     setEditShow(true)
     setCurrentPostId(postId)
   }
-
-  const getUserPostData = async() => {
-    try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-      if(res.status === 200){
-        setPosts(res.data.getuserpost.reverse())
-      }
-    } catch (error) {
-        toast.error(error.response.data.message || error.message)
-    }
-  }
-
-  const handleDeletePost = async(postId) => {
-    try {
-      if(postId !== ""){
-        const updatedPosts = posts.filter((e)=> e._id !== postId)
-        setPosts(updatedPosts)
-        let token = localStorage.getItem('loginToken')
-        let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
-        if(res.status !== 200){
-          toast.success(error.message)
-        }
-      }
-    } catch (error) {
-      toast.error(error.response.data.message || error.message)
-    }
-  }
-
+  
   const handleEditSubmit = async(postId) => {
     try {
       const formData = new FormData()
@@ -86,34 +57,17 @@ function UserTimeline() {
     }
   }
 
-  const handleEditPost = async(postId) => {
+  const getUserPostData = async() => {
     try {
-      if(postId !== ""){
-        handleEditShow(postId)
-        const updatedPosts = posts.filter((e)=> e._id == postId)
-        setEditInputStr(updatedPosts[0].feededData)
-        setEditSelectedFile(updatedPosts[0].imageUrl)
+      let getToken = localStorage.getItem('loginToken')
+      const decodedToken = jwtDecode(getToken)
+      const id = decodedToken.id
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      if(res.status === 200){
+        setPosts(res.data.getuserpost.reverse())
       }
     } catch (error) {
-      toast.error(error.response.data.message || error.message)
-    }
-  }
-
-  const handleLikeBtn = async(postId) => {
-    try {
-      if(postId !== ""){
-        const updatedPosts = posts.map((e)=> { 
-          if(e._id == postId){
-            e.currentLikeStatus = !e.currentLikeStatus
-          }
-          return e
-        })
-        setPosts(updatedPosts)
-        let token = localStorage.getItem('loginToken')
-        let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
-      }
-    } catch (error) {
-      toast.error(error.response.data.message || error.message)
+        toast.error(error.response.data.message || error.message)
     }
   }
 
@@ -127,7 +81,14 @@ function UserTimeline() {
   return <>
     <div className='mt-4 px-4'>
       <div className="feedArea mt-3">
-        {
+      {
+          posts.map((post)=> (
+            <div key={post._id}>
+              <Posts post={post} posts={posts} setPosts= {setPosts} showEmojis={showEmojis} setShowEmojis= {setShowEmojis} />
+            </div>
+          ))
+        }
+        {/* {
           posts.map((e,i)=>{
             return <div key={i}>
               <Col>
@@ -169,7 +130,7 @@ function UserTimeline() {
               </Col>
             </div>
           })
-        }
+        } */}
       </div>
     </div>
 

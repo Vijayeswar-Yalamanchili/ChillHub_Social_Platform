@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { jwtDecode } from "jwt-decode"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFaceSmile } from '@fortawesome/free-regular-svg-icons'
-import { faCropSimple, faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
@@ -76,7 +76,7 @@ function Feedbar() {
 
   useEffect(() => {
     getPostData()
-  },[]) 
+  },[posts]) 
 
   return <>
     <div className='feed mt-4 p-3'>
