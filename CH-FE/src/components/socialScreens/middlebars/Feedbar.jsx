@@ -9,7 +9,7 @@ import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
-import Posts from './Posts'
+import Posts from '../common/Posts'
 
 function Feedbar() {
   const [user, setUser] = useState()

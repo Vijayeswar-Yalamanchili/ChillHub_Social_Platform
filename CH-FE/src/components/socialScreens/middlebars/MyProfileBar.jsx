@@ -6,7 +6,6 @@ import { jwtDecode } from "jwt-decode"
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
-import Posts from './Posts'
 
 function MyProfileBar() {
   const [show, setShow] = useState(false)
@@ -83,7 +82,6 @@ function MyProfileBar() {
       <div>
         <h5>My Activity</h5>
         <UserTimeline/>
-        {/* <Posts/> */}
       </div>
     </div>
 

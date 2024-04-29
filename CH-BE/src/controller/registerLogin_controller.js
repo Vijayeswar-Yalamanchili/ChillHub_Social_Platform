@@ -16,7 +16,9 @@ const login = async(req,res) => {
                     email:user.email,
                     imageDP : user.imageDP, 
                     bio : user.bio,
-                    role:user.role
+                    role:user.role,
+                    isLoggedIn : user.isLoggedIn
+
                 })
                 await RegisterLoginModel.findOneAndUpdate({email:email},{ "$set": { isLoggedIn: true }})
                 res.status(200).send({

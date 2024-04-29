@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { jwtDecode } from "jwt-decode"
-import SuggestFriends from '../others/SuggestFriends'
-import MyFriends from '../others/MyFriends'
+import SuggestFriends from './SuggestFriends'
+import MyFriends from './MyFriends'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 
