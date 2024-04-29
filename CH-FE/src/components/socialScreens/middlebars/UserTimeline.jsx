@@ -88,49 +88,6 @@ function UserTimeline() {
             </div>
           ))
         }
-        {/* {
-          posts.map((e,i)=>{
-            return <div key={i}>
-              <Col>
-                <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
-                  <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
-                    <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                      {e.ownerImageDP ===" "|| e.ownerImageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${e.ownerImageDP}`} className='userImage' roundedCircle/>}
-                      <div><b>{e.ownerName}</b></div>
-                    </div>
-                    {e.ownerName === decodeduserDetailsToken.name ? 
-                      <div>
-                        <Button type='button' variant='none' onClick={() => handleEditPost(e._id)}>
-                          <FontAwesomeIcon icon={faEdit} style={{color: "black"}}/>
-                        </Button>
-                        <Button type='button' variant='none' onClick={() => handleDeletePost(e._id)}>
-                          <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
-                        </Button>                    
-                      </div>                    
-                       :
-                      null
-                    }
-                  </div>
-                  <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${e.imageUrl}`} alt='feedPost' className='postImage'/>
-                  <Card.Text className='m-2'>{e.feededData}</Card.Text>
-                  <div className='d-flex flex-row'>
-                    <Card.Text className='m-2'>0 Comments</Card.Text>
-                  </div>
-                  <Card.Body className='p-0'>
-                    <Row>
-                      {!e.currentLikeStatus  ? 
-                          <Col style={{paddingRight:"0px"}}><Button variant="light" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Like</Button></Col> 
-                        : <Col style={{paddingRight:"0px"}}><Button variant="primary" className='likeBtn' onClick={() => handleLikeBtn(e._id)} style={{ width: '100%' }}>Liked</Button></Col>
-                      }
-                      <Col style={{padding:"0px"}}><Button variant="light" className='commentBtn' style={{ width: '100%' }}>Comment</Button></Col>
-                      <Col style={{paddingLeft:"0px"}}><Button variant="light" className='reportBtn' style={{ width: '100%' }}>Report</Button></Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </div>
-          })
-        } */}
       </div>
     </div>
 

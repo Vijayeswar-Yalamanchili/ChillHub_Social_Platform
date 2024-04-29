@@ -173,7 +173,7 @@ function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, s
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                     <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
                         <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                            {post.ownerImageDP ===" "|| post.ownerImageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${post.ownerImageDP}`} className='userImage' roundedCircle/>}
+                            {post.ownerImageDP ===" "|| post.ownerImageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${post.ownerImageDP}`} className='userImage' roundedCircle/>}
                             <div><b>{post.ownerName}</b></div>
                         </div>
                         {post.ownerName === decodeduserDetailsToken.name ? 

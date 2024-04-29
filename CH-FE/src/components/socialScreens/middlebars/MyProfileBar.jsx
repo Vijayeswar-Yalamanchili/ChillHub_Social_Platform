@@ -71,7 +71,7 @@ function MyProfileBar() {
     <div className='mt-4' style={{width:"100%"}}>
       <div className='profileDatas d-flex justify-content-between flex-row align-items' style={{gap: "5%"}}>
         <div className='profilePicImageArea'>
-          {userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} className='imageFile' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${userBioData.imageDP}`} className='imageFile' roundedCircle/>}
+          {userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} style={{padding: "1rem"}} className='imageFile' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${userBioData.imageDP}`} className='imageFile' roundedCircle/>}
         </div>
         <div className='userBioData'>
           <div>{userBioData.bio}</div>

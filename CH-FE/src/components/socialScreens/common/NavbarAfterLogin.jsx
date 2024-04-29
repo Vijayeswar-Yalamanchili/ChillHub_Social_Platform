@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode"
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell, faUser, faMagnifyingGlass, faU, faL} from '@fortawesome/free-solid-svg-icons'
+import { faRightToBracket, faUser, faMagnifyingGlass, faU, faL} from '@fortawesome/free-solid-svg-icons'
 import logo from '../../../assets/png/ChillHub.png'
 import {useLogout} from '../../../hooks/UseLogout'
 import AxiosService from '../../../utils/AxiosService'
@@ -149,13 +149,13 @@ function NavbarAfterLogin() {
             myProfile ? 
                 <div className="myProfileDrpdwn list-group list-group-flush mt-3">
                     <Link to={'/myProfile'} className="list-group-item list-group-item-action">
-                        <span className='d-flex align-items-center' style={{gap:"5px"}}>
+                        <span className='d-flex align-items-center' style={{gap:"15px"}}>
                             <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>My Profile
                         </span>
                     </Link>
                     <Link  className="list-group-item list-group-item-action" onClick={handleLogout}>
                         <span className='d-flex align-items-center' style={{gap:"5px"}}>
-                            <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Logout
+                            <FontAwesomeIcon icon={faRightToBracket} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Logout
                         </span>
                     </Link>
                 </div> : null

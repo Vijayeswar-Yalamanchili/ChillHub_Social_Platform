@@ -22,6 +22,9 @@ function Feedbar() {
   const [posts, setPosts] = useState([])
   const [comments,setComments] = useState([])
   const isLoggedIn = true
+  
+  let getDetailsToken = localStorage.getItem('loginToken')
+  const decodeduserDetailsToken = jwtDecode(getDetailsToken)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -69,10 +72,7 @@ function Feedbar() {
     } catch (error) {
         toast.error(error.response.data.message || error.message)
     }
-  }
-
-  let getDetailsToken = localStorage.getItem('loginToken')
-  const decodeduserDetailsToken = jwtDecode(getDetailsToken)
+  } 
 
   useEffect(() => {
     getPostData()
@@ -81,7 +81,7 @@ function Feedbar() {
   return <>
     <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
-        {isLoggedIn? (decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
+        {isLoggedIn === (!decodeduserDetailsToken.isLoggedIn) ? (decodeduserDetailsToken.imageDP || decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
       </div>
       <div className="feedArea mt-3">
