@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode"
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
-import Posts from '../common/Posts'
+import Posts from '../others/Posts'
 
 
 function UserTimeline() {

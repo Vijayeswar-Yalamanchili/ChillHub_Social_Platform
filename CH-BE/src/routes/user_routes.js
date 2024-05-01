@@ -48,4 +48,7 @@ router.get('/home/getUsersBday/:id', auth.authenticate, usersController.getUsers
 router.get('/home/getmyfriends/:id', auth.authenticate, usersController.getMyFriends)
 router.get('/home/getmyonlinefriends/:id', auth.authenticate, usersController.getMyOnlineFriends)
 
+//msg
+router.get('/home/searchchatuser/:id',auth.authenticate,searchController.searchData)
+
 export default router 

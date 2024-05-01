@@ -639,3 +639,133 @@
     border-radius: 15px !important;
     padding: 2%;
 }
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+
+
+@media screen and (min-width : 768px){
+    .chatWrapper{
+        width: 100%;
+        height: 36.5rem;
+        border: 1px solid grey;
+        border-radius: 20px;
+    }
+    .chatHeader{
+        height: 6rem;
+        background-color: #f7ebeb;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        border-radius: 20px 20px 0 0;
+    }
+    .chatWrapperDp{
+        width: 50px;
+        height: 50px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-left: 1rem;
+    }
+    .chatBody{
+        height: 100%;
+        overflow-y: scroll;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .chatBody::-webkit-scrollbar {
+        display: none;
+    }
+    .message{
+        display: flex;
+        flex-direction: column;
+    }
+    .messageBlock{
+        display: flex;
+        height: 100%;
+    }
+    .chatUserDp{
+        width: 35px;
+        height: 35px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+    .messageDisplay{
+        max-width: 400px;
+        background-color: #EB8D8D;
+        border-radius: 10px;
+        color: white;
+    }
+    .messageBottom{
+        font-size: 12px;
+    }
+    .message.own{
+        align-items: flex-end;
+    }
+    .message.own .messageDisplay{
+        background-color: lightgray;
+        color: black;
+    }
+    .chatFooter{
+        height: 5rem;
+        background-color: #f7ebeb;
+        border-radius: 0 0 20px 20px;
+    }
+    .chatInputText{
+        width: 100%;
+        border-radius: 1rem;
+        overflow-y: scroll;
+        outline: none;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .chatInputText::-webkit-scrollbar {
+        display: none;
+    }
+    .chatList{
+        padding:0.5rem 1rem;
+        height: 100%;
+        border-left: 1px solid grey;
+    }
+    .searchChatBlock{
+        border: 1px solid #EB8D8D;
+        border-radius: 10px;
+        height: 2.5rem;
+        padding: 0 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+        cursor: pointer;
+    }
+    .searchChatBar{
+        border: none;
+        outline: none;
+        width: 100%;
+        padding: 0 5px;
+    }
+    .searchChatResultsList{
+        position: absolute;
+        width: 20.5rem;
+        background-color: white;
+        box-shadow: 0 0 8px #ddd;
+        border-radius: 10px;
+        margin-top: 0.5rem;
+        max-height: 10rem;
+        overflow-y: scroll;
+        z-index: 1;
+    }
+    .searchChatResultValue{
+        padding: 10px;
+    }    
+    .searchChatResultValue:hover{
+        background-color: rgb(244, 244, 244);
+    }
+    .userCard:hover{
+        background-color: #b5b0b043;
+    }
+    .conversationLists{
+        max-height: 30rem;
+        overflow-y: scroll;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+}

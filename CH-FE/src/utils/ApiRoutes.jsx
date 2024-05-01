@@ -87,6 +87,10 @@ const ApiRoutes = {
         path : '/home/updatePostReaction',
         authenticate :true
     },
+    SEARCHCHATUSER : {
+        path : '/home/searchchatuser',
+        authenticate :true
+    },
     LOGOUT : {
         path : '/home/logout',
         authenticate : true
