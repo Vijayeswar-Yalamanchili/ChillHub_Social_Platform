@@ -755,12 +755,15 @@
     }
     .searchChatResultValue{
         padding: 10px;
+        /* cursor: pointer; */
     }    
     .searchChatResultValue:hover{
         background-color: rgb(244, 244, 244);
+        cursor: pointer;
     }
     .userCard:hover{
         background-color: #b5b0b043;
+        cursor: pointer;
     }
     .conversationLists{
         max-height: 30rem;

@@ -27,7 +27,6 @@ function ChatListBar() {
             const decodedToken = jwtDecode(getToken)
             const id = decodedToken.id
             let res = await AxiosService.get(`${ApiRoutes.SEARCHCHATUSER.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
-            // console.log(res.data.searchDatas)
             let result = res.data.searchDatas
             let filteredData = result.filter((user)=> {
                 return searchValue && user && (user.firstName + user.lastName) && (user.firstName + user.lastName).toLowerCase().includes(searchValue)
@@ -81,7 +80,7 @@ function ChatListBar() {
                         </li>
                         <li className="list-group-item">
                             <Card.Body className='userCard d-flex flex-row align-items-center p-0'>
-                                {
+                                { 
                                     isLoggedIn === (!decodedUsernameToken.isLoggedIn) ? 
                                         (decodedUsernameToken.imageDP || decodedUsernameToken.imageDP === " " || decodedUsernameToken.imageDP === undefined ? 
                                             <Image src={userPic} style={{padding: "5px"}} className='userImage me-3' roundedCircle/> 
