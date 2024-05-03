@@ -7,6 +7,8 @@ import usersDataController from '../controller/usersDataController.js'
 import usersController from '../controller/usersController.js'
 import commentsController from '../controller/commentsController.js'
 import searchController from '../controller/searchController.js'
+import conversationController from '../controller/conversationController.js'
+import messageController from '../controller/messageController.js'
 // import multer from 'multer'
 
 const router = express.Router()
@@ -50,5 +52,9 @@ router.get('/home/getmyonlinefriends/:id', auth.authenticate, usersController.ge
 
 //msg
 router.get('/home/searchchatuser/:id',auth.authenticate,searchController.searchData)
+router.post('/home/conversations',auth.authenticate,auth.getUserEmail,conversationController.addConversation)
+router.get('/home/conversations/:id',auth.authenticate,conversationController.getConversation)
+router.post('/home/messages',auth.authenticate,auth.getUserEmail,messageController.newMessage)
+// router.get('/home/messages/:id',auth.authenticate,conversationController.getConversation)
 
 export default router 
