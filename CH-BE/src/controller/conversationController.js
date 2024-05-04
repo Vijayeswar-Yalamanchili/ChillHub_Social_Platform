@@ -2,12 +2,11 @@ import conversationModel from "../models/conversationModel.js"
 
 const addConversation = async(req,res) => {
     try {
-        const addConv= await conversationModel.create({members : req.body,ownerId : req.user.id})
+        const addConv= await conversationModel.create({...req.body,ownerId : req.user.id})
         res.status(200).send({
             message:"Success in adding conversations",
             addConv
-        })
-        
+        })        
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in adding conversations"
@@ -17,10 +16,12 @@ const addConversation = async(req,res) => {
 
 const getConversation = async(req,res) => {
     try {
-        const getConvs = await conversationModel.find()
+        const getConversations = await conversationModel.find({
+            members:{$in : [req.params.id]}
+        })
         res.status(200).send({
             message:"Success in getting conversations",
-            getConvs
+            getConversations
         })
     } catch (error) {
         res.status(500).send({

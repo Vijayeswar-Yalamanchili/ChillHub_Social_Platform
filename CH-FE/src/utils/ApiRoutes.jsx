@@ -59,6 +59,10 @@ const ApiRoutes = {
         path : '/home/getuserdatas',
         authenticate : true
     },
+    GETALLUSERS : {
+        path : '/home/getallusers',
+        authenticate :true
+    },
     GETUSERS : {
         path : '/home/getusers',
         authenticate :true
@@ -90,6 +94,14 @@ const ApiRoutes = {
     SEARCHCHATUSER : {
         path : '/home/searchchatuser',
         authenticate :true
+    },
+    ADDCONVERSATIONS : {
+        path : '/home/addconversations',
+        authenticate : true
+    },
+    GETCONVERSATIONS : {
+        path : '/home/getconversations',
+        authenticate : true
     },
     LOGOUT : {
         path : '/home/logout',

@@ -5,7 +5,7 @@ const MessageSchema = new mongoose.Schema({
         type : String,
         required : false
     },
-    sender: {
+    senderId: {
         type : String,
         required : false
     },
@@ -16,6 +16,10 @@ const MessageSchema = new mongoose.Schema({
     ownerId: {
         type : String,
         required : false
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now()
     }
 },
 {

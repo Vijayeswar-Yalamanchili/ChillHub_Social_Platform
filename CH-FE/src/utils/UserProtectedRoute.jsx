@@ -5,7 +5,6 @@ import { jwtDecode } from "jwt-decode";
 function UserProtectedRoute({children}) {
     let token = localStorage.getItem('loginToken')
     const decodedToken = jwtDecode(token)
-    // // console.log(decodedToken);
     return decodedToken.role==='user'? children : <Navigate to='/'/>;
 }
 

@@ -1,17 +1,19 @@
 import React from 'react'
-import { jwtDecode } from "jwt-decode"
 import { Button,Image } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import userPic from '../../../assets/svg/userProfilePic.svg'
 import ChatMessage from '../others/ChatMessage'
+import Conversation from '../others/Conversation'
+import { jwtDecode } from "jwt-decode"
+import userPic from '../../../assets/svg/userProfilePic.svg'
 
+function MessageBar({user}) {
+  console.log(user)
 
-function MessageBar() {
-  const isLoggedIn = true
-  let tokenForUsername = localStorage.getItem('loginToken')
-  const decodedUsernameToken = jwtDecode(tokenForUsername)
   let own = true
+  const isLoggedIn = true
+    let tokenForUsername = localStorage.getItem('loginToken')
+    const decodedUsernameToken = jwtDecode(tokenForUsername)
 
   return <>
     <div className='mt-4'>
@@ -25,11 +27,11 @@ function MessageBar() {
               ) 
             : null
           }
+          {/* {console.log(currentUser,conversation)} */}
           <div>
-            <h5 className='mb-0'>{decodedUsernameToken.name}</h5>
-            <p className='mb-0'>{!decodedUsernameToken.isLoggedIn ? <div>online</div> : null}</p>
+              <h5 className='mb-0'>{decodedUsernameToken.name}</h5>
+              <div className='mb-0'>{!decodedUsernameToken.isLoggedIn ? <div>online</div> : null}</div>
           </div>
-          
         </div>
         <div className="chatBody">
           <ChatMessage own={own}/>

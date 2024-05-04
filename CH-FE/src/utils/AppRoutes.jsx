@@ -1,17 +1,17 @@
-import React from "react";
-import Login from "../components/signup-signIn-frgtPwd/Login";
-import Register from "../components/signup-signIn-frgtPwd/Register";
+import React from "react"
+import Login from "../components/signup-signIn-frgtPwd/Login"
+import Register from "../components/signup-signIn-frgtPwd/Register"
 import ForgotPassword from "../components/signup-signIn-frgtPwd/ForgotPassword"
-import ResetPassword from "../components/signup-signIn-frgtPwd/ResetPassword";
-import VerifyPassword from "../components/signup-signIn-frgtPwd/VerifyPassword";
+import ResetPassword from "../components/signup-signIn-frgtPwd/ResetPassword"
+import VerifyPassword from "../components/signup-signIn-frgtPwd/VerifyPassword"
 import Home from "../components/socialScreens/Home"
 import Events from "../components/socialScreens/Events"
 import Friends from "../components/socialScreens/Friends"
 import Messages from "../components/socialScreens//Messages"
-import UserProtectedRoute from "./UserProtectedRoute";
-import { Navigate } from "react-router-dom";
-import ErrorScreen from "../components/ErrorScreen";
-import MyProfile from "../components/socialScreens/MyProfile";
+import UserProtectedRoute from "./UserProtectedRoute"
+import ErrorScreen from "../components/ErrorScreen"
+import MyProfile from "../components/socialScreens/MyProfile"
+import UsersContextComponent from "../contextApi/UsersContextComponent"
 
 const AppRoutes = [
     {
@@ -61,7 +61,7 @@ const AppRoutes = [
     },
     {
         path:'/messages',
-        element : <Messages/>,
+        element : <UsersContextComponent><Messages/></UsersContextComponent>,
         exact:true
     },
     {

@@ -1,5 +1,20 @@
 import RegisterLoginModel from '../models/registerLogin_model.js'
 
+const getAllUsers = async(req,res) => {
+    const userId = req.query.userId;
+    try {
+        const getusers = userId ? await RegisterLoginModel.findById(userId) : await RegisterLoginModel.find()
+        res.status(200).send({
+            message:"all users fetched",
+            getusers
+        })
+    } catch (error) {
+        res.status(500).send({
+            message:"Internal Server Error in getting all users"
+        })
+    }
+}
+
 const getNewFrds = async(req,res) => {
     try {
         const getusers = await RegisterLoginModel.find()
@@ -161,6 +176,7 @@ const getMyOnlineFriends = async(req,res) => {
 }
 
 export default{
+    getAllUsers,
     addFriend,
     removeFriend,
     getNewFrds,

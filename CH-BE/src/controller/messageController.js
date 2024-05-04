@@ -2,7 +2,6 @@ import MessageModel from "../models/messageModel.js"
 
 const newMessage = async(req,res) => {
     try {
-        // console.log(req.body)
         const newMessage= await MessageModel.create({...req.body, ownerId : req.user.id})
         res.status(200).send({
             message:"Success in adding newMessage",
@@ -17,11 +16,10 @@ const newMessage = async(req,res) => {
 
 const getMessage = async(req,res) => {
     try {
-        console.log(req.params)
-        // const getmessage = await MessageModel.findById({conversationId : req.params.conversationId})
+        const getmessage = await MessageModel.find({conversationId : req.params.conversationId})
         res.status(200).send({
             message:"Success in getting newMessages",
-            // getmessage
+            getmessage
         })
     } catch (error) {
         res.status(500).send({

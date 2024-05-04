@@ -52,9 +52,13 @@ router.get('/home/getmyonlinefriends/:id', auth.authenticate, usersController.ge
 
 //msg
 router.get('/home/searchchatuser/:id',auth.authenticate,searchController.searchData)
-router.post('/home/conversations',auth.authenticate,auth.getUserEmail,conversationController.addConversation)
-router.get('/home/conversations/:id',auth.authenticate,conversationController.getConversation)
+router.post('/home/addconversations',auth.authenticate,auth.getUserEmail,conversationController.addConversation)
+router.get('/home/getconversations/:id',auth.authenticate,conversationController.getConversation)
+router.get('/home/getallusers', auth.authenticate, usersController.getAllUsers)
 router.post('/home/messages',auth.authenticate,auth.getUserEmail,messageController.newMessage)
-// router.get('/home/messages/:id',auth.authenticate,conversationController.getConversation)
+router.get('/home/messages/:conversationId',auth.authenticate,messageController.getMessage)
+
+//users data for contextAPI
+router.get('/home/getallusers/:id', auth.authenticate, usersController.getAllUsers)
 
 export default router 
