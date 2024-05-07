@@ -154,7 +154,7 @@ function NavbarAfterLogin() {
                         </span>
                     </Link>
                     <Link  className="list-group-item list-group-item-action" onClick={handleLogout}>
-                        <span className='d-flex align-items-center' style={{gap:"5px"}}>
+                        <span className='d-flex align-items-center' style={{gap:"15px"}}>
                             <FontAwesomeIcon icon={faRightToBracket} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Logout
                         </span>
                     </Link>

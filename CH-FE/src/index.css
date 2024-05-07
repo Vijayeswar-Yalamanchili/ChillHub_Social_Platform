@@ -642,6 +642,14 @@
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 
+.noConversationText{
+    width: max-content;
+    border: 1px solid grey;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 30%;
+    cursor: default;
+}
 
 @media screen and (min-width : 768px){
     .chatWrapper{
@@ -755,7 +763,7 @@
     }
     .searchChatResultValue{
         padding: 10px;
-        /* cursor: pointer; */
+        cursor: pointer;
     }    
     .searchChatResultValue:hover{
         background-color: rgb(244, 244, 244);
@@ -765,6 +773,10 @@
         background-color: #b5b0b043;
         cursor: pointer;
     }
+    /* .userCard:active{
+        background-color: #b5b0b043;
+        cursor: pointer;
+    } */
     .conversationLists{
         max-height: 30rem;
         overflow-y: scroll;

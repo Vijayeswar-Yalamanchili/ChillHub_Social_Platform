@@ -47,7 +47,7 @@ const decodeForgotPassToken = async(token) => {
 
 //mailid based authentication
 const authenticate = async(req,res,next) => {
-        let token = req?.headers?.authorization 
+        let token = req?.headers?.authorization
         // let token  = req?.headers?.authorization?.split(' ')[1]
         // console.log(token)
         if(token){
@@ -70,8 +70,8 @@ const authenticate = async(req,res,next) => {
 
 //middleware logintoken decode
 const getUserEmail = async(req,res,next) => {
-    // let token  = req?.headers?.authorization?.split(' ')[1]
     let token = req?.headers?.authorization
+    // let token  = req?.headers?.authorization?.split(' ')[1]
     if(token){
         let payload = await decodeLoginToken(token)
         // console.log(payload);

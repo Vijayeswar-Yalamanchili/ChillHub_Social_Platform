@@ -2,7 +2,7 @@ import conversationModel from "../models/conversationModel.js"
 
 const addConversation = async(req,res) => {
     try {
-        const addConv= await conversationModel.create({...req.body,ownerId : req.user.id})
+        const addConv= await conversationModel.create({...req.body})
         res.status(200).send({
             message:"Success in adding conversations",
             addConv

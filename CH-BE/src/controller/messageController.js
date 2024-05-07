@@ -1,8 +1,9 @@
 import MessageModel from "../models/messageModel.js"
+import RegisterLoginModel from "../models/registerLogin_model.js"
 
 const newMessage = async(req,res) => {
     try {
-        const newMessage= await MessageModel.create({...req.body, ownerId : req.user.id})
+        const newMessage= await MessageModel.create({...req.body})
         res.status(200).send({
             message:"Success in adding newMessage",
             newMessage
@@ -28,7 +29,26 @@ const getMessage = async(req,res) => {
     }
 }
 
+const getChatUserName = async(req,res) => {
+    try {
+        // console.log(req.params)
+        const getCurrentUser = await RegisterLoginModel.find({_id : req.params.id})
+        console.log(getCurrentUser)
+        if(getCurrentUser){
+            res.status(200).send({
+                message:"chat frd data fetched",
+                getCurrentUser                
+            })
+        }
+    } catch (error) {
+        res.status(500).send({
+            message:"Internal Server Error in getting all users"
+        })
+    }
+}
+
 export default {
     newMessage,
-    getMessage
+    getMessage,
+    getChatUserName
 }

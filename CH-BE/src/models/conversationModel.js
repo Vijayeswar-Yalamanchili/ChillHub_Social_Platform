@@ -4,10 +4,6 @@ const ConversationSchema = new mongoose.Schema({
       members: {
         type: Array,
         required : false
-      },
-      ownerId : {
-        type : String,
-        required : false
       }
   },
   {
