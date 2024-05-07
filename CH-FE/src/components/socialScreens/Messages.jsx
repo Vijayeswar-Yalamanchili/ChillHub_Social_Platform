@@ -31,7 +31,8 @@ function Messages() {
   }
 
   const getMessages = async() => {
-    try {      
+    try {
+
       let res = await AxiosService.get(`${ApiRoutes.GETMESSAGES.path}/${currentChat?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
       if(res.status === 200){
         setMessages(res.data.getmessage)
@@ -62,7 +63,7 @@ function Messages() {
   useEffect(()=>{
     getMessages()
     // getChatUserName()
-  },[currentChat])
+  },[currentChat,messages])
 
   return <>
     <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
@@ -72,7 +73,7 @@ function Messages() {
     <Container fluid style={{paddingTop : '5rem'}}>
       <Row>
       <Col xs={2} sm={2} md={3}><Leftbar/></Col>
-      <Col xs={10} sm md={6}><MessageBar user={user} messages={messages} currentChat={currentChat}  conversations={conversations}/></Col>
+      <Col xs={10} sm md={6}><MessageBar user={user} messages={messages} setMessages={setMessages} currentChat={currentChat}  conversations={conversations}/></Col>
       <Col sm={3} md={3}><ChatListBar user={user} conversations={conversations} setConversations={setConversations} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
       </Row>
     </Container>

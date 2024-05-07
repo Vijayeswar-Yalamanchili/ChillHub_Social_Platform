@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button,Image } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,11 +10,36 @@ import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 
-function MessageBar({user,currentChat,messages,conversations}) {
+function MessageBar({user,currentChat,messages,setMessages,conversations}) {
 
   const isLoggedIn = true
   let getToken = localStorage.getItem('loginToken')
-  const decodedUsernameToken = jwtDecode(getToken)  
+  const decodedUsernameToken = jwtDecode(getToken)
+
+  const [newMessage,setNewMessage] = useState("")
+  const scrollRef = useRef()
+
+  const handleSendMessage = async(e) => {
+    try {
+      e.preventDefault()
+      const message = {
+        senderId : user[0]._id,
+        text : newMessage,
+        conversationId : currentChat._id
+      }
+      const res = await AxiosService.post(`${ApiRoutes.ADDNEWMESSAGES.path}`,message)
+      setNewMessage('')
+      if(res===200){
+        setMessages([...messages,res.data.newMessage])
+      }
+    } catch (error) {
+      toast.error(error.res.data.message || error.message)
+    }
+  }
+
+  useEffect(()=>{
+    scrollRef.current?.scrollIntoView()
+  },[messages])
 
   return <>
     <div className='mt-4'>
@@ -37,12 +62,16 @@ function MessageBar({user,currentChat,messages,conversations}) {
               </div> */}
               <div className="chatBody">
                 {
-                  messages.map((m,i)=> <ChatMessage key={i} message={m} own={m.senderId === user[0]?._id} user={user} conversations={conversations}/> )
+                  messages.map((m,i)=> (
+                    <div ref={scrollRef}>
+                      <ChatMessage key={i} message={m} own={m.senderId === user[0]?._id} user={user} conversations={conversations}/> 
+                    </div>
+                  ))
                 }
               </div>
               <div className="chatFooter d-flex flex-row justify-content-between p-2">
-                <textarea name="chatInputText" className="chatInputText p-2" cols="30" rows="10" placeholder='Type your message here...'></textarea>
-                <Button style={{backgroundColor : "transparent", border : "none"}}>
+                <textarea name="chatInputText" className="chatInputText p-2" cols="30" rows="10" placeholder='Type your message here...' onChange={(e)=> setNewMessage(e.target.value)} value={newMessage}></textarea>
+                <Button onClick={handleSendMessage} style={{backgroundColor : "transparent", border : "none"}}>
                   <FontAwesomeIcon icon={faPaperPlane} style={{color: "#EB8D8D",width : "1.25rem",height : "1.25rem"}}/>
                 </Button>
               </div>

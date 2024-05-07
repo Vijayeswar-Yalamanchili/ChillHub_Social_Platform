@@ -55,7 +55,7 @@ router.get('/home/searchchatuser/:id',auth.authenticate,searchController.searchD
 router.post('/home/addconversations',auth.authenticate,conversationController.addConversation)
 router.get('/home/getconversations/:id',auth.authenticate,conversationController.getConversation)
 router.get('/home/getallusers', auth.authenticate, usersController.getAllUsers)
-router.post('/home/addmessages',auth.authenticate,messageController.newMessage)
+router.post('/home/addnewmessages',auth.authenticate,messageController.newMessage)
 router.get('/home/getmessages/:conversationId',auth.authenticate,messageController.getMessage)
 // router.get('/home/getchatusername/:id',messageController.getChatUserName)
 

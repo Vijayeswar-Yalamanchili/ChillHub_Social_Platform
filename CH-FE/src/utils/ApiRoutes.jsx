@@ -103,6 +103,10 @@ const ApiRoutes = {
         path : '/home/getconversations',
         authenticate : true
     },
+    ADDNEWMESSAGES : {
+        path : '/home/addnewmessages',
+        authenticate : true
+    },
     GETMESSAGES : {
         path : '/home/getmessages',
         authenticate : true

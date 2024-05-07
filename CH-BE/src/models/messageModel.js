@@ -12,12 +12,9 @@ const MessageSchema = new mongoose.Schema({
     text: {
         type : String,
         required : false
-    },
-    createdAt:{
-        type:Date,
-        default:Date.now()
     }
 },
+{ timestamps: true },
 {
     collection:'messages',
     versionKey:false,
