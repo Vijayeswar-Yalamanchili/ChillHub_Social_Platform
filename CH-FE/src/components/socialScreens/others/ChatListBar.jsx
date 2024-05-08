@@ -6,6 +6,7 @@ import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import Conversation from './Conversation'
+import RightBar from '../common/Rightbar'
 
 function ChatListBar({user, conversations, setConversations,currentChat, setCurrentChat}) {
 
@@ -32,7 +33,7 @@ function ChatListBar({user, conversations, setConversations,currentChat, setCurr
         }
     }
 
-    return <>
+    return <div className='messagesRightbar'>
         <div className='chatList mt-3'>
 
             <div className='searchChatField'>                        
@@ -53,15 +54,15 @@ function ChatListBar({user, conversations, setConversations,currentChat, setCurr
                 }
             </div>
 
-            <div className='mt-4'>
+            <div className='mt-3'>
                 <h5>Chats</h5>
                 <Card style={{ width: '100%',marginTop : "15px" }}>
                     <ul className=' conversationLists list-group list-group-flush p-1'>
                         {
                             conversations.map((c)=> 
                                 <li className="list-group-item px-0 py-2" key={c._id}>
-                                    <Card.Body className='userCard d-flex flex-row align-items-center p-2' onClick={()=>setCurrentChat(c)}>
-                                        <Conversation conversation={c} currentUserId={user[0]._id}/>
+                                    <Card.Body className='userCard d-flex flex-row align-items-center p-0' onClick={()=>setCurrentChat(c)}>
+                                        <Conversation conversation={c} currentUserId={user[0]?._id}/>
                                     </Card.Body>
                                 </li>
                             )
@@ -70,7 +71,9 @@ function ChatListBar({user, conversations, setConversations,currentChat, setCurr
                 </Card>
             </div>
         </div>
-    </>
+        <hr/>
+        <RightBar/>
+    </div>
 }
 
 export default ChatListBar

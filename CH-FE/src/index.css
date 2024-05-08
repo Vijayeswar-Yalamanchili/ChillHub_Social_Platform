@@ -729,7 +729,7 @@
     }
     .chatList{
         padding:0.5rem 1rem;
-        height: 100%;
+        height: max-content;
         border-left: 1px solid grey;
     }
     .searchChatBlock{
@@ -778,9 +778,13 @@
         cursor: pointer;
     } */
     .conversationLists{
-        max-height: 30rem;
+        max-height: 14rem;
         overflow-y: scroll;
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
+    }
+    .messagesRightbar .rightBar{
+        height: 15rem;
+        /* max-height: 10rem; */
     }
 }

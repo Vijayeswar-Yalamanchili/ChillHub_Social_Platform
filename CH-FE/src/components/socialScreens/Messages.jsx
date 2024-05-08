@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Container,Row, Col } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import NavbarAfterLogin from './common/NavbarAfterLogin'
@@ -8,19 +8,21 @@ import MessageBar from './middlebars/MessageBar'
 import AxiosService from '../../utils/AxiosService'
 import ApiRoutes from '../../utils/ApiRoutes'
 import { UserContext } from '../../contextApi/UsersContextComponent'
+import {io} from 'socket.io-client'
 
 
 function Messages() {
   const {user} = useContext(UserContext)
   const [conversations, setConversations] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
-  // const [friendData, setFriendData] = useState(null)
+  const [arrivalMessage,setArrivalMessage] = useState(null)
   const [messages, setMessages] = useState(null)
+  const socket = useRef()
   let getToken = localStorage.getItem('loginToken')
 
   const getConversations = async() => {
     try {
-        let res = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+        let res = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
         let result = res.data.getConversations
         if(res.status === 200){
             setConversations(result)
@@ -65,6 +67,28 @@ function Messages() {
     // getChatUserName()
   },[currentChat,messages])
 
+  useEffect(()=>{
+    socket.current = io("ws://localhost:7000")
+    socket.current.on('getMessage',data=> {
+      setArrivalMessage({
+        senderId : data.senderId,
+        text : data.text,
+        createdAt : Date.now()
+      })
+    })
+  },[]);
+
+  useEffect(()=>{
+    socket.current.emit('addUser', user[0]?._id)
+    socket.current.on('getUsers',users=> {
+      console.log(users)
+    })
+  },[user])
+
+  useEffect(()=>{
+    arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) && setMessages((prev) => [...prev,arrivalMessage])
+  },[arrivalMessage,currentChat])
+
   return <>
     <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
       <NavbarAfterLogin/>
@@ -73,7 +97,7 @@ function Messages() {
     <Container fluid style={{paddingTop : '5rem'}}>
       <Row>
       <Col xs={2} sm={2} md={3}><Leftbar/></Col>
-      <Col xs={10} sm md={6}><MessageBar user={user} messages={messages} setMessages={setMessages} currentChat={currentChat}  conversations={conversations}/></Col>
+      <Col xs={10} sm md={6}><MessageBar user={user} ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat}  conversations={conversations}/></Col>
       <Col sm={3} md={3}><ChatListBar user={user} conversations={conversations} setConversations={setConversations} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
       </Row>
     </Container>

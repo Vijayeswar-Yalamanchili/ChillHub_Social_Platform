@@ -1,32 +1,37 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef,forwardRef } from 'react'
 import { Button,Image } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import ChatMessage from '../others/ChatMessage'
-import Conversation from '../others/Conversation'
 import { jwtDecode } from "jwt-decode"
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 
-function MessageBar({user,currentChat,messages,setMessages,conversations}) {
+const MessageBar = forwardRef(({user,currentChat,messages,setMessages,conversations},socket)=>{
 
-  const isLoggedIn = true
   let getToken = localStorage.getItem('loginToken')
-  const decodedUsernameToken = jwtDecode(getToken)
-
   const [newMessage,setNewMessage] = useState("")
   const scrollRef = useRef()
 
+  const isLoggedIn = true  
+  const decodedUsernameToken = jwtDecode(getToken)
+
   const handleSendMessage = async(e) => {
+    e.preventDefault()
+    const message = {
+      senderId : user[0]._id,
+      text : newMessage,
+      conversationId : currentChat._id
+    }
+    const receiverId = currentChat.members.find(member => member !== user[0]._id)    
+    socket.current.emit('sendMessgae', {
+      senderId : user[0]._id,
+      receiverId,
+      text : newMessage
+    })
     try {
-      e.preventDefault()
-      const message = {
-        senderId : user[0]._id,
-        text : newMessage,
-        conversationId : currentChat._id
-      }
       const res = await AxiosService.post(`${ApiRoutes.ADDNEWMESSAGES.path}`,message)
       setNewMessage('')
       if(res===200){
@@ -38,7 +43,7 @@ function MessageBar({user,currentChat,messages,setMessages,conversations}) {
   }
 
   useEffect(()=>{
-    scrollRef.current?.scrollIntoView()
+    scrollRef.current?.scrollIntoView({behavior : "auto"})
   },[messages])
 
   return <>
@@ -63,8 +68,8 @@ function MessageBar({user,currentChat,messages,setMessages,conversations}) {
               <div className="chatBody">
                 {
                   messages.map((m,i)=> (
-                    <div ref={scrollRef}>
-                      <ChatMessage key={i} message={m} own={m.senderId === user[0]?._id} user={user} conversations={conversations}/> 
+                    <div ref={scrollRef} key={i}>
+                      <ChatMessage message={m} own={m.senderId === user[0]?._id} user={user} conversations={conversations}/> 
                     </div>
                   ))
                 }
@@ -80,6 +85,6 @@ function MessageBar({user,currentChat,messages,setMessages,conversations}) {
         }
     </div>
   </>
-}
+})
 
 export default MessageBar
