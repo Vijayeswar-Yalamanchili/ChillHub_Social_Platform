@@ -17,6 +17,7 @@ function Messages() {
   const [currentChat, setCurrentChat] = useState(null)
   const [arrivalMessage,setArrivalMessage] = useState(null)
   const [messages, setMessages] = useState(null)
+  const [onlineUsers, setOnlineUsers] = useState([])
   const socket = useRef()
   let getToken = localStorage.getItem('loginToken')
 
@@ -81,9 +82,11 @@ function Messages() {
   useEffect(()=>{
     socket.current.emit('addUser', user[0]?._id)
     socket.current.on('getUsers',users=> {
-      console.log(users)
+      // console.log(users)
+      setOnlineUsers(user[0]?.friends.filter((f)=> users.some(u=>u.userId === f.userId )))
     })
   },[user])
+  // console.log(onlineUsers)
 
   useEffect(()=>{
     arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) && setMessages((prev) => [...prev,arrivalMessage])
@@ -93,12 +96,13 @@ function Messages() {
     <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
       <NavbarAfterLogin/>
     </div>
+    {/* {console.log(onlineUsers)} */}
 
     <Container fluid style={{paddingTop : '5rem'}}>
       <Row>
       <Col xs={2} sm={2} md={3}><Leftbar/></Col>
       <Col xs={10} sm md={6}><MessageBar user={user} ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat}  conversations={conversations}/></Col>
-      <Col sm={3} md={3}><ChatListBar user={user} conversations={conversations} setConversations={setConversations} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
+      <Col sm={3} md={3}><ChatListBar user={user} onlineUsers={onlineUsers} conversations={conversations} setConversations={setConversations} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
       </Row>
     </Container>
   </>

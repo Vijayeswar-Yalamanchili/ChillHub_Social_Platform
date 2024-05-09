@@ -7,9 +7,10 @@ import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import Conversation from './Conversation'
 import RightBar from '../common/Rightbar'
+import { UserContext } from '../../../contextApi/UsersContextComponent'
 
-function ChatListBar({user, conversations, setConversations,currentChat, setCurrentChat}) {
-
+function ChatListBar({ conversations, onlineUsers,setConversations,currentChat, setCurrentChat}) {
+    const {user} = useContext(UserContext)
     const [searchChatQuery, setSearchChatQuery] = useState("")
     const [searchChatResults, setSearchChatResults] = useState([])
     let getToken = localStorage.getItem('loginToken')
@@ -32,6 +33,7 @@ function ChatListBar({user, conversations, setConversations,currentChat, setCurr
             toast.error(error.response.data.message || error.message)
         }
     }
+    // console.log(onlineUsers)
 
     return <div className='messagesRightbar'>
         <div className='chatList mt-3'>
@@ -72,7 +74,7 @@ function ChatListBar({user, conversations, setConversations,currentChat, setCurr
             </div>
         </div>
         <hr/>
-        <RightBar/>
+        <RightBar onlineUsers={onlineUsers} setCurrentChat={setCurrentChat} user={user}/>
     </div>
 }
 

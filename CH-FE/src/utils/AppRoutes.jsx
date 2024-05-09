@@ -41,22 +41,22 @@ const AppRoutes = [
     },
     {
         path:'/home',
-        element : <UserProtectedRoute><Home/></UserProtectedRoute>,
+        element : <UserProtectedRoute><UsersContextComponent><Home/></UsersContextComponent></UserProtectedRoute>,
         exact:true
     },
     {
         path:'/myprofile',
-        element : <MyProfile/>,
+        element : <UsersContextComponent><MyProfile/></UsersContextComponent>,
         exact:true
     },
     {
         path:'/events',
-        element : <Events/>,
+        element : <UsersContextComponent><Events/></UsersContextComponent>,
         exact:true
     },
     {
         path:'/friends',
-        element : <Friends/>,
+        element : <UsersContextComponent><Friends/></UsersContextComponent>,
         exact:true
     },
     {
