@@ -2,7 +2,6 @@ import RegisterLoginModel from '../models/registerLogin_model.js'
 
 const addUsersData = async(req,res) => {
     try {
-        console.log("req.body : ", req.body, "req.file : ", req.body, req.file)
         const addDatas = await RegisterLoginModel.findOneAndUpdate(
             {_id:req.user.id},
             {$set : {"imageDP" : req.file.filename, "bio" : req.body.bio, "dob" : req.body.dob}

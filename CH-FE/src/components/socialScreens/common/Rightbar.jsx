@@ -40,7 +40,7 @@ function Rightbar() {
     <div className="rightBar">
       <div className="friendsList mt-3">
         <h5>Friends Online</h5>
-        <ul className="list-group list-group-flush" id="listFriend">
+        <ul className="friendsOnlineList list-group list-group-flush" id="listFriend">
           {
             onlineFriends.length >= 1 ?
               onlineFriends.map((e)=>{

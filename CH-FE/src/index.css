@@ -785,6 +785,13 @@
     }
     .messagesRightbar .rightBar{
         height: 15rem;
-        /* max-height: 10rem; */
+    }
+    .friendsOnlineList{
+        overflow-y: scroll;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .friendsOnlineList::-webkit-scrollbar {
+        display: none;
     }
 }
