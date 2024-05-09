@@ -769,7 +769,7 @@
         background-color: rgb(244, 244, 244);
         cursor: pointer;
     }
-    .userCard:hover{
+    .userCardList:hover{
         background-color: #b5b0b043;
         cursor: pointer;
     }

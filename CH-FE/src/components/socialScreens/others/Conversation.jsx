@@ -28,17 +28,17 @@ function Conversation({conversation,currentUserId}) {
 
     return <>
         {
-            isLoggedIn === (!user.isLoggedIn) ? 
-              ( user.imageDP === undefined ? 
+            isLoggedIn !== (!user?.isLoggedIn) ? 
+              ( user?.imageDP  ? <Image src={`https://chillhub-social-platform.onrender.com/${user.imageDP}`} className='chatWrapperDp me-3' roundedCircle/>:
                 <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp me-3' roundedCircle/> 
-                  : <Image src={`https://chillhub-social-platform.onrender.com/${user.imageDP}`} className='chatWrapperDp me-3' roundedCircle/>
+                //   : <Image src={`https://chillhub-social-platform.onrender.com/${user.imageDP}`} className='chatWrapperDp me-3' roundedCircle/>
               ) 
-            : <Image src={`https://chillhub-social-platform.onrender.com/${user.imageDP}`} className='chatWrapperDp me-3' roundedCircle/>
+            : <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp me-3' roundedCircle/>
         }
         {/* <Image src={`https://chillhub-social-platform.onrender.com/${user.imageDP}`} className='chatWrapperDp me-3' roundedCircle/> */}
         <div>
-            <div className='mb-0' style={{fontSize : "1em"}}>{user.firstName} {user.lastName}</div>
-            <p className='mb-0'>{user.isLoggedIn === true ? <div>online</div> : null}</p>
+            <div className='mb-0' style={{fontSize : "1em"}}>{user?.firstName} {user?.lastName}</div>
+            <p className='mb-0'>{user?.isLoggedIn === true ? <div style={{color : "green"}}>online</div> : null}</p>
         </div>
     </>
 }
