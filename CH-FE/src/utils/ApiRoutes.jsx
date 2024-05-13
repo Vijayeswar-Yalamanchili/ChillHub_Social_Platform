@@ -95,8 +95,8 @@ const ApiRoutes = {
         path : '/home/searchchatuser',
         authenticate :true
     },
-    ADDCONVERSATIONS : {
-        path : '/home/addconversations',
+    ADDNEWCONVERSATIONS : {
+        path : '/home/addnewconversations',
         authenticate : true
     },
     GETCONVERSATIONS : {

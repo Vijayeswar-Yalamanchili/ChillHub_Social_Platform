@@ -12,6 +12,7 @@ import { UserContext } from '../../../contextApi/UsersContextComponent'
 function ChatListBar({ conversations, onlineUsers,setConversations,currentChat, setCurrentChat}) {
     const {user} = useContext(UserContext)
     const [searchChatQuery, setSearchChatQuery] = useState("")
+    const [conversation, setConversation] = useState("")
     const [searchChatResults, setSearchChatResults] = useState([])
     let getToken = localStorage.getItem('loginToken')
 
@@ -33,7 +34,27 @@ function ChatListBar({ conversations, onlineUsers,setConversations,currentChat, 
             toast.error(error.response.data.message || error.message)
         }
     }
-    // console.log(onlineUsers)
+
+    const handleAddConversation = async(friendId) => {
+        let convoBody = {
+            members : [user[0]?._id,friendId],
+            conversationStatus:false
+        }
+        try {
+            const res = await AxiosService.post(`${ApiRoutes.ADDNEWCONVERSATIONS.path}`,convoBody)
+            const result = res.data.addConv
+            console.log(res.data)
+            setSearchChatQuery("")
+            if(res===200){        
+                toast.success(res.data.message)
+                console.log(res.data.message)    
+                setConversation(result)
+            }
+        } catch (error) {
+            console.log(error.message)
+            toast.error(error.response.data.message || error.message)
+        }
+    }
 
     return <div className='messagesRightbar'>
         <div className='chatList mt-3'>
@@ -49,7 +70,7 @@ function ChatListBar({ conversations, onlineUsers,setConversations,currentChat, 
                         {
                             searchChatResults !== "" ?
                             searchChatResults.map((e)=> {
-                                return <div className='searchChatResultValue' key={e._id}>{e.firstName} {e.lastName}</div>
+                                return <div className='searchChatResultValue' key={e._id} onClick={()=>handleAddConversation(e._id)}>{e.firstName} {e.lastName}</div>
                             }) : null
                         }
                     </div>

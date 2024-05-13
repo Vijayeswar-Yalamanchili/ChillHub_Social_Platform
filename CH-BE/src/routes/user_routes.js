@@ -52,7 +52,7 @@ router.get('/home/getmyonlinefriends/:id', auth.authenticate, usersController.ge
 
 //msg
 router.get('/home/searchchatuser/:id',auth.authenticate,searchController.searchData)
-router.post('/home/addconversations',auth.authenticate,conversationController.addConversation)
+router.post('/home/addnewconversations',auth.authenticate,conversationController.addConversation)
 router.get('/home/getconversations/:id',auth.authenticate,conversationController.getConversation)
 router.get('/home/getallusers', auth.authenticate, usersController.getAllUsers)
 router.post('/home/addnewmessages',auth.authenticate,messageController.newMessage)
