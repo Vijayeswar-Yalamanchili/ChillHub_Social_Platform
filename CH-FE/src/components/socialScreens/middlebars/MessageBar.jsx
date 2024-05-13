@@ -43,7 +43,7 @@ const MessageBar = forwardRef(({user,currentChat,messages,setMessages,conversati
   }
 
   useEffect(()=>{
-    scrollRef.current?.scrollIntoView({behavior : "auto"})
+    scrollRef.current?.scrollIntoView({behavior : "smooth"})
   },[messages])
 
   return <>

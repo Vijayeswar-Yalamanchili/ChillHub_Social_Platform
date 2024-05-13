@@ -1,13 +1,19 @@
+import conversationModel from "../models/conversationModel.js"
 import MessageModel from "../models/messageModel.js"
 import RegisterLoginModel from "../models/registerLogin_model.js"
 
 const newMessage = async(req,res) => {
     try {
+        console.log(req.body)
         const newMessage= await MessageModel.create({...req.body})
-        res.status(200).send({
-            message:"Success in adding newMessage",
-            newMessage
-        })
+        if(newMessage){
+            const setConversationStatus = await conversationModel.findByIdAndUpdate({_id : req.body.conversationId},{$set : {"status" : true}})
+            res.status(200).send({
+                message:"Success in adding newMessage",
+                newMessage
+            })
+        }
+        
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in adding newMessage"

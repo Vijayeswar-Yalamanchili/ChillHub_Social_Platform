@@ -28,11 +28,11 @@ function Conversation({conversation,currentUserId}) {
 
     return <>
         {
-            isLoggedIn !== (!user?.isLoggedIn) ? 
-              ( user?.imageDP  ? <Image src={`https://chillhub-social-platform.onrender.com/${user.imageDP}`} className='chatWrapperDp p-1 me-3' roundedCircle/>:
+            // isLoggedIn !== (!user?.isLoggedIn) ? 
+              ( user?.imageDP  ? <Image src={`https://chillhub-social-platform.onrender.com/${user.imageDP}`} className='chatWrapperDp me-3' roundedCircle/>:
                 <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp p-1 me-3' roundedCircle/> 
               ) 
-            : <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp p-1 me-3' roundedCircle/>
+            // : <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp p-1 me-3' roundedCircle/>
         }
         <div>
             <div className='mb-0' style={{fontSize : "1em"}}>{user?.firstName} {user?.lastName}</div>

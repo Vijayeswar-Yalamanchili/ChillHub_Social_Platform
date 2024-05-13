@@ -16,9 +16,7 @@ const addConversation = async(req,res) => {
 
 const getConversation = async(req,res) => {
     try {
-        const getConversations = await conversationModel.find({
-            members:{$in : [req.params.id]}
-        })
+        const getConversations = await conversationModel.find({members:{$in : [req.params.id] }} && {conversationStatus : true})
         res.status(200).send({
             message:"Success in getting conversations",
             getConversations

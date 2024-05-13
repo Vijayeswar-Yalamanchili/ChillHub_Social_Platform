@@ -4,7 +4,12 @@ const ConversationSchema = new mongoose.Schema({
       members: {
         type: Array,
         required : false
-      }
+      },
+      conversationStatus:{
+        type:Boolean,
+        default:false
+    },
+
   },
   {
       collection:'conversations',
