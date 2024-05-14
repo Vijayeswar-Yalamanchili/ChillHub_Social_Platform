@@ -36,19 +36,24 @@ function ChatListBar({ conversations, onlineUsers,setConversations,currentChat, 
     }
 
     const handleAddConversation = async(friendId) => {
-        let convoBody = {
-            members : [user[0]?._id,friendId],
-            conversationStatus:false
-        }
         try {
-            const res = await AxiosService.post(`${ApiRoutes.ADDNEWCONVERSATIONS.path}`,convoBody)
-            const result = res.data.addConv
-            console.log(res.data)
+            let checkConvo = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            let checkConvoResult = checkConvo.data.getConversations
+            let isConvoExist = checkConvoResult.filter((e)=> e.members[1] === friendId)
             setSearchChatQuery("")
-            if(res===200){        
-                toast.success(res.data.message)
-                console.log(res.data.message)    
-                setConversation(result)
+            if(isConvoExist[0]){
+                console.log("convo exists")                
+            }else{
+                // console.log("new")
+                let convoBody = {
+                    members : [user[0]?._id,friendId],
+                    conversationStatus:false
+                }
+                const addConvo = await AxiosService.post(`${ApiRoutes.ADDNEWCONVERSATIONS.path}`,convoBody)
+                const result = addConvo.data.addConv
+                if(addConvo===200){ 
+                    setConversation(result)
+                }
             }
         } catch (error) {
             console.log(error.message)
