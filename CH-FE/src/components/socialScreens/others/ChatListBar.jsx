@@ -9,7 +9,7 @@ import Conversation from './Conversation'
 import RightBar from '../common/Rightbar'
 import { UserContext } from '../../../contextApi/UsersContextComponent'
 
-function ChatListBar({onlineUsers,currentChat, setCurrentChat,convoRef}) {
+function ChatListBar({onlineUsers,currentChat, setCurrentChat,conversations}) {
     const {user} = useContext(UserContext)
     const [searchChatQuery, setSearchChatQuery] = useState("")
     const [conversation, setConversation] = useState("")
@@ -85,7 +85,7 @@ function ChatListBar({onlineUsers,currentChat, setCurrentChat,convoRef}) {
                 <Card style={{ width: '100%',marginTop : "15px" }}>
                     <ul className=' conversationLists list-group list-group-flush p-1'>
                         {
-                            convoRef.current.map((c)=> 
+                            conversations.map((c)=> 
                                 <li className="userCardList list-group-item px-0 py-2" key={c._id}>
                                     <Card.Body className='userCard d-flex flex-row align-items-center p-0' onClick={()=>setCurrentChat(c)}>
                                         <Conversation conversation={c} currentUserId={user[0]?._id}/>

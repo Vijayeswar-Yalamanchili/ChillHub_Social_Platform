@@ -28,10 +28,9 @@ function Messages() {
     try {
         let res = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
         let result = res.data.getConversations
-        convoRef.current = result
         if(res.status === 200){
-          setConvo(convoRef.current)
-            // setConversations(result)
+          // setConvo(convoRef.current)
+            setConversations(result)
         }
     } catch (error) {
         toast.error(error.res.data.message || error.message)
@@ -89,8 +88,8 @@ function Messages() {
     <Container fluid style={{paddingTop : '5rem'}}>
       <Row>
       <Col xs={2} sm={2} md={3}><Leftbar/></Col>
-      <Col xs={10} sm md={6}><MessageBar user={user} ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} convoRef={convoRef}/></Col>
-      <Col sm={3} md={3}><ChatListBar user={user} onlineUsers={onlineUsers} convoRef={convoRef} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
+      <Col xs={10} sm md={6}><MessageBar user={user} ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} conversations={conversations} setConversations={setConversations} convoRef={convoRef}/></Col>
+      <Col sm={3} md={3}><ChatListBar user={user} onlineUsers={onlineUsers} convoRef={convoRef} conversations={conversations} setConversations={setConversations} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
       </Row>
     </Container>
   </>
