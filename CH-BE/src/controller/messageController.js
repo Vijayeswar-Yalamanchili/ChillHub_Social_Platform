@@ -7,7 +7,7 @@ const newMessage = async(req,res) => {
         console.log(req.body)
         const newMessage= await MessageModel.create({...req.body})
         if(newMessage){
-            const setConversationStatus = await conversationModel.findByIdAndUpdate({_id : req.body.conversationId},{$set : {"status" : true}})
+            const setConversationStatus = await conversationModel.findByIdAndUpdate({_id : req.body.conversationId},{$set : {"conversationStatus" : true}})
             res.status(200).send({
                 message:"Success in adding newMessage",
                 newMessage

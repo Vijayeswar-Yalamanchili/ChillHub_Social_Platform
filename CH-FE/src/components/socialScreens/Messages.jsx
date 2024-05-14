@@ -14,19 +14,24 @@ import {io} from 'socket.io-client'
 function Messages() {
   const {user} = useContext(UserContext)
   const [conversations, setConversations] = useState([])
+  const [convo, setConvo] = useState('')
   const [currentChat, setCurrentChat] = useState(null)
   const [arrivalMessage,setArrivalMessage] = useState(null)
   const [messages, setMessages] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
   const socket = useRef()
+  const convoRef = useRef([])
+
   let getToken = localStorage.getItem('loginToken')
 
   const getConversations = async() => {
     try {
         let res = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
         let result = res.data.getConversations
+        convoRef.current = result
         if(res.status === 200){
-            setConversations(result)
+          setConvo(convoRef.current)
+            // setConversations(result)
         }
     } catch (error) {
         toast.error(error.res.data.message || error.message)
@@ -35,11 +40,9 @@ function Messages() {
 
   const getMessages = async() => {
     try {
-
       let res = await AxiosService.get(`${ApiRoutes.GETMESSAGES.path}/${currentChat?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
       if(res.status === 200){
-        setMessages(res.data.getmessage)
-        
+        setMessages(res.data.getmessage)        
       }
     } catch (error) {
       console.log(error.message)
@@ -47,25 +50,12 @@ function Messages() {
     }
   }
 
-  // const getChatUserName = async() => {
-  //   try {
-  //     let res = await AxiosService.get(`${ApiRoutes.GETCHATUSERNAME.path}/${currentChat.members[1]}`)
-  //     console.log(res.data)
-  //     // if(res === 200){
-  //       setFriendData(res.data.getCurrentUser)
-  //     // }
-  //   } catch (error) {
-  //     toast.error(error.res.data.message || error.message)
-  //   }
-  // }
-
   useEffect(()=>{
       getConversations()
   },[user])
 
   useEffect(()=>{
     getMessages()
-    // getChatUserName()
   },[currentChat,messages])
 
   useEffect(()=>{
@@ -86,7 +76,6 @@ function Messages() {
       setOnlineUsers(user[0]?.friends.filter((f)=> users.some(u=>u.userId === f.userId )))
     })
   },[user])
-  // console.log(onlineUsers)
 
   useEffect(()=>{
     arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) && setMessages((prev) => [...prev,arrivalMessage])
@@ -96,13 +85,12 @@ function Messages() {
     <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
       <NavbarAfterLogin/>
     </div>
-    {/* {console.log(onlineUsers)} */}
 
     <Container fluid style={{paddingTop : '5rem'}}>
       <Row>
       <Col xs={2} sm={2} md={3}><Leftbar/></Col>
-      <Col xs={10} sm md={6}><MessageBar user={user} ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat}  conversations={conversations}/></Col>
-      <Col sm={3} md={3}><ChatListBar user={user} onlineUsers={onlineUsers} conversations={conversations} setConversations={setConversations} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
+      <Col xs={10} sm md={6}><MessageBar user={user} ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} convoRef={convoRef}/></Col>
+      <Col sm={3} md={3}><ChatListBar user={user} onlineUsers={onlineUsers} convoRef={convoRef} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
       </Row>
     </Container>
   </>

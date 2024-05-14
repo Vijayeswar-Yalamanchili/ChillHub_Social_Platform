@@ -10,8 +10,8 @@ const app = express();
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
-    // origin: "https://chill-hub-social-platform.vercel.app"
+    // origin: "http://localhost:5173",
+    origin: "https://chill-hub-social-platform.vercel.app"
   }
 })
 
@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
   //send & get msg
   socket.on('sendMessgae',({senderId,receiverId,text})=>{
     const user = getUser(receiverId)
-    io.to(user.socketId).emit('getMessage', {
+    io.to(user?.socketId).emit('getMessage', {
       senderId,
       text,
     })

@@ -9,7 +9,7 @@ import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 
-const MessageBar = forwardRef(({user,currentChat,messages,setMessages,conversations},socket)=>{
+const MessageBar = forwardRef(({user,currentChat,messages,setMessages,conversations,convoRef},socket)=>{
 
   let getToken = localStorage.getItem('loginToken')
   const [newMessage,setNewMessage] = useState("")
@@ -69,7 +69,7 @@ const MessageBar = forwardRef(({user,currentChat,messages,setMessages,conversati
                 {
                   messages.map((m,i)=> (
                     <div ref={scrollRef} key={i}>
-                      <ChatMessage message={m} own={m.senderId === user[0]?._id} user={user} conversations={conversations}/> 
+                      <ChatMessage message={m} own={m.senderId === user[0]?._id}/> 
                     </div>
                   ))
                 }
