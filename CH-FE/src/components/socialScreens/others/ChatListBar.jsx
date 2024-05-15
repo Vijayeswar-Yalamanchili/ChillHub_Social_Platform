@@ -85,13 +85,21 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
                 <Card style={{ width: '100%',marginTop : "15px" }}>
                     <ul className=' conversationLists list-group list-group-flush p-1'>
                         {
-                            conversations.map((c)=> 
-                                <li className="userCardList list-group-item px-0 py-2" key={c._id}>
-                                    <Card.Body className='userCard d-flex flex-row align-items-center p-0' onClick={()=>setCurrentChat(c)}>
-                                        <Conversation conversation={c} currentUserId={user[0]?._id}/>
-                                    </Card.Body>
-                                </li>
-                            )
+                            conversations.length > 0?
+                                conversations.map((c)=> 
+                                    <li className="userCardList list-group-item px-0 py-2" key={c._id}>
+                                        <Card.Body className='userCard d-flex flex-row align-items-center p-0' onClick={()=>setCurrentChat(c)}>
+                                            <Conversation conversation={c} currentUserId={user[0]?._id}/>
+                                        </Card.Body>
+                                    </li>
+                                ) : 
+                                <div >
+                                    <Card style={{ width: '18rem' }}>
+                                        <Card.Body>
+                                            <Card.Text>No Birthdays</Card.Text>                  
+                                        </Card.Body>
+                                    </Card>
+                                </div>
                         }
                     </ul>                
                 </Card>
