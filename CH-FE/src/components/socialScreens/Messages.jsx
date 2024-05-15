@@ -12,6 +12,7 @@ import {io} from 'socket.io-client'
 
 
 function Messages() {
+  
   const {user} = useContext(UserContext)
   const [conversations, setConversations] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
@@ -26,7 +27,6 @@ function Messages() {
     try {
         let res = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
         let result = res.data.getConversations
-        console.log(result)
         if(res.status === 200){
             setConversations(result)
         }
