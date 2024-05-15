@@ -14,13 +14,11 @@ import {io} from 'socket.io-client'
 function Messages() {
   const {user} = useContext(UserContext)
   const [conversations, setConversations] = useState([])
-  const [convo, setConvo] = useState('')
   const [currentChat, setCurrentChat] = useState(null)
   const [arrivalMessage,setArrivalMessage] = useState(null)
   const [messages, setMessages] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
   const socket = useRef()
-  const convoRef = useRef([])
 
   let getToken = localStorage.getItem('loginToken')
 
@@ -28,8 +26,8 @@ function Messages() {
     try {
         let res = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
         let result = res.data.getConversations
+        console.log(result)
         if(res.status === 200){
-          // setConvo(convoRef.current)
             setConversations(result)
         }
     } catch (error) {
@@ -51,7 +49,7 @@ function Messages() {
 
   useEffect(()=>{
       getConversations()
-  },[user])
+  },[conversations])
 
   useEffect(()=>{
     getMessages()
@@ -88,8 +86,10 @@ function Messages() {
     <Container fluid style={{paddingTop : '5rem'}}>
       <Row>
       <Col xs={2} sm={2} md={3}><Leftbar/></Col>
-      <Col xs={10} sm md={6}><MessageBar user={user} ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} conversations={conversations} setConversations={setConversations} convoRef={convoRef}/></Col>
-      <Col sm={3} md={3}><ChatListBar user={user} onlineUsers={onlineUsers} convoRef={convoRef} conversations={conversations} setConversations={setConversations} currentChat={currentChat} setCurrentChat={setCurrentChat}/></Col>
+
+      <Col xs={10} sm md={6}><MessageBar ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} conversations={conversations} setConversations={setConversations}/></Col>
+      
+      <Col sm={3} md={3}><ChatListBar onlineUsers={onlineUsers} conversations={conversations} setCurrentChat={setCurrentChat}/></Col>
       </Row>
     </Container>
   </>

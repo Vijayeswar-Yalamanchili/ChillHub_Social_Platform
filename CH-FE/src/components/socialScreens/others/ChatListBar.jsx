@@ -1,4 +1,4 @@
-import React, {useState,useEffect,useContext} from 'react'
+import React, {useState,useContext} from 'react'
 import { Card } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,7 +9,7 @@ import Conversation from './Conversation'
 import RightBar from '../common/Rightbar'
 import { UserContext } from '../../../contextApi/UsersContextComponent'
 
-function ChatListBar({onlineUsers,currentChat, setCurrentChat,conversations}) {
+function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
     const {user} = useContext(UserContext)
     const [searchChatQuery, setSearchChatQuery] = useState("")
     const [conversation, setConversation] = useState("")
@@ -45,7 +45,7 @@ function ChatListBar({onlineUsers,currentChat, setCurrentChat,conversations}) {
             if(!isConvoExist[0]){
                 let convoBody = {
                     members : [user[0]?._id,friendId],
-                    conversationStatus:false
+                    conversationStatus:true
                 }
                 const addConvo = await AxiosService.post(`${ApiRoutes.ADDNEWCONVERSATIONS.path}`,convoBody)
                 const result = addConvo.data.addConv
@@ -98,7 +98,7 @@ function ChatListBar({onlineUsers,currentChat, setCurrentChat,conversations}) {
             </div>
         </div>
         <hr/>
-        <RightBar onlineUsers={onlineUsers} setCurrentChat={setCurrentChat} user={user}/>
+        <RightBar onlineUsers={onlineUsers} setCurrentChat={setCurrentChat}/>
     </div>
 }
 

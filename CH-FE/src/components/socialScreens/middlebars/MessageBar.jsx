@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef,forwardRef } from 'react'
+import React, { useState, useEffect,useContext,useRef,forwardRef } from 'react'
 import { Button,Image } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,16 +7,15 @@ import ChatMessage from '../others/ChatMessage'
 import { jwtDecode } from "jwt-decode"
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
+import { UserContext } from '../../../contextApi/UsersContextComponent'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 
-const MessageBar = forwardRef(({user,currentChat,messages,setMessages,conversations,convoRef},socket)=>{
+const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
 
   let getToken = localStorage.getItem('loginToken')
   const [newMessage,setNewMessage] = useState("")
   const scrollRef = useRef()
-
-  const isLoggedIn = true  
-  const decodedUsernameToken = jwtDecode(getToken)
+  const {user} = useContext(UserContext)
 
   const handleSendMessage = async(e) => {
     e.preventDefault()
@@ -32,7 +31,7 @@ const MessageBar = forwardRef(({user,currentChat,messages,setMessages,conversati
       text : newMessage
     })
     try {
-      const res = await AxiosService.post(`${ApiRoutes.ADDNEWMESSAGES.path}`,message)
+      const res = await AxiosService.post(`${ApiRoutes.ADDNEWMESSAGES.path}`,message,{ headers : { 'Authorization' : ` ${getToken}`}})
       setNewMessage('')
       if(res===200){
         setMessages([...messages,res.data.newMessage])
