@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Button, Modal, Form, Image } from 'react-bootstrap'
 import EmojiPicker from 'emoji-picker-react'
 import { toast } from 'react-toastify'
@@ -9,9 +9,12 @@ import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
+import { UserContext } from '../../../contextApi/UsersContextComponent'
 import Posts from '../others/Posts'
 
 function Feedbar() {
+
+  const {currentUser} = useContext(UserContext)
   const [user, setUser] = useState()
   const [show, setShow] = useState(false)
   const [inputStr, setInputStr] = useState('')
@@ -61,7 +64,7 @@ function Feedbar() {
       let getToken = localStorage.getItem('loginToken')
       const decodedToken = jwtDecode(getToken)
       const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${currentUser[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
       const getPostResult = res.data.flatPost
       const images = getPostResult.map((e)=>e.imageUrl)
       if(res.status === 200){
@@ -81,7 +84,11 @@ function Feedbar() {
   return <>
     <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
-        {isLoggedIn === (!decodeduserDetailsToken.isLoggedIn) ? (decodeduserDetailsToken.imageDP || decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null}
+        {
+          currentUser?.imageDP  ? <Image src={`https://chillhub-social-platform.onrender.com/${currentUser?.imageDP}`} className='userImage me-3' roundedCircle/>:
+          <Image src={userPic} style={{padding: "5px"}} className='userImage p-1 me-3' roundedCircle/>
+        }
+        {/* {isLoggedIn === (!decodeduserDetailsToken.isLoggedIn) ? (decodeduserDetailsToken.imageDP || decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null} */}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
       </div>
       <div className="feedArea mt-3">
