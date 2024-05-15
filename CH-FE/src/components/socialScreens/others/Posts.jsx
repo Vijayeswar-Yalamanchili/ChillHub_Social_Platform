@@ -10,7 +10,7 @@ import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 
-function Posts({user,posts, setPosts,post,showEmojis, setShowEmojis,postImage, setPostImage}) {
+function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
 
     const [editShow, setEditShow] = useState(false)
     const [editInputStr, setEditInputStr] = useState('')

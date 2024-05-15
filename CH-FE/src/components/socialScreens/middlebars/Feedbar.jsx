@@ -14,8 +14,8 @@ import Posts from '../others/Posts'
 
 function Feedbar() {
 
-  const {currentUser} = useContext(UserContext)
-  const [user, setUser] = useState()
+  const {user} = useContext(UserContext)
+  const [currentUser, setCurrentUser] = useState()
   const [show, setShow] = useState(false)
   const [inputStr, setInputStr] = useState('')
   const [selectedFile, setSelectedFile] = useState()
@@ -70,7 +70,7 @@ function Feedbar() {
       if(res.status === 200){
         setPosts(getPostResult.reverse())
         setPostImage(images)
-        setUser(res.data.user)
+        setCurrentUser(res.data.user)
       }
     } catch (error) {
         toast.error(error.response.data.message || error.message)
@@ -79,13 +79,13 @@ function Feedbar() {
 
   useEffect(() => {
     getPostData()
-  },[posts]) 
-
+  },[posts])
+console.log(user.imageDP)
   return <>
     <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
         {
-          currentUser?.imageDP  ? <Image src={`https://chillhub-social-platform.onrender.com/${currentUser?.imageDP}`} className='userImage me-3' roundedCircle/>:
+          user[0]?.imageDP  ? <Image src={`https://chillhub-social-platform.onrender.com/${user[0].imageDP}`} className='userImage me-3' roundedCircle/>:
           <Image src={userPic} style={{padding: "5px"}} className='userImage p-1 me-3' roundedCircle/>
         }
         {/* {isLoggedIn === (!decodeduserDetailsToken.isLoggedIn) ? (decodeduserDetailsToken.imageDP || decodeduserDetailsToken.imageDP === " " || decodeduserDetailsToken.imageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${decodeduserDetailsToken.imageDP}`} className='userImage' roundedCircle/>)  : null} */}
@@ -95,7 +95,7 @@ function Feedbar() {
         {
           posts.map((post)=> (
             <div key={post._id}>
-              <Posts user={user} setUser={setUser} post={post} posts={posts} setPosts= {setPosts} comments={comments} setComments= {setComments} showEmojis={showEmojis} setShowEmojis= {setShowEmojis} postImage={postImage} setPostImage={setPostImage}/>
+              <Posts post={post} posts={posts} setPosts= {setPosts} showEmojis={showEmojis} setShowEmojis= {setShowEmojis}/>
             </div>
           ))
         }
