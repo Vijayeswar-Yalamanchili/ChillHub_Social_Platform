@@ -37,7 +37,6 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
             formData.append('feededData', editInputStr)
             formData.append('imageUrl', editSelectedFile)
             const formProps = Object.fromEntries(formData)
-            console.log(formProps);
             let token = localStorage.getItem('loginToken')
             const decodedToken = jwtDecode(token)
             const id = decodedToken.id
@@ -168,12 +167,12 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
             <Col>
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                     <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
-                        <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
+                        <div className='postUserDatas d-flex justify-content-start align-items-center' style={{width : "100%", gap : "3%"}}>
                             {post.ownerImageDP ===" "|| post.ownerImageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${post.ownerImageDP}`} className='userImage' roundedCircle/>}
-                            <div><b>{post.ownerName}</b></div>
+                            <div className='postUserDataName' ><b>{post.ownerName}</b></div>
                         </div>
                         {post.ownerName === decodeduserDetailsToken.name ? 
-                            <div>
+                            <div className='d-flex justify-content-between flex-row align-items-center'>
                                 <Button type='button' variant='none' onClick={() => handleEditPost(post._id)}>
                                     <FontAwesomeIcon icon={faEdit} style={{color: "black"}}/>
                                 </Button>
@@ -185,8 +184,9 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
                             null
                         }
                     </div>
-                    {post.imageUrl ? <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${post.imageUrl}`} alt='feedPost' className='postImage' style={{height:"300px"}}/> : null}
-                    <Card.Text className='m-2'>{post.feededData}</Card.Text>
+                    {/* {post.imageUrl ? <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null} */}
+                    {post.imageUrl ? <Card.Img variant="top" src={`http://localhost:8000/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null}
+                    {post.feededData?<Card.Text className='m-2'>{post.feededData}</Card.Text> : null}
                     <Card.Body className='p-0'>
                         <Row>
                             {

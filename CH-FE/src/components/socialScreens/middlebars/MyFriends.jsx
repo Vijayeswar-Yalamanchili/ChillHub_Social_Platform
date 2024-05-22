@@ -35,7 +35,7 @@ function MyFriends({myFriends,setMyFriends,users, setUsers}) {
             !myFriends.length == "" ? myFriends.map((e,i) => {
               return <div key={e._id} className='mt-3'>
                 <Col >
-                  <Card style={{ width: '18rem' }} >
+                  <Card style={{ width: '100%' }} >
                     {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic} style={{padding: "5px"}}/> : <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${e.imageDP}`} />}
                     <Card.Body>
                       <Card.Title>{e.firstName} {e.lastName}</Card.Title>

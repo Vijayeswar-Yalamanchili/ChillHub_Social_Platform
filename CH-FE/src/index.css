@@ -116,6 +116,8 @@
     text-decoration: none !important;
 }
 
+/* ------------------------------------------------------------------------------------------------ */
+
 /* NAVBAR AFTER LOGIN */
 
 .containerBlock{
@@ -134,7 +136,7 @@
 }
 
 .navbarMenu{
-    width: 60%;
+    /* width: 100%; */
     align-items: center;
 }
 
@@ -153,6 +155,7 @@
     text-align: center;
     border-radius: 50% !important;
     border: none !important;
+    display: block;
 }
 
 .navText{
@@ -189,12 +192,23 @@
     top: 4.5rem;
     z-index: 1;
     min-width: 15%;
+    max-width: 10rem;
     height: auto;
     font-size: 16px;
     border-radius: 10px !important;
     background-color: white;    
     padding: 5px 15px !important;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.listMenuUserName{
+    display: block !important;
+}
+
+@media screen and (max-width : 321px){
+    .navbarMenu{
+        margin-right: 1rem;
+    }
 }
 
 @media screen and (max-width : 576px){
@@ -216,6 +230,13 @@
     .searchBlock, .userName{
         display: none !important;
     }
+    
+}
+
+@media screen and (min-width: 769px){
+    .listMenuUserName{
+        display: none !important;
+    }
 }
 
 @media screen and (max-width: 991px){
@@ -223,9 +244,6 @@
         background-color: #EB8D8D;
         color: white;
         width: max-content !important;
-    }
-    .NavIcon{
-        display: none !important;
     }
     .navText{
         display: block !important;        
@@ -237,8 +255,11 @@
     }
     .myProfileDrpdwn{
         position: absolute !important;
-        right: 5rem !important;
-        top: 10rem !important;
+        right: 3rem !important;
+        top: 3.5rem !important;
+    }
+    .listMenu{
+        padding: 0.5rem !important;
     }
     .collapse, .navbar-collapse{
         position: absolute;
@@ -275,15 +296,9 @@
 }
 
 @media screen and (min-width: 992px){
-    .NavIcon{
-        display: block !important;
-    }
-    #navText{
-        display: none !important;
-    }
-    .navbarMenu{
-        width: 20% !important;
-    }
+    /* .navbarMenu{
+        width: 15% !important;
+    } */
     .searchField{
         display: flex;
         flex-direction: column;
@@ -325,9 +340,9 @@
         top: 1rem;
         left: 20%;
     }
-    .navbarMenu{
-        width: 25% !important;
-    }
+    /* .navbarMenu{
+        width: 100% !important;
+    } */
 }
 
 @media screen and (min-width: 1200px){
@@ -337,9 +352,9 @@
         top: 1rem;
         left: 30%;
     }
-    .navbarMenu{
+    /* .navbarMenu{
         width: 20% !important;
-    }
+    } */
 }
 
 /* ------------------------------------------------------------------------------------------------ */
@@ -392,6 +407,9 @@
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}   /* Change the background color of the dropdown button when the dropdown content is shown */
 
+
+/* ------------------------------------------------------------------------------------------------ */
+
 /* RIGHTBAR COMPONENT */
 
 .rightBar{
@@ -420,9 +438,9 @@
         border: none;
         /* border-right: 1px solid grey; */
     }
-    .rightBar{
+    /* .rightBar{
         display: none;
-    }
+    } */
     .list-group-item{
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
@@ -430,7 +448,7 @@
     .feed{
         border-left: 1px solid grey;
     }
-    .onlineBtn{
+    /* .onlineBtn{
         position: absolute;
         top: 18rem;
         left: 0;
@@ -443,7 +461,47 @@
         position: absolute;
         top: 0.5rem;
         left: 0.5rem;
+    } */
+    /* .sidebar{
+        position: fixed;
+        top: 5.1rem;
+        border-top-left-radius: 20px;
+        right: 0;
+        z-index: 1;
+        background-color: #EB8D8D;
+        color: white;
+        width: 12rem;
+        height: 100%;
+        overflow-y: scroll;
+    } */
+}
+
+/* @media screen and (min-width : 576px) and (max-width : 768px){
+
+    .rightBarSlide{
+        display: none;
     }
+    .leftbar{
+        border-right: 1px solid grey;
+    }
+} */
+
+@media screen and (max-width : 767px){
+    .leftMenuText{
+        display: none !important;
+    }
+    .leftMenuIcon{
+        display: block !important;
+    }
+    .leftMenuIconRow{
+        display: none !important;
+    }
+    /* .rightBar{
+        display: none;
+    }
+    .rightBarSlide{
+        display: block;
+    } */
     .sidebar{
         position: fixed;
         top: 5.1rem;
@@ -458,30 +516,6 @@
     }
 }
 
-@media screen and (min-width : 576px) and (max-width : 768px){
-    .rightBar{
-        display: block;
-    }
-    .rightBarSlide{
-        display: none;
-    }
-    .leftbar{
-        border-right: 1px solid grey;
-    }
-}
-
-@media screen and (max-width : 768px){
-    .leftMenuText{
-        display: none !important;
-    }
-    .leftMenuIcon{
-        display: block !important;
-    }
-    .leftMenuIconRow{
-        display: none !important;
-    }
-}
-
 @media screen and (min-width : 768px){
     .leftMenuText{
         display: block !important;
@@ -492,11 +526,12 @@
     .leftMenuIconRow{
         display: none !important;
     }
-    .onlineBtn{
+    /* .onlineBtn{
         display: none;
-    }
+    } */
 }
 
+/* ------------------------------------------------------------------------------------------------ */
 
 /* FEEDBAR COMPONENT */
 
@@ -596,11 +631,22 @@
 }
 
 @media screen and (max-width : 768px){
-    /* .feed{
-        
+    /* .postUserDatas{
+        width: 10% !important;
+    }
+    .postUserDataName{
+        width: 100%;
     } */
 }
 
+@media screen and (min-width : 768px){
+    /* .postUserDatas{
+        width: 45% !important;
+    } 
+    .postUserDataName{
+        width: 100%;
+    }*/
+}
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
@@ -642,6 +688,8 @@
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 
+
+/* Messages Menu */
 .noConversationText{
     width: max-content;
     border: 1px solid grey;
@@ -651,7 +699,152 @@
     cursor: default;
 }
 
+.chatList{
+    padding:0.5rem 1rem;
+    height: max-content;
+    border-left: 1px solid grey;
+}
+.chatWrapperDp{
+    width: 2.25rem;
+    height: 2.25rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-left: 0.5rem;
+}
+
+.searchChatBlock, .searchChatBlockSide{
+    border: 1px solid #EB8D8D;
+    border-radius: 10px;
+    height: 2.5rem;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.searchChatBar, .searchChatBarside{
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0 5px;
+}
+
+.searchChatBarside{
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.searchChatResultsList{
+    position: absolute;
+    width: 18%;
+    background-color: white;
+    box-shadow: 0 0 8px #ddd;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    max-height: 10rem;
+    overflow-y: scroll;
+    z-index: 1;
+    font-size: 0.8em;
+}
+
+.searchChatResultsListSide{
+    position: absolute;
+    width: 95%;
+    background-color: white;
+    box-shadow: 0 0 8px #ddd;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    max-height: 10rem;
+    overflow-y: scroll;
+    z-index: 1;
+    font-size: 0.8em;
+    color: black;
+}
+
+.searchChatResultValue{
+    padding: 10px;
+    cursor: pointer;
+}   
+
+@media screen and (max-width : 767px){
+    .messagesRightbar{
+        display: none !important;
+    }
+    .messagesRightbarSlide{
+        display: block !important;
+    }
+    .rightBarSlide{
+        display: block !important;
+    }
+    .rightBar{
+        display: none !important;
+    }
+    .chatList{
+        display: none !important;
+    }
+    .chatListSidebar{
+        padding: 1%;
+    }
+    .onlineBtn{
+        position: fixed;
+        top: 37.5rem;
+        left: 1rem;
+        background-color: #EB8D8D;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 15px;
+    }
+    .convoBtn{
+        position: fixed;
+        top: 34rem;
+        left: 1rem;
+        background-color: #EB8D8D;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 15px;
+    }
+    .onlineIcon{
+        position: absolute;
+        color: rgb(40, 106, 73);
+        top: 0.9rem;
+        left: 0.8rem;
+    }
+    .convoIcon{
+        width: 22px;
+        height: 20px;
+        position: absolute;
+        color: white;
+        top: 0.9rem;
+        left: 0.8rem;
+    }
+    .chatListSidebar{
+        position: fixed;
+        top: 4.1rem;
+        border-top-left-radius: 20px;
+        right: 0;
+        z-index: 1;
+        background-color: #EB8D8D;
+        color: white;
+        width: 15rem;
+        height: 100%;
+        overflow-y: scroll;
+    }
+    .chatListSidebar::-webkit-scrollbar {
+        display: none;
+    }
+    .chatListSidebar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+}
+
 @media screen and (min-width : 768px){
+    .onlineFrdsBtn{
+        display: none !important;
+    }
     .chatWrapper{
         width: 100%;
         height: 36.5rem;
@@ -666,12 +859,6 @@
         justify-content: flex-start;
         align-items: center;
         border-radius: 20px 20px 0 0;
-    }
-    .chatWrapperDp{
-        width: 50px;
-        height: 50px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        margin-left: 1rem;
     }
     .chatBody{
         height: 100%;
@@ -727,39 +914,9 @@
     .chatInputText::-webkit-scrollbar {
         display: none;
     }
-    .chatList{
-        padding:0.5rem 1rem;
-        height: max-content;
-        border-left: 1px solid grey;
-    }
-    .searchChatBlock{
-        border: 1px solid #EB8D8D;
-        border-radius: 10px;
-        height: 2.5rem;
-        padding: 0 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        gap: 10px;
-        cursor: pointer;
-    }
-    .searchChatBar{
-        border: none;
-        outline: none;
-        width: 100%;
-        padding: 0 5px;
-    }
     .searchChatResultsList{
-        position: absolute;
-        width: 20.5rem;
-        background-color: white;
-        box-shadow: 0 0 8px #ddd;
-        border-radius: 10px;
-        margin-top: 0.5rem;
-        max-height: 10rem;
-        overflow-y: scroll;
-        z-index: 1;
+        width: 20% !important;
+        font-size: 1rem;
     }
     .searchChatResultValue{
         padding: 10px;
@@ -785,6 +942,13 @@
     }
     .messagesRightbar .rightBar{
         height: 15rem;
+        border-left: none;
+    }
+    .messagesRightbarSlide{
+        display: none !important;
+    }
+    .rightBarSlide{
+        display: none;
     }
     .friendsOnlineList{
         overflow-y: scroll;

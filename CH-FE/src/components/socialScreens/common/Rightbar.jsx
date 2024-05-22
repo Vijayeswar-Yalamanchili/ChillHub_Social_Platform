@@ -1,7 +1,7 @@
 import React ,{useState, useEffect} from 'react'
 import { Button, Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle} from '@fortawesome/free-solid-svg-icons'
+import { faCircle, faUsersRays} from '@fortawesome/free-solid-svg-icons'
 import { jwtDecode } from "jwt-decode"
 import { toast } from 'react-toastify'
 import AxiosService from '../../../utils/AxiosService'
@@ -63,8 +63,9 @@ function Rightbar() {
         </ul>
       </div>
     </div>
+    
     <div className="rightBarSlide">
-      <div className='onlineBtn' onClick={handlesidebar}><FontAwesomeIcon className='onlineIcon' icon={faCircle} style={{color : "#0bf927"}}/></div>
+      <div className='onlineBtn' onClick={handlesidebar}><FontAwesomeIcon className='onlineIcon' icon={faUsersRays}/></div>
       {
         !sidebarOpen ? null :
           <div className='sidebar p-2'>

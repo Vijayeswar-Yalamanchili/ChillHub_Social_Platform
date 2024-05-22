@@ -77,7 +77,7 @@ function Messages() {
   useEffect(()=>{
     arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) && setMessages((prev) => [...prev,arrivalMessage])
   },[arrivalMessage,currentChat])
-
+// console.log(conversations)
   return <>
     <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
       <NavbarAfterLogin/>
@@ -85,11 +85,11 @@ function Messages() {
 
     <Container fluid style={{paddingTop : '5rem'}}>
       <Row>
-      <Col xs={2} sm={2} md={3}><Leftbar/></Col>
+        <Col xs={2} sm={2} md={3}><Leftbar/></Col>
 
-      <Col xs={10} sm md={6}><MessageBar ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} conversations={conversations} setConversations={setConversations}/></Col>
-      
-      <Col sm={3} md={3}><ChatListBar onlineUsers={onlineUsers} conversations={conversations} setCurrentChat={setCurrentChat}/></Col>
+        <Col xs={10} sm md={6}><MessageBar ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} conversations={conversations} setConversations={setConversations}/></Col>
+        
+        <Col sm={3} md={3}><ChatListBar onlineUsers={onlineUsers} conversations={conversations} setCurrentChat={setCurrentChat}/></Col>
       </Row>
     </Container>
   </>

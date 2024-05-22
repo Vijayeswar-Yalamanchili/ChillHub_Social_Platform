@@ -48,7 +48,7 @@ const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
   return <>
     <div className='mt-4'>
         {
-          !currentChat ? <div className='noConversationText mx-auto'>Open a conversation to start the chat</div> : <>
+          !currentChat ? <div className='noConversationText mx-auto' style={{width:"100%"}}>Open a conversation to start the chat</div> : <>
             <div className="chatWrapper d-flex flex-column justify-content-between">
               {/* <div className="chatHeader">                
                 {

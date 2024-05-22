@@ -58,7 +58,7 @@ function EventBar() {
               }) 
               : 
               <div >
-                <Card style={{ width: '18rem' }} >
+                <Card style={{ width: '100%' }} >
                   <Card.Body>
                     <Card.Text>No Birthdays</Card.Text>                  
                   </Card.Body>

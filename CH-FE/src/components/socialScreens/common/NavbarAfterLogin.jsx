@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import {Nav,Navbar,Button,Container,Form,Modal} from 'react-bootstrap'
+import React, {useState, useContext} from 'react'
+import {Nav,Navbar,Button,Container,Form,Modal, Image} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode"
 import { toast } from 'react-toastify'
@@ -9,9 +9,11 @@ import logo from '../../../assets/png/ChillHub.png'
 import {useLogout} from '../../../hooks/UseLogout'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
+import { UserContext } from '../../../contextApi/UsersContextComponent'
 
 function NavbarAfterLogin() {
 
+    const {user} = useContext(UserContext)
     let logout = useLogout()
     let notifications = ["Notification 1","Notification 2","Notification 3","Notification 4","Notification 5"]
 
@@ -100,35 +102,21 @@ function NavbarAfterLogin() {
                 <div className='navbarMenu d-flex justify-content-between'>
                     <div className='d-flex justify-content-between flex-row align-items-center'>
                         <div className='userName' style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div>
-                        
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" className='navToogle' style={{background:"white"}}/>
-                        <Navbar.Collapse id="basic-navbar-nav" className='rightbarNofication'>
-                            <Nav className='ms-auto'>
-                                {/* <Nav.Link>
-                                    <Button className='NavIcon mx-2' onClick={()=>handleNotify()}>
-                                        <FontAwesomeIcon icon={faBell} size='xl' style={{color: "#EB8D8D"}}/>
-                                    </Button>
-                                     <Button className='navText ' onClick={()=>handleNotify()} >
-                                        <div className='d-flex justify-content-between'><FontAwesomeIcon icon={faBell} size='xl' style={{color: "white"}}/>Notifications</div>
-                                     </Button>
-                                </Nav.Link> */}
-                                <Nav.Link>
-                                    <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()}>
-                                        <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D"}}/>
-                                    </Button>
-                                    <Button className='navText' onClick={()=>handleMyProfile()} >
-                                        <div className='d-flex justify-content-between'><FontAwesomeIcon icon={faUser} size='xl' style={{color: "white"}}/>MyProfile</div>
-                                    </Button> 
-                                </Nav.Link>          
-                            </Nav>          
-                        </Navbar.Collapse> 
+                        <Nav className='ms-auto'>
+                            <Nav.Link>
+                                <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()}>
+                                    <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D"}}/>
+                                </Button>
+                            </Nav.Link>
+                        </Nav>                        
                     </div>                    
-                </div>       
+                </div>
+
             </Container>
         </Navbar>    
 
         {/* Notification Dropdown */}
-        <div>
+        {/* <div>
             {
             notify ? 
                 <ul className='notificationsDrpdwn list-group list-group-flush'>
@@ -141,19 +129,23 @@ function NavbarAfterLogin() {
                 }
                 </ul> : null
             }
-        </div>
+        </div> */}
 
         {/* My Profile Dropdown */}
         <div>
             {
             myProfile ? 
                 <div className="myProfileDrpdwn list-group list-group-flush mt-3">
-                    <Link to={'/myProfile'} className="list-group-item list-group-item-action">
+                    <div className='listMenuUserName list-group-item list-group-item-action'>
+                        <Image className="userImage my-2" src={`https://chillhub-social-platform.onrender.com/${user[0].imageDP}`} roundedCircle/>
+                        <div><b>Welcome, {decodedUsernameToken.name}</b></div>
+                    </div>
+                    <Link to={'/myProfile'} className="listMenu list-group-item list-group-item-action">
                         <span className='d-flex align-items-center' style={{gap:"15px"}}>
                             <FontAwesomeIcon icon={faUser} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>My Profile
                         </span>
                     </Link>
-                    <Link  className="list-group-item list-group-item-action" onClick={handleLogout}>
+                    <Link  className="listMenu list-group-item list-group-item-action" onClick={handleLogout}>
                         <span className='d-flex align-items-center' style={{gap:"15px"}}>
                             <FontAwesomeIcon icon={faRightToBracket} size='xl' style={{color: "#EB8D8D", width:"18px", height:"16px"}}/>Logout
                         </span>

@@ -34,8 +34,8 @@ function Conversation({conversation,currentUserId}) {
               ) 
             // : <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp p-1 me-3' roundedCircle/>
         }
-        <div>
-            <div className='mb-0' style={{fontSize : "1em"}}>{user?.firstName} {user?.lastName}</div>
+        <div style={{fontSize : "0.8em"}}>
+            <div className='mb-0'>{user?.firstName} {user?.lastName}</div>
             <p className='mb-0'>{user?.isLoggedIn === true ? <div style={{color : "green"}}>online</div> : null}</p>
         </div>
     </>

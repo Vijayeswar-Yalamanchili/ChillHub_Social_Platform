@@ -56,11 +56,11 @@ function Leftbar() {
             <FontAwesomeIcon icon={faPeopleGroup} size='xl' style={{color: "#EB8D8D", width:"18px", height:"18px"}}/>
           </span>
         </Link>
-        {/* <Link to={'/messages'} className="list-group-item list-group-item-action mt-2">
+        <Link to={'/messages'} className="list-group-item list-group-item-action mt-2">
           <span className='d-flex justify-content-center align-items-center' style={{gap:"5px"}}>
             <FontAwesomeIcon icon={faComments} size='xl' style={{color: "#EB8D8D", width:"18px", height:"18px"}}/>
           </span>
-        </Link> */}
+        </Link>
         
       </div>
       {/* <div className="leftMenuIconRow list-group mt-3 d-flex flex-row" style={{width : "25rem"}}>
