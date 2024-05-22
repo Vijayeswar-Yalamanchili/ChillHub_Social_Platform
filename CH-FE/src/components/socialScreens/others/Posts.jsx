@@ -184,8 +184,8 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
                             null
                         }
                     </div>
-                    {/* {post.imageUrl ? <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null} */}
-                    {post.imageUrl ? <Card.Img variant="top" src={`http://localhost:8000/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null}
+                    {post.imageUrl ? <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null}
+                    {/* {post.imageUrl ? <Card.Img variant="top" src={`http://localhost:8000/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null} */}
                     {post.feededData?<Card.Text className='m-2'>{post.feededData}</Card.Text> : null}
                     <Card.Body className='p-0'>
                         <Row>
