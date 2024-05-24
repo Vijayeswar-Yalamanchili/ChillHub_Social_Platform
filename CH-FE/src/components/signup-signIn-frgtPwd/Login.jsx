@@ -71,9 +71,9 @@ function Login() {
                             <div className="d-grid mb-4">
                                 <Button variant='primary' onClick={()=>{handleRegister()}}>Register</Button>
                             </div>
-                            <div className='text-center mb-4'>
+                            {/* <div className='text-center mb-4'>
                                 <Link to="" className='loginTextLink'>Create a page</Link> for a celebrity, brand or business
-                            </div>
+                            </div> */}
                         </Form>
                     </Col>
                 </Row>

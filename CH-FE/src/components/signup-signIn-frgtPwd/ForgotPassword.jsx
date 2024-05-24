@@ -37,7 +37,7 @@ function ForgotPassword() {
     return <>
         <NavbarBeforeLogin/>
 
-        <div className='formArea py-5'>
+        <div className='formArea py-3'>
             <Container fluid>
                 <div className='rowArea'>
                     <Link to={'/'}><Button variant='secondary' className='mb-3'><FontAwesomeIcon icon={faArrowLeft} className='me-2' />Back</Button></Link>    

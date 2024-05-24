@@ -8,13 +8,14 @@ import ApiRoutes from '../../../utils/ApiRoutes'
 function Conversation({conversation,currentUserId}) {
 
     const [user, setUser] = useState('')
+    let getToken = localStorage.getItem('loginToken')
     const isLoggedIn = true
 
     const friendId = conversation.members.find((m)=> m !== currentUserId)
 
     const getUserId = async() => {
         try {            
-            const res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}?userId=${friendId}`)
+            const res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}?userId=${friendId}`,{ headers : { 'Authorization' : ` ${getToken}`}})
             setUser(res.data.getusers)
         } catch (error) {
             toast.error(error.response.data.message || error.message)
