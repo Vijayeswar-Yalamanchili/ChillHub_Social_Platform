@@ -26,3 +26,5 @@ This is a full-stack web application built with the MERN stack, comprising Mongo
   - JWT for authentication
   - bcrypt for password hashing
   - websockets for chats
+  - nodemailer
+  - multer
