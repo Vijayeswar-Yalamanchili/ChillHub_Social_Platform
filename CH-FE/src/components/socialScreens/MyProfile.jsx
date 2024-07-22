@@ -1,5 +1,5 @@
 import React from 'react'
-import {Container,Row, Col} from 'react-bootstrap';
+import { Container,Row, Col } from 'react-bootstrap';
 import NavbarAfterLogin from './common/NavbarAfterLogin'
 import Leftbar from './common/Leftbar';
 import Rightbar from './common/Rightbar'

@@ -23,11 +23,8 @@ function Feedbar() {
   const [preview, setPreview] = useState()
   const [postImage, setPostImage] = useState()
   const [posts, setPosts] = useState([])
-  const [comments,setComments] = useState([])
-  const isLoggedIn = true
   
   let getDetailsToken = localStorage.getItem('loginToken')
-  const decodeduserDetailsToken = jwtDecode(getDetailsToken)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -80,7 +77,7 @@ function Feedbar() {
   useEffect(() => {
     getPostData()
   },[posts])
-  // http://localhost:8000
+
   return <>
     <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
@@ -88,10 +85,6 @@ function Feedbar() {
           user[0]?.imageDP  ? <Image src={`https://chillhub-social-platform.onrender.com/${user[0].imageDP}`} className='userImage me-3' roundedCircle/>:
           <Image src={userPic} style={{padding: "5px"}} className='userImage p-1 me-3' roundedCircle/>
         }
-        {/* {
-          user[0]?.imageDP  ? <Image src={`http://localhost:8000/${user[0].imageDP}`} className='userImage me-3' roundedCircle/>:
-          <Image src={userPic} style={{padding: "5px"}} className='userImage p-1 me-3' roundedCircle/>
-        } */}
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>
       </div>
       <div className="feedArea mt-3">

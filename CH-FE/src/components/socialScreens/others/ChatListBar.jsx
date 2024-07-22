@@ -4,11 +4,11 @@ import { toast } from 'react-toastify'
 import { jwtDecode } from "jwt-decode"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faCircle, faUsersRays, faComment, faCommentMedical} from '@fortawesome/free-solid-svg-icons'
+import { UserContext } from '../../../contextApi/UsersContextComponent'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import Conversation from './Conversation'
 import RightBar from '../common/Rightbar'
-import { UserContext } from '../../../contextApi/UsersContextComponent'
 
 function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
 
@@ -91,7 +91,7 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
     useEffect(()=> {
         getMyOnlineFriends()
     },[user]) 
-// console.log(conversations)
+
     return <>
         <div className='messagesRightbar'>
             <div className='chatList mt-3'>

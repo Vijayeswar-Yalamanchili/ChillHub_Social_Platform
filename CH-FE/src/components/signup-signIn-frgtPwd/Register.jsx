@@ -1,18 +1,18 @@
-import React from 'react'
-import {Container,Row, Col,Form,Button} from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
+import React, { useState } from 'react'
+import { Container,Row, Col,Form,Button, Spinner } from 'react-bootstrap'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import NavbarBeforeLogin from './NavbarBeforeLogin'
 import signupAnime from '../../assets/svg/registerAnime.svg'
 import AxiosService from '../../utils/AxiosService'
 import ApiRoutes from '../../utils/ApiRoutes'
 
-
 function Register() {
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
 
   let formik = useFormik({
     initialValues:{
@@ -32,12 +32,14 @@ function Register() {
       confirmPassword:Yup.string().required('Confirm Password is required').matches(/^[a-zA-Z0-9!@#$%^&*]{8,15}$/,'Confirm Password should match Password')
     }),
     onSubmit : async(values) => {
-        try {        
+        try {
+            setLoading(true)
             if(values.password === values.confirmPassword){
               let res = await AxiosService.post(`${ApiRoutes.REGISTER.path}`,values)
               if(res.status === 200){
                 navigate('/')
-              }     
+              }
+              setLoading(false)
             }else{
               toast.error("Passwords doesnt match! Please enter the same passwords")
             }
@@ -92,7 +94,7 @@ function Register() {
                 </Col>
               </Row>
               <div className="d-grid mb-3">
-                <Button variant='primary' type="submit">Register</Button>
+                <Button variant='primary' type="submit" disabled={loading}>{loading ? <Spinner animation="border" /> : 'Register'}</Button>
               </div>
               <div className='text-center mb-2'>
                 Already existing user? <Link to={'/'} className='loginTextLink'>Login</Link>

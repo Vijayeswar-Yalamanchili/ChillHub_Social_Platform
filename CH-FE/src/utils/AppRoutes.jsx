@@ -1,67 +1,69 @@
-import React from "react"
-import Login from "../components/signup-signIn-frgtPwd/Login"
-import Register from "../components/signup-signIn-frgtPwd/Register"
-import ForgotPassword from "../components/signup-signIn-frgtPwd/ForgotPassword"
-import ResetPassword from "../components/signup-signIn-frgtPwd/ResetPassword"
-import VerifyPassword from "../components/signup-signIn-frgtPwd/VerifyPassword"
-import Home from "../components/socialScreens/Home"
-import Events from "../components/socialScreens/Events"
-import Friends from "../components/socialScreens/Friends"
-import Messages from "../components/socialScreens//Messages"
+import React, { lazy, Suspense } from "react"
 import UserProtectedRoute from "./UserProtectedRoute"
-import ErrorScreen from "../components/ErrorScreen"
-import MyProfile from "../components/socialScreens/MyProfile"
 import UsersContextComponent from "../contextApi/UsersContextComponent"
+import LoadingComponent from '../components/LoadingComponent'
+import ErrorScreen from "../components/ErrorScreen"
+
+const LoginPage = lazy(()=> import('../components/signup-signIn-frgtPwd/Login'))
+const RegisterPage = lazy(()=> import('../components/signup-signIn-frgtPwd/Register'))
+const ForgotPasswordPage = lazy(()=> import('../components/signup-signIn-frgtPwd/ForgotPassword'))
+const ResetPasswordPage = lazy(()=> import('../components/signup-signIn-frgtPwd/ResetPassword'))
+const VerifyPasswordPage = lazy(()=> import('../components/signup-signIn-frgtPwd/VerifyPassword'))
+const HomePage = lazy(()=> import('../components/socialScreens/Home'))
+const EventsPage = lazy(()=> import('../components/socialScreens/Events'))
+const FriendsPage = lazy(()=> import('../components/socialScreens/Friends'))
+const MessagesPage = lazy(()=> import('../components/socialScreens/Messages'))
+const MyProfilePage = lazy(()=> import('../components/socialScreens/MyProfile'))
 
 const AppRoutes = [
     {
         path:'/',
-        element : <Login/>,
+        element : <Suspense fallback={<LoadingComponent/>}><LoginPage/></Suspense>,
         exact:true
     },
     {
         path:'/register',
-        element : <Register/>,
+        element : <Suspense fallback={<LoadingComponent/>}><RegisterPage/></Suspense>,
         exact:true
     },
     {
         path:'/forgotpassword',
-        element : <ForgotPassword/>,
+        element : <Suspense fallback={<LoadingComponent/>}><ForgotPasswordPage/></Suspense>,
         exact:true
     },
     {
         path:'/forgotpassword/:id/verify/:token',
-        element : <VerifyPassword/>,
+        element : <Suspense fallback={<LoadingComponent/>}><VerifyPasswordPage/></Suspense>,
         exact:true
     },
     {
         path : '/resetPassword',
-        element : <ResetPassword/>,
+        element : <Suspense fallback={<LoadingComponent/>}><ResetPasswordPage/></Suspense>,
         exact: true
     },
     {
         path:'/home',
-        element : <UserProtectedRoute><UsersContextComponent><Home/></UsersContextComponent></UserProtectedRoute>,
+        element : <Suspense fallback={<LoadingComponent/>}><UserProtectedRoute><UsersContextComponent><HomePage/></UsersContextComponent></UserProtectedRoute></Suspense>,
         exact:true
     },
     {
         path:'/myprofile',
-        element : <UsersContextComponent><MyProfile/></UsersContextComponent>,
+        element : <Suspense fallback={<LoadingComponent/>}><UsersContextComponent><MyProfilePage/></UsersContextComponent></Suspense>,
         exact:true
     },
     {
         path:'/events',
-        element : <UsersContextComponent><Events/></UsersContextComponent>,
+        element : <Suspense fallback={<LoadingComponent/>}><UsersContextComponent><EventsPage/></UsersContextComponent></Suspense>,
         exact:true
     },
     {
         path:'/friends',
-        element : <UsersContextComponent><Friends/></UsersContextComponent>,
+        element : <Suspense fallback={<LoadingComponent/>}><UsersContextComponent><FriendsPage/></UsersContextComponent></Suspense>,
         exact:true
     },
     {
         path:'/messages',
-        element : <UsersContextComponent><Messages/></UsersContextComponent>,
+        element : <Suspense fallback={<LoadingComponent/>}><UsersContextComponent><MessagesPage/></UsersContextComponent></Suspense>,
         exact:true
     },
     {
@@ -74,11 +76,6 @@ const AppRoutes = [
         element : <ErrorScreen/>,
         exact:true
     }
-    // {
-    //     path:'*',
-    //     element : <Navigate to={'/'}/>,
-    //     exact:true
-    // }
 ]
 
 export default AppRoutes

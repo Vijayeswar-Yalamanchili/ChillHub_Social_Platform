@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Modal, Image } from 'react-bootstrap'
-import UserTimeline from './UserTimeline'
 import { toast } from 'react-toastify'
 import { jwtDecode } from "jwt-decode"
+import UserTimeline from './UserTimeline'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 
 function MyProfileBar() {
+
   const [show, setShow] = useState(false)
   const [selectedFile, setSelectedFile] = useState()
   const [inputBio, setInputBio] = useState('')

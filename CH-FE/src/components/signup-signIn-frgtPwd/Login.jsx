@@ -1,18 +1,18 @@
-import React from 'react'
-import {Container,Row, Col,Form,Button} from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
+import React, { useState } from 'react'
+import { Container,Row, Col,Form,Button, Spinner } from 'react-bootstrap'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import NavbarBeforeLogin from './NavbarBeforeLogin'
 import loginAnime from '../../assets/svg/loginAnime.svg'
-import AxiosService from '../../utils/AxiosService';
-import ApiRoutes from '../../utils/ApiRoutes';
-
+import AxiosService from '../../utils/AxiosService'
+import ApiRoutes from '../../utils/ApiRoutes'
 
 function Login() {
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const handleRegister = () => {
         navigate('/register')
@@ -29,11 +29,13 @@ function Login() {
         }),
         onSubmit : async(values) => {
             try {
+                setLoading(true)
                 let res = await AxiosService.post(`${ApiRoutes.LOGIN.path}`,values)
                 if(res.status === 200){
                     localStorage.setItem('loginToken',res.data.loginToken)
                     navigate('/home')
                 }
+                setLoading(false)
             } catch (error) {
                 toast.error(error.response.data.message || error.message)
             }
@@ -65,15 +67,12 @@ function Login() {
                                 <Link to={'/forgotpassword'} className='loginTextLink'>Forgot Password</Link>
                             </div>
                             <div className="d-grid mb-4">
-                                <Button variant='primary'type='submit'>Login</Button>
+                                <Button variant='primary'type='submit' disabled={loading}>{loading ? <Spinner animation="border" /> : 'Login'}</Button>
                             </div>
                             <hr style={{color:"black"}}/>
                             <div className="d-grid mb-4">
                                 <Button variant='primary' onClick={()=>{handleRegister()}}>Register</Button>
                             </div>
-                            {/* <div className='text-center mb-4'>
-                                <Link to="" className='loginTextLink'>Create a page</Link> for a celebrity, brand or business
-                            </div> */}
                         </Form>
                     </Col>
                 </Row>

@@ -1,14 +1,12 @@
 import React, { useState, useEffect,useContext,useRef,forwardRef } from 'react'
-import { Button,Image } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { UserContext } from '../../../contextApi/UsersContextComponent'
 import ChatMessage from '../others/ChatMessage'
-import { jwtDecode } from "jwt-decode"
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
-import { UserContext } from '../../../contextApi/UsersContextComponent'
-import userPic from '../../../assets/svg/userProfilePic.svg'
 
 const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
 
@@ -50,20 +48,6 @@ const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
         {
           !currentChat ? <div className='noConversationText mx-auto' style={{width:"100%"}}>Open a conversation to start the chat</div> : <>
             <div className="chatWrapper d-flex flex-column justify-content-between">
-              {/* <div className="chatHeader">                
-                {
-                  isLoggedIn === (!decodedUsernameToken.isLoggedIn) ? 
-                    (decodedUsernameToken.imageDP || decodedUsernameToken.imageDP === " " || decodedUsernameToken.imageDP === undefined ? 
-                      <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp me-3' roundedCircle/> 
-                        : <Image src={`https://chillhub-social-platform.onrender.com/${decodedUsernameToken.imageDP}`} className='chatWrapperDp me-3' roundedCircle/>
-                    ) 
-                  : null
-                }
-                <div>
-                  <h5 className='mb-0'>{friendData !== null ? "yes" : "no"} </h5>
-                  <div className='mb-0'>{!decodedUsernameToken.isLoggedIn ? <div>online</div> : null}</div>
-                </div>
-              </div> */}
               <div className="chatBody">
                 {
                   messages.map((m,i)=> (

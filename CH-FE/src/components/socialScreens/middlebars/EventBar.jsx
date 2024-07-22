@@ -7,6 +7,7 @@ import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 
 function EventBar() {
+  
   const [users, setUsers] = useState([])
 
   const getUsers = async() => {

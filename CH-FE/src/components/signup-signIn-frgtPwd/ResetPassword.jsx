@@ -1,21 +1,22 @@
 import React from 'react'
-import {Container,Row, Col,Form,Button} from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
+import {Container,Row, Col,Form,Button, Spinner} from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import NavbarBeforeLogin from './NavbarBeforeLogin';
-import resetpwdAnime from '../../assets/svg/resetpwdAnime.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import AxiosService from '../../utils/AxiosService';
-import ApiRoutes from '../../utils/ApiRoutes';
+import NavbarBeforeLogin from './NavbarBeforeLogin'
+import resetpwdAnime from '../../assets/svg/resetpwdAnime.svg'
+import AxiosService from '../../utils/AxiosService'
+import ApiRoutes from '../../utils/ApiRoutes'
 
 
 function ResetPassword() {
 
     let navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     let updatePasswordFormik = useFormik({
         initialValues:{
@@ -30,12 +31,14 @@ function ResetPassword() {
         }),
         onSubmit : async(values) => {
             try {
+                setLoading(true)
                 if(values.password === values.confirmPassword){
                     let res = await AxiosService.put(`${ApiRoutes.RESETPASSWORD.path}`,values)
                     if(res.status === 200){
                         toast.success(res.data.message)
                         navigate('/')
-                    }     
+                    } 
+                    setLoading(false)    
                 }else{
                   toast.error("Passwords doesnt match! Please enter the same passwords")
                 }
@@ -79,7 +82,7 @@ function ResetPassword() {
                                 </Form.Group>
 
                                 <div className="d-grid mb-4">
-                                    <Button variant='primary' type='submit'>Update password</Button>
+                                    <Button variant='primary' type='submit' disabled={loading}>{loading ? <Spinner animation="border" /> : 'Update Password'}</Button>
                                 </div>
                             </Form>
                         </Col>

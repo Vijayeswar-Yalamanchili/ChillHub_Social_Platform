@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Container,Row, Col } from 'react-bootstrap'
 import { toast } from 'react-toastify'
+import {io} from 'socket.io-client'
+import { UserContext } from '../../contextApi/UsersContextComponent'
 import NavbarAfterLogin from './common/NavbarAfterLogin'
-import Leftbar from './common/Leftbar';
+import Leftbar from './common/Leftbar'
 import ChatListBar from './others/ChatListBar'
 import MessageBar from './middlebars/MessageBar'
 import AxiosService from '../../utils/AxiosService'
 import ApiRoutes from '../../utils/ApiRoutes'
-import { UserContext } from '../../contextApi/UsersContextComponent'
-import {io} from 'socket.io-client'
-
 
 function Messages() {
   
@@ -77,7 +76,7 @@ function Messages() {
   useEffect(()=>{
     arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) && setMessages((prev) => [...prev,arrivalMessage])
   },[arrivalMessage,currentChat])
-// console.log(conversations)
+
   return <>
     <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
       <NavbarAfterLogin/>
