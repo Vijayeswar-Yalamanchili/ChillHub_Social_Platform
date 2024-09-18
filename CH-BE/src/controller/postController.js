@@ -15,16 +15,30 @@ const home = async(req,res)=>{
 
 const createPost = async(req,res) => {
     try {
-        const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
-        if(postData){
-            res.status(200).send({
-                message:"Feed created",
-                postData
-            })
-        }else {
-            res.status(400).send({
-                message: "Something went wrong!!!"
-            })
+        if(req?.file === undefined){
+            const postData = await FeedDatasModel.create({feededData :req.body.feededData, ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
+            if(postData){
+                res.status(200).send({
+                    message:"Feed created",
+                    postData
+                })
+            }else {
+                res.status(400).send({
+                    message: "Something went wrong adding post!!!"
+                })
+            }
+        } else{
+            const postData = await FeedDatasModel.create({feededData :req.body.feededData, imageUrl : req.file.filename ,ownerImageDP :req.user.imageDP,ownerName : req.user.name, ownerEmail : req.user.email, ownerID : req.user.id })
+            if(postData){
+                res.status(200).send({
+                    message:"Feed created",
+                    postData
+                })
+            }else {
+                res.status(400).send({
+                    message: "Something went wrong!!!"
+                })
+            }
         }
     } catch (error) {
         res.status(500).send({

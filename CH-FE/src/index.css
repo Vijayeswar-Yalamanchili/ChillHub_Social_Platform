@@ -1,3 +1,8 @@
+/* Loading Component */
+.loader{
+    margin: 10% 45%;    
+}
+
 /* REGISTER,LOGIN,FORGOT PASSWORD,VERIFY PASSWORD */
 .logoImg{
     width: 4rem;
