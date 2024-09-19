@@ -128,7 +128,7 @@ function NavbarAfterLogin() {
             myProfile ? 
                 <div className="myProfileDrpdwn list-group list-group-flush mt-3">
                     <div className='listMenuUserName list-group-item list-group-item-action'>
-                        <Image className="userImage my-2" src={`${serverBaseURL}/${user[0].imageDP}`} roundedCircle/>
+                        <Image className="userImage my-2" src={`${serverBaseURL}/${user[0]?.imageDP}`} roundedCircle/>
                         <div><b>Welcome, {decodedToken.name}</b></div>
                     </div>
                     <Link to={'/myProfile'} className="listMenu list-group-item list-group-item-action">
