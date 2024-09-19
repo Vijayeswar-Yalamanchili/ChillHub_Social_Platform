@@ -75,7 +75,9 @@ function MyProfileBar() {
     <div className='mt-4' style={{width:"100%"}}>
       <div className='profileDatas d-flex justify-content-between flex-row align-items' style={{gap: "5%"}}>
         <div className='profilePicImageArea'>
-          {userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} style={{padding: "1rem"}} className='imageFile' roundedCircle/> : <Image src={`${serverBaseURL}/${userBioData.imageDP}`} className='imageFile' roundedCircle/>}
+          {
+            userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} style={{padding: "1rem"}} className='imageFile' roundedCircle/> : <Image src={`${serverBaseURL}/${userBioData.imageDP}`} className='imageFile' roundedCircle/>
+          }
         </div>
         <div className='userBioData'>
           <div>{userBioData.bio}</div>

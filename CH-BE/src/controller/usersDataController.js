@@ -2,19 +2,37 @@ import RegisterLoginModel from '../models/registerLogin_model.js'
 
 const addUsersData = async(req,res) => {
     try {
-        const addDatas = await RegisterLoginModel.findOneAndUpdate(
-            {_id:req.user.id},
-            {$set : {"imageDP" : req.file.filename, "bio" : req.body.bio, "dob" : req.body.dob}
-        })
-        if(addDatas){
-            res.status(200).send({
-                message:"users datas added",
-                addDatas
+        if(req?.file === undefined){
+            const addDatas = await RegisterLoginModel.findOneAndUpdate(
+                {_id:req.user.id},
+                {$set : {"bio" : req.body.bio, "dob" : req.body.dob}
             })
-        }else {
-            res.status(400).send({
-                message: "error is storing userDatas"
+            if(addDatas){
+                res.status(200).send({
+                    message:"users datas added",
+                    addDatas
+                })
+            }else {
+                res.status(400).send({
+                    message: "Error is storing userDatas"
+                })
+            }
+        }
+        else {
+            const addDatas = await RegisterLoginModel.findOneAndUpdate(
+                {_id:req.user.id},
+                {$set : {"imageDP" : req.file.filename, "bio" : req.body.bio, "dob" : req.body.dob}
             })
+            if(addDatas){
+                res.status(200).send({
+                    message:"users datas added",
+                    addDatas
+                })
+            }else {
+                res.status(400).send({
+                    message: "Error is storing userDatas"
+                })
+            }
         }
     } catch (error) {
         res.status(500).send({
