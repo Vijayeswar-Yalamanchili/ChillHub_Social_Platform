@@ -31,9 +31,6 @@ function NavbarAfterLogin() {
     
     const getUsers = async() => {
         try {
-            // let getToken = localStorage.getItem('loginToken')
-            // const decodedToken = jwtDecode(getToken)
-            // const id = decodedToken.id
             let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getDetailsToken}`}})
             let result = res.data.getusers
             let currentUser = result.filter((user)=> user._id === id)
@@ -47,9 +44,6 @@ function NavbarAfterLogin() {
 
     const handleLogout = async() => {
         try {
-            // let getToken = localStorage.getItem('loginToken')
-            // const decodedToken = jwtDecode(getToken)
-            // const id = decodedToken.id
             let res = await AxiosService.put(`${ApiRoutes.LOGOUT.path}/${id}`,{ headers : { 'Authorization' : ` ${getDetailsToken}`}})
             if(res.status === 200){
               logout()
@@ -66,10 +60,6 @@ function NavbarAfterLogin() {
 
     const getSearchData = async(searchValue) => {
         try {
-            // let getToken = localStorage.getItem('loginToken')
-            // const decodedToken = jwtDecode(getToken)
-            // const id = decodedToken.id
-            // console.log(id,searchValue);
             let res = await AxiosService.get(`${ApiRoutes.SEARCHDATA.path}/${id}`,{ headers : { 'Authorization' : ` ${getDetailsToken}`}})
             let result = res.data.searchDatas
             let filteredData = result.filter((user)=> {

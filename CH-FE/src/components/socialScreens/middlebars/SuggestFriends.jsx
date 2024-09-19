@@ -22,9 +22,6 @@ function SuggestFriends({users,setUsers,setMyFriends}) {
         const addNewFrdList = users.filter((e)=> {
           e._id === friendId ? temp.push(e) : null
         })
-        // let getToken = localStorage.getItem('loginToken')
-        // const decodedToken = jwtDecode(getToken)
-        // const id = decodedToken.id
         let res = await AxiosService.put(`${ApiRoutes.ADDFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getLoginToken}`}})
         if(res.status === 200){
           setMyFriends(temp)

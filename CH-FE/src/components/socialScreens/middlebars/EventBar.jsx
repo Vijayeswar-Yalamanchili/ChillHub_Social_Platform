@@ -17,9 +17,6 @@ function EventBar() {
 
   const getUsers = async() => {
     try {
-      // let getToken = localStorage.getItem('loginToken')
-      // const decodedToken = jwtDecode(getToken)
-      // const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERSBDAY.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})   
       let result = res.data.flatPost
       const todayBday = result.filter((e) => {       //filter todaysBirthdayUsers

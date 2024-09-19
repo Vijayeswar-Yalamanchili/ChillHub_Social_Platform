@@ -33,10 +33,8 @@ function Conversation({conversation,currentUserId}) {
 
     return <>
         {
-            // isLoggedIn !== (!user?.isLoggedIn) ? 
             user?.imageDP  ? <Image src={`${serverBaseURL}/${user.imageDP}`} className='chatWrapperDp me-3' roundedCircle/>:
                 <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp p-1 me-3' roundedCircle/> 
-            // : <Image src={userPic} style={{padding: "5px"}} className='chatWrapperDp p-1 me-3' roundedCircle/>
         }
         <div style={{fontSize : "0.8em"}}>
             <div className='mb-0'>{user?.firstName} {user?.lastName}</div>

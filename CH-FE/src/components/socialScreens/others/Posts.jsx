@@ -1,11 +1,11 @@
-import React,{useState} from 'react'
-import {Row, Col,Button,Card,Modal,Form, Image} from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Row, Col, Button, Card, Modal, Form, Image } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFaceSmile,faTrashCan} from '@fortawesome/free-regular-svg-icons'
-import {faPaperPlane, faEdit, faPaperclip} from '@fortawesome/free-solid-svg-icons'
-import EmojiPicker from 'emoji-picker-react'
+import { faFaceSmile, faTrashCan } from '@fortawesome/free-regular-svg-icons'
+import { faPaperPlane, faEdit, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { jwtDecode } from "jwt-decode"
 import { toast } from 'react-toastify'
+import EmojiPicker from 'emoji-picker-react'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import userPic from '../../../assets/svg/userProfilePic.svg'
@@ -43,9 +43,6 @@ function Posts({posts, setPosts, post, showEmojis, setShowEmojis}) {
             formData.append('feededData', editInputStr)
             formData.append('imageUrl', editSelectedFile)
             const formProps = Object.fromEntries(formData)
-            // let token = localStorage.getItem('loginToken')
-            // const decodedToken = jwtDecode(token)
-            // const id = decodedToken.id
             let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
               headers:{
                 "Content-Type" : "multipart/form-data",
@@ -82,7 +79,6 @@ function Posts({posts, setPosts, post, showEmojis, setShowEmojis}) {
             if(postId !== ""){
                 const updatedPosts = posts.filter((e)=> e._id !== postId)
                 setPosts(updatedPosts)
-                // let token = localStorage.getItem('loginToken')
                 let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
                 if(res.status !== 200){
                     toast.success(error.message)
@@ -103,7 +99,6 @@ function Posts({posts, setPosts, post, showEmojis, setShowEmojis}) {
                     return e
                 })
                 setPosts(updatedPosts)
-                // let token = localStorage.getItem('loginToken')
                 let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
             }
         } catch (error) {
@@ -128,16 +123,12 @@ function Posts({posts, setPosts, post, showEmojis, setShowEmojis}) {
             if(formProps.commentText === ""){
                 toast.warning("Please enter some Comment")
             }else{
-                // let token = localStorage.getItem('loginToken')
-                // const decodedToken = jwtDecode(token)
-                // const id = decodedToken.id
                 let res = await AxiosService.post(`${ApiRoutes.COMMENTUSERPOST.path}/${id}/${postId}`,formProps,{
                   headers:{
                     "Content-Type" : "application/json",
                     "Authorization" : `${getLoginToken}`
                   }
                 })
-                // console.log(res);
                 if(res.status === 200){
                     setCommentInput('')
                     getComments(postId)
@@ -150,20 +141,15 @@ function Posts({posts, setPosts, post, showEmojis, setShowEmojis}) {
     
     const getComments = async(postId) => { 
         try {
-            // let getToken = localStorage.getItem('loginToken')
-            // const decodedToken = jwtDecode(getToken)
-            // const id = decodedToken.id
             let res = await AxiosService.get(`${ApiRoutes.GETCOMMENTUSERPOST.path}/${id}/${postId}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
 
             if(res.status === 200){
-                // toast.success(res.data.message)
                 setComments(res.data.postComments.reverse())
             }
         } catch (error) {
             toast.error(error.response.data.message || error.message)
         }
     }
-    console.log(post)
 
     return <>
         <div key={post._id}>
@@ -172,28 +158,27 @@ function Posts({posts, setPosts, post, showEmojis, setShowEmojis}) {
                     <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
                         <div className='postUserDatas d-flex justify-content-start align-items-center' style={{width : "100%", gap : "3%"}}>
                             {
-                                // post.ownerImageDP ===" "|| post.ownerImageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${post.ownerImageDP}`} className='userImage' roundedCircle/>
                                 post.ownerImageDP === " " && post.ownerImageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`${serverBaseURL}/${post.ownerImageDP}`} className='userImage' roundedCircle/>
                             }
                             <div className='postUserDataName' ><b>{post.ownerName}</b></div>
                         </div>
-                        {post.ownerName === decodedToken.name ? 
-                            <div className='d-flex justify-content-between flex-row align-items-center'>
-                                <Button type='button' variant='none' onClick={() => handleEditPost(post._id)}>
-                                    <FontAwesomeIcon icon={faEdit} style={{color: "black"}}/>
-                                </Button>
-                                <Button type='button' variant='none' onClick={() => handleDeletePost(post._id)}>
-                                    <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
-                                </Button>                    
-                            </div>                    
-                            :
-                            null
+                        {
+                            post.ownerName === decodedToken.name ? 
+                                <div className='d-flex justify-content-between flex-row align-items-center'>
+                                    <Button type='button' variant='none' onClick={() => handleEditPost(post._id)}>
+                                        <FontAwesomeIcon icon={faEdit} style={{color: "black"}}/>
+                                    </Button>
+                                    <Button type='button' variant='none' onClick={() => handleDeletePost(post._id)}>
+                                        <FontAwesomeIcon icon={faTrashCan} style={{color: "black"}}/>
+                                    </Button>                    
+                                </div>                    
+                                :
+                                null
                         }
                     </div>
                     {
                         post.imageUrl ? <Card.Img variant="top" src={`${serverBaseURL}/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null
                     }
-                    {/* {post.imageUrl ? <Card.Img variant="top" src={`http://localhost:8000/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null} */}
                     {
                         post.feededData ? <Card.Text className='m-2'>{post.feededData}</Card.Text> : null
                     }
@@ -252,47 +237,46 @@ function Posts({posts, setPosts, post, showEmojis, setShowEmojis}) {
         </div>
 
 
-      {/* Edit post modal */}
-    <Modal show={editShow} onHide={handleEditClose}>
-      <Form > 
-        <Modal.Header closeButton>
-          <Modal.Title>Update Feed</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{minHeight:"13rem"}} className='d-flex justify-content-between flex-column'>
-          <Form.Group>
-            <Form.Control as='textarea' rows='5' className='feedInputArea' name='feededData' placeholder='Put your thoughts here ....' 
-                    defaultValue={editInputStr} onChange={(e)=>setEditInputStr(e.target.value)}/>              
-          </Form.Group>
-          {
-            !editSelectedFile &&  !editPreview ? null :  <div style={{margin : "1rem 0"}}><img src={editPreview} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>
-          }
-          <div>
-            <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
-              <FontAwesomeIcon icon={faFaceSmile} style={{color: "black"}}/>
-            </Button> 
-            
-            <Button className='attachIcon mx-2' type='button'>
-              <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-              <input type="file" name="imageUrl" id="file" onChange={(e) => {
-                setEditPreview(URL.createObjectURL(e.target.files[0]))
-                setEditSelectedFile((e.target.files[0]))
-              }} className='attachImgIcon' accept="image/*"/>
-            </Button>
-          {
-            showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
-              setEditInputStr((prevMsg)=> prevMsg + emojiObject.emoji) 
-              setShowEmojis(false);
-            }}/>
-          }
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleEditClose}>Cancel</Button>
-          <Button variant="primary" onClick={()=>handleEditSubmit(currentPostId)}>Update</Button>
-        </Modal.Footer>
-        </Form>
-    </Modal>
-  </>
+        {/* Edit post modal */}
+        <Modal show={editShow} onHide={handleEditClose}>
+            <Form > 
+                <Modal.Header closeButton>
+                    <Modal.Title>Update Feed</Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{minHeight:"13rem"}} className='d-flex justify-content-between flex-column'>
+                    <Form.Group>
+                        <Form.Control as='textarea' rows='5' className='feedInputArea' name='feededData' placeholder='Put your thoughts here ....' defaultValue={editInputStr} onChange={(e)=>setEditInputStr(e.target.value)}/>              
+                    </Form.Group>
+                    {
+                        !editSelectedFile &&  !editPreview ? null :  <div style={{margin : "1rem 0"}}><img src={editPreview} alt="selected file" style={{width: "100%", height : "15rem"}}/></div>
+                    }
+                    <div>
+                        <Button className='attachIcon mx-2' type='button' onClick={() => setShowEmojis(!showEmojis)}>
+                            <FontAwesomeIcon icon={faFaceSmile} style={{color: "black"}}/>
+                        </Button> 
+
+                        <Button className='attachIcon mx-2' type='button'>
+                            <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
+                            <input type="file" name="imageUrl" id="file" className='attachImgIcon' accept="image/*" onChange={(e) => {
+                                setEditPreview(URL.createObjectURL(e.target.files[0]))
+                                setEditSelectedFile((e.target.files[0]))
+                            }}/>
+                        </Button>
+                        {
+                            showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
+                                setEditInputStr((prevMsg)=> prevMsg + emojiObject.emoji) 
+                                setShowEmojis(false);
+                            }}/>
+                        }
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleEditClose}>Cancel</Button>
+                    <Button variant="primary" onClick={()=>handleEditSubmit(currentPostId)}>Update</Button>
+                </Modal.Footer>
+            </Form>
+        </Modal>
+    </>
 }
 
 export default Posts

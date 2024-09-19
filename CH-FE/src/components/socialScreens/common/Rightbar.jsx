@@ -12,12 +12,13 @@ function Rightbar() {
   const [onlineFriends, setOnlineFriends] = useState([])
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
+
   const getMyOnlineFriends = async() => {
     try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETMYONLINEFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
+      let res = await AxiosService.get(`${ApiRoutes.GETMYONLINEFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})   
       let result = res.data.myFriendsList
       let onlineFrds = result.filter((e)=> e.isLoggedIn === true)
       if(res.status === 200){

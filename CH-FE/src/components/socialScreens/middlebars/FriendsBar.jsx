@@ -17,9 +17,6 @@ function FriendsBar() {
 
   const getUsers = async() => {
     try {
-      // let getToken = localStorage.getItem('loginToken')
-      // const decodedToken = jwtDecode(getToken)
-      // const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})   
       let usersResult = res.data.getusers
       let userFrdsResult = res.data.currentUserFrds.map((e)=> e.userId)
@@ -37,9 +34,6 @@ function FriendsBar() {
 
   const getMyFriends = async() => {
     try {
-      // let getToken = localStorage.getItem('loginToken')
-      // const decodedToken = jwtDecode(getToken)
-      // const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       const result  = res.data.myFriendsList
       if(res.status === 200){

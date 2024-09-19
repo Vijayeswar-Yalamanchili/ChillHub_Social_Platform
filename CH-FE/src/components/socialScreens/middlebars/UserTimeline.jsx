@@ -1,15 +1,13 @@
 import React, { useEffect, useState} from 'react'
-import { Row, Col, Button, Card, Modal, Form, Image } from 'react-bootstrap'
+import { Button, Modal, Form } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFaceSmile,faTrashCan } from '@fortawesome/free-regular-svg-icons'
-import { faEdit,faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import { faFaceSmile } from '@fortawesome/free-regular-svg-icons'
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { jwtDecode } from "jwt-decode"
-import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import Posts from '../others/Posts'
-
 
 function UserTimeline() {
 
@@ -29,11 +27,6 @@ function UserTimeline() {
     setCurrentPostId('')
     setEditShow(false)
   }
-
-  // const handleEditShow = (postId) => {
-  //   setEditShow(true)
-  //   setCurrentPostId(postId)
-  // }
   
   const handleEditSubmit = async(postId) => {
     try {
@@ -41,10 +34,6 @@ function UserTimeline() {
       formData.append('feededData', editInputStr)
       formData.append('imageUrl', editSelectedFile)
       const formProps = Object.fromEntries(formData)
-      // console.log(formProps)
-      // let token = localStorage.getItem('loginToken')
-      // const decodedToken = jwtDecode(token)
-      // const id = decodedToken.id
       let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
         headers:{
           "Content-Type" : "multipart/form-data",
@@ -64,9 +53,6 @@ function UserTimeline() {
 
   const getUserPostData = async() => {
     try {
-      // let getToken = localStorage.getItem('loginToken')
-      // const decodedToken = jwtDecode(getToken)
-      // const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       if(res.status === 200){
         setPosts(res.data.getuserpost.reverse())
@@ -83,7 +69,7 @@ function UserTimeline() {
   return <>
     <div className='mt-4 px-4'>
       <div className="feedArea mt-3">
-      {
+        {
           posts.map((post)=> (
             <div key={post._id}>
               <Posts post={post} posts={posts} setPosts= {setPosts} showEmojis={showEmojis} setShowEmojis= {setShowEmojis} />
@@ -114,17 +100,17 @@ function UserTimeline() {
 
             <Button className='attachIcon mx-2' type='button'>
               <label htmlFor='file'><FontAwesomeIcon icon={faPaperclip} style={{color: "black"}}/></label>
-              <input type="file" name="img-file" id="file" onChange={(e) => {
+              <input type="file" name="img-file" id="file" className='attachImgIcon' accept="image/*" onChange={(e) => {
                 setEditPreview(URL.createObjectURL(e.target.files[0]))
                 setEditSelectedFile(e.target.files[0])
-              }} className='attachImgIcon' accept="image/*"/>
+              }}/>
             </Button>
-          {
-            showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
-              setEditInputStr((prevMsg)=> prevMsg + emojiObject.emoji) 
-              setShowEmojis(false);
-            }}/>
-          }
+            {
+              showEmojis && <EmojiPicker onEmojiClick={(emojiObject)=> {
+                setEditInputStr((prevMsg)=> prevMsg + emojiObject.emoji) 
+                setShowEmojis(false);
+              }}/>
+            }
           </div>
         </Modal.Body>
         <Modal.Footer>

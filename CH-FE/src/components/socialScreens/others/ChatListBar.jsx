@@ -1,4 +1,4 @@
-import React, {useState,useContext, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Card,Button } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { jwtDecode } from "jwt-decode"
@@ -25,9 +25,6 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
     
     const getUsers = async() => {
         try {
-            // let getToken = localStorage.getItem('loginToken')
-            // const decodedToken = jwtDecode(getToken)
-            // const id = decodedToken.id
             let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
             let result = res.data.getusers
             let currentUser = result.filter((user)=> user._id === id)
@@ -84,7 +81,6 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
         let userId = user[0]?._id
         try {
             if(userId){
-                console.log(user)
                 let res = await AxiosService.get(`${ApiRoutes.GETMYONLINEFRIENDS.path}/${userId}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})   
                 let result = res.data.myFriendsList
                 let onlineFrds = result.filter((e)=> e.isLoggedIn === true)

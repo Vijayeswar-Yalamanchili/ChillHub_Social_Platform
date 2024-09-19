@@ -55,9 +55,6 @@ function MyProfileBar() {
 
   const getUsersData = async() => {
     try {
-      // let getToken = localStorage.getItem('loginToken')
-      // const decodedToken = jwtDecode(getToken)
-      // const id = decodedToken.id
       let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       if(res.status === 200){
         setUserBioData(res.data.getData)

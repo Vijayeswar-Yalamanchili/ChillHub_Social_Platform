@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef, forwardRef } from 'react'
+import React, { useState, useEffect, useRef, forwardRef } from 'react'
 import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { jwtDecode } from "jwt-decode"
@@ -20,9 +20,6 @@ const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
     
   const getUsers = async() => {
       try {
-          // let getToken = localStorage.getItem('loginToken')
-          // const decodedToken = jwtDecode(getToken)
-          // const id = decodedToken.id
           let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
           let result = res.data.getusers
           let currentUser = result.filter((user)=> user._id === id)

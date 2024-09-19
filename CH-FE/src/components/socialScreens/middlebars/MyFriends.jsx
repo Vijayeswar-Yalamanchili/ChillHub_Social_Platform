@@ -18,9 +18,6 @@ function MyFriends({myFriends,setMyFriends,users, setUsers}) {
       if(friendId !== ""){
         const updatedFriends = myFriends.filter((e)=> e._id !== friendId)
         setMyFriends(updatedFriends)
-        // let getToken = localStorage.getItem('loginToken')
-        // const decodedToken = jwtDecode(getToken)
-        // const id = decodedToken.id
         let res = await AxiosService.put(`${ApiRoutes.REMOVEFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getLoginToken}`}})     
         let frds = [...users,res.data.removeFriendInFriend]
         if(res.status === 200){

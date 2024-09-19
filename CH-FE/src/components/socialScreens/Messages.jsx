@@ -88,7 +88,6 @@ function Messages() {
   useEffect(()=>{
     socket.current.emit('addUser', user[0]?._id)
     socket.current.on('getUsers',users=> {
-      // console.log(users)
       setOnlineUsers(user[0]?.friends.filter((f)=> users.some(u=>u.userId === f.userId )))
     })
   },[user])
