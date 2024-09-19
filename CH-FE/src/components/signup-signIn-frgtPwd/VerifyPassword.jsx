@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link } from "react-router-dom";
-import { toast } from 'react-toastify';
-import { Button, Spinner } from 'react-bootstrap';
-import ErrorScreen from '../ErrorScreen';
-import AxiosService from '../../utils/AxiosService';
+import { useParams, Link } from "react-router-dom"
+import { toast } from 'react-toastify'
+import { Button, Spinner } from 'react-bootstrap'
+import ErrorScreen from '../ErrorScreen'
+import AxiosService from '../../utils/AxiosService'
 import verifyEmailAnime from '../../assets/svg/verifyEmailAnime.svg'
 
 function VerifyPassword() {

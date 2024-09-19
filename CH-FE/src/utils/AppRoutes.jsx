@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from "react"
 import UserProtectedRoute from "./UserProtectedRoute"
-import UsersContextComponent from "../contextApi/UsersContextComponent"
 import LoadingComponent from '../components/LoadingComponent'
 import ErrorScreen from "../components/ErrorScreen"
 
@@ -43,27 +42,27 @@ const AppRoutes = [
     },
     {
         path:'/home',
-        element : <Suspense fallback={<LoadingComponent/>}><UserProtectedRoute><UsersContextComponent><HomePage/></UsersContextComponent></UserProtectedRoute></Suspense>,
+        element : <Suspense fallback={<LoadingComponent/>}><HomePage/></Suspense>,
         exact:true
     },
     {
         path:'/myprofile',
-        element : <Suspense fallback={<LoadingComponent/>}><UsersContextComponent><MyProfilePage/></UsersContextComponent></Suspense>,
+        element : <Suspense fallback={<LoadingComponent/>}><MyProfilePage/></Suspense>,
         exact:true
     },
     {
         path:'/events',
-        element : <Suspense fallback={<LoadingComponent/>}><UsersContextComponent><EventsPage/></UsersContextComponent></Suspense>,
+        element : <Suspense fallback={<LoadingComponent/>}><EventsPage/></Suspense>,
         exact:true
     },
     {
         path:'/friends',
-        element : <Suspense fallback={<LoadingComponent/>}><UsersContextComponent><FriendsPage/></UsersContextComponent></Suspense>,
+        element : <Suspense fallback={<LoadingComponent/>}><FriendsPage/></Suspense>,
         exact:true
     },
     {
         path:'/messages',
-        element : <Suspense fallback={<LoadingComponent/>}><UsersContextComponent><MessagesPage/></UsersContextComponent></Suspense>,
+        element : <Suspense fallback={<LoadingComponent/>}><MessagesPage/></Suspense>,
         exact:true
     },
     {

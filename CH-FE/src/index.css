@@ -3,6 +3,22 @@
     margin: 10% 45%;    
 }
 
+/* error Screen */
+.errorBlock{
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.errorImage{
+    width: 40%;
+    height: 40%;
+}
+
+.errorBtn{
+    width: max-content;
+}
+
 /* REGISTER,LOGIN,FORGOT PASSWORD,VERIFY PASSWORD */
 .logoImg{
     width: 4rem;

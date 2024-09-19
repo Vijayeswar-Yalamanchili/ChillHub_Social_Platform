@@ -4,7 +4,6 @@ import { toast } from 'react-toastify'
 import { jwtDecode } from "jwt-decode"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faCircle, faUsersRays, faComment, faCommentMedical} from '@fortawesome/free-solid-svg-icons'
-import { UserContext } from '../../../contextApi/UsersContextComponent'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import Conversation from './Conversation'
@@ -12,7 +11,6 @@ import RightBar from '../common/Rightbar'
 
 function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
 
-    const {user} = useContext(UserContext)
     const [searchChatQuery, setSearchChatQuery] = useState("")
     const [conversation, setConversation] = useState("")
     const [searchChatResults, setSearchChatResults] = useState([])
@@ -20,6 +18,23 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
     const [convobarOpen, setConvobarOpen] = useState(false)
     const [onlineFriends, setOnlineFriends] = useState([])
     let getToken = localStorage.getItem('loginToken')
+    const [user,setUser] = useState([])
+    
+    const getUsers = async() => {
+        try {
+            let getToken = localStorage.getItem('loginToken')
+            const decodedToken = jwtDecode(getToken)
+            const id = decodedToken.id
+            let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            let result = res.data.getusers
+            let currentUser = result.filter((user)=> user._id === id)
+            if(res.status === 200){
+                setUser(currentUser)
+            }
+        } catch (error) {
+            toast.error(error.response.data.message || error.message)
+        }
+    }
 
     const handleSearchChange = (searchValue) => {
         setSearchChatQuery(searchValue)
@@ -89,7 +104,8 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
     }
 
     useEffect(()=> {
-        getMyOnlineFriends()
+        getUsers()
+        getMyOnlineFriends()        
     },[user]) 
 
     return <>

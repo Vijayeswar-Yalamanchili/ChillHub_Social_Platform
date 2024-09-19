@@ -2,17 +2,17 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Container,Row, Col } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import {io} from 'socket.io-client'
-import { UserContext } from '../../contextApi/UsersContextComponent'
 import NavbarAfterLogin from './common/NavbarAfterLogin'
 import Leftbar from './common/Leftbar'
 import ChatListBar from './others/ChatListBar'
 import MessageBar from './middlebars/MessageBar'
 import AxiosService from '../../utils/AxiosService'
 import ApiRoutes from '../../utils/ApiRoutes'
+import ErrorScreen from './common/ErrorScreen'
 
 function Messages() {
   
-  const {user} = useContext(UserContext)
+  const [user,setUser] = useState([])
   const [conversations, setConversations] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
   const [arrivalMessage,setArrivalMessage] = useState(null)
@@ -21,6 +21,22 @@ function Messages() {
   const socket = useRef()
 
   let getToken = localStorage.getItem('loginToken')
+
+  const getUsers = async() => {
+      try {
+          let getToken = localStorage.getItem('loginToken')
+          const decodedToken = jwtDecode(getToken)
+          const id = decodedToken.id
+          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+          let result = res.data.getusers
+          let currentUser = result.filter((user)=> user._id === id)
+          if(res.status === 200){
+              setUser(currentUser)
+          }
+      } catch (error) {
+          toast.error(error.response.data.message || error.message)
+      }
+  }
 
   const getConversations = async() => {
     try {
@@ -48,6 +64,7 @@ function Messages() {
 
   useEffect(()=>{
       getConversations()
+      getUsers()
   },[conversations])
 
   useEffect(()=>{
@@ -78,19 +95,23 @@ function Messages() {
   },[arrivalMessage,currentChat])
 
   return <>
-    <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
-      <NavbarAfterLogin/>
-    </div>
+    {
+      getToken !== null ? <>
+        <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
+          <NavbarAfterLogin/>
+        </div>
 
-    <Container fluid style={{paddingTop : '5rem'}}>
-      <Row>
-        <Col xs={2} sm={2} md={3}><Leftbar/></Col>
+        <Container fluid style={{paddingTop : '5rem'}}>
+          <Row>
+            <Col xs={2} sm={2} md={3}><Leftbar/></Col>
 
-        <Col xs={10} sm md={6}><MessageBar ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} conversations={conversations} setConversations={setConversations}/></Col>
-        
-        <Col sm={3} md={3}><ChatListBar onlineUsers={onlineUsers} conversations={conversations} setCurrentChat={setCurrentChat}/></Col>
-      </Row>
-    </Container>
+            <Col xs={10} sm md={6}><MessageBar ref={socket} messages={messages} setMessages={setMessages} currentChat={currentChat} conversations={conversations} setConversations={setConversations}/></Col>
+            
+            <Col sm={3} md={3}><ChatListBar onlineUsers={onlineUsers} conversations={conversations} setCurrentChat={setCurrentChat}/></Col>
+          </Row>
+        </Container>
+      </> : <ErrorScreen/> 
+    }    
   </>
 }
 

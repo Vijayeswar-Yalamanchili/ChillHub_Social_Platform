@@ -1,4 +1,4 @@
-import React ,{useState, useEffect} from 'react'
+import React ,{ useState, useEffect } from 'react'
 import { Button, Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faUsersRays} from '@fortawesome/free-solid-svg-icons'

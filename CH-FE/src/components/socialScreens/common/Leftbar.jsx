@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouseChimney,faCalendarPlus,faPeopleGroup,faComments,faGroupArrowsRotate} from '@fortawesome/free-solid-svg-icons'
+import { faHouseChimney, faCalendarPlus, faPeopleGroup, faComments } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
 function Leftbar() {

@@ -9,12 +9,11 @@ import EmojiPicker from 'emoji-picker-react'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
-import { UserContext } from '../../../contextApi/UsersContextComponent'
 import Posts from '../others/Posts'
 
 function Feedbar() {
 
-  const {user} = useContext(UserContext)
+  const [user,setUser] = useState([])
   const [currentUser, setCurrentUser] = useState()
   const [show, setShow] = useState(false)
   const [inputStr, setInputStr] = useState('')
@@ -28,6 +27,23 @@ function Feedbar() {
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
+    
+  const getUsers = async() => {
+      try {
+          let getToken = localStorage.getItem('loginToken')
+          const decodedToken = jwtDecode(getToken)
+          const id = decodedToken.id
+          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+          let result = res.data.getusers
+          let currentUser = result.filter((user)=> user._id === id)
+          if(res.status === 200){
+              setUser(currentUser)
+          }
+      } catch (error) {
+          toast.error(error.response.data.message || error.message)
+      }
+  }
 
   const handleSubmit = async(e) => {
     try {
@@ -76,6 +92,7 @@ function Feedbar() {
 
   useEffect(() => {
     getPostData()
+    getUsers()
   },[posts])
 
   return <>

@@ -1,9 +1,8 @@
-import React, { useState, useEffect,useContext,useRef,forwardRef } from 'react'
+import React, { useState, useEffect, useContext, useRef, forwardRef } from 'react'
 import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { UserContext } from '../../../contextApi/UsersContextComponent'
 import ChatMessage from '../others/ChatMessage'
 import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
@@ -13,7 +12,23 @@ const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
   let getToken = localStorage.getItem('loginToken')
   const [newMessage,setNewMessage] = useState("")
   const scrollRef = useRef()
-  const {user} = useContext(UserContext)
+  const [user,setUser] = useState([])
+    
+  const getUsers = async() => {
+      try {
+          let getToken = localStorage.getItem('loginToken')
+          const decodedToken = jwtDecode(getToken)
+          const id = decodedToken.id
+          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+          let result = res.data.getusers
+          let currentUser = result.filter((user)=> user._id === id)
+          if(res.status === 200){
+              setUser(currentUser)
+          }
+      } catch (error) {
+          toast.error(error.response.data.message || error.message)
+      }
+  }
 
   const handleSendMessage = async(e) => {
     e.preventDefault()
@@ -40,6 +55,7 @@ const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
   }
 
   useEffect(()=>{
+    getUsers()
     scrollRef.current?.scrollIntoView({behavior : "smooth"})
   },[messages])
 
