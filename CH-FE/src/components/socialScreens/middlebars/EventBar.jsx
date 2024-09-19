@@ -9,13 +9,18 @@ import ApiRoutes from '../../../utils/ApiRoutes'
 function EventBar() {
   
   const [users, setUsers] = useState([])
+  let serverBaseURL = import.meta.env.VITE_SERVER_URL
+
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
 
   const getUsers = async() => {
     try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETUSERSBDAY.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
+      // let getToken = localStorage.getItem('loginToken')
+      // const decodedToken = jwtDecode(getToken)
+      // const id = decodedToken.id
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERSBDAY.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})   
       let result = res.data.flatPost
       const todayBday = result.filter((e) => {       //filter todaysBirthdayUsers
         const date1 = new Date(e.dob)
@@ -49,7 +54,7 @@ function EventBar() {
                 return <div key={e._id} className='mt-3'>
                   <Col >
                     <Card style={{ width: '18rem' }} >
-                    {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic} style={{padding: "5px"}}/> : <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${e.imageDP}`} />}
+                    {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic} style={{padding: "5px"}}/> : <Card.Img variant="top" src={`${serverBaseURL}/${e.imageDP}`} />}
                       <Card.Body>
                         <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                       </Card.Body>

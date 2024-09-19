@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef, forwardRef } from 'react'
 import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify'
+import { jwtDecode } from "jwt-decode"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import ChatMessage from '../others/ChatMessage'
@@ -9,17 +10,20 @@ import ApiRoutes from '../../../utils/ApiRoutes'
 
 const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
 
-  let getToken = localStorage.getItem('loginToken')
+  const [user,setUser] = useState([])
   const [newMessage,setNewMessage] = useState("")
   const scrollRef = useRef()
-  const [user,setUser] = useState([])
+
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
     
   const getUsers = async() => {
       try {
-          let getToken = localStorage.getItem('loginToken')
-          const decodedToken = jwtDecode(getToken)
-          const id = decodedToken.id
-          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+          // let getToken = localStorage.getItem('loginToken')
+          // const decodedToken = jwtDecode(getToken)
+          // const id = decodedToken.id
+          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
           let result = res.data.getusers
           let currentUser = result.filter((user)=> user._id === id)
           if(res.status === 200){
@@ -44,7 +48,7 @@ const MessageBar = forwardRef(({messages,setMessages,currentChat},socket)=>{
       text : newMessage
     })
     try {
-      const res = await AxiosService.post(`${ApiRoutes.ADDNEWMESSAGES.path}`,message,{ headers : { 'Authorization' : ` ${getToken}`}})
+      const res = await AxiosService.post(`${ApiRoutes.ADDNEWMESSAGES.path}`,message,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       setNewMessage('')
       if(res===200){
         setMessages([...messages,res.data.newMessage])

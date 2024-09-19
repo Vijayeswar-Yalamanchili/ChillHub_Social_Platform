@@ -17,15 +17,18 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
     const [onlinebarOpen, setOnlinebarOpen] = useState(false)
     const [convobarOpen, setConvobarOpen] = useState(false)
     const [onlineFriends, setOnlineFriends] = useState([])
-    let getToken = localStorage.getItem('loginToken')
     const [user,setUser] = useState([])
+
+    let getLoginToken = localStorage.getItem('loginToken')
+    const decodedToken = jwtDecode(getLoginToken)
+    const id = decodedToken.id
     
     const getUsers = async() => {
         try {
-            let getToken = localStorage.getItem('loginToken')
-            const decodedToken = jwtDecode(getToken)
-            const id = decodedToken.id
-            let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            // let getToken = localStorage.getItem('loginToken')
+            // const decodedToken = jwtDecode(getToken)
+            // const id = decodedToken.id
+            let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
             let result = res.data.getusers
             let currentUser = result.filter((user)=> user._id === id)
             if(res.status === 200){
@@ -43,7 +46,7 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
 
     const getSearchChatUser = async(searchValue) => {
         try {
-            let res = await AxiosService.get(`${ApiRoutes.SEARCHCHATUSER.path}/${user[0]._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            let res = await AxiosService.get(`${ApiRoutes.SEARCHCHATUSER.path}/${user[0]._id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
             let result = res.data.searchDatas
             let usersList = result.filter((e)=> e._id !== user[0]?._id)
             let filteredData = usersList.filter((user)=> {
@@ -51,14 +54,13 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
             })
             setSearchChatResults(filteredData)
         } catch (error) {
-            console.log(error.message)
             toast.error(error.response.data.message || error.message)
         }
     }
 
     const handleAddConversation = async(friendId) => {
         try {
-            let checkConvo = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            let checkConvo = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
             let checkConvoResult = checkConvo.data.getConversations
             let isConvoExist = checkConvoResult.filter((e)=> e.members[1] === friendId)
             setSearchChatQuery("")
@@ -74,22 +76,22 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
                 }
             }
         } catch (error) {
-            console.log(error.message)
             toast.error(error.response.data.message || error.message)
         }
     }
 
     const getMyOnlineFriends = async() => {
+        let userId = user[0]?._id
         try {
-        let getToken = localStorage.getItem('loginToken')
-        const decodedToken = jwtDecode(getToken)
-        const id = decodedToken.id
-        let res = await AxiosService.get(`${ApiRoutes.GETMYONLINEFRIENDS.path}/${user[0]._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
-        let result = res.data.myFriendsList
-        let onlineFrds = result.filter((e)=> e.isLoggedIn === true)
-        if(res.status === 200){
-            setOnlineFriends(onlineFrds)
-        }
+            if(userId){
+                console.log(user)
+                let res = await AxiosService.get(`${ApiRoutes.GETMYONLINEFRIENDS.path}/${userId}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})   
+                let result = res.data.myFriendsList
+                let onlineFrds = result.filter((e)=> e.isLoggedIn === true)
+                if(res.status === 200){
+                    setOnlineFriends(onlineFrds)
+                }
+            }
         } catch (error) {
             toast.error(error.response.data.message || error.message)
         }
@@ -106,7 +108,7 @@ function ChatListBar({onlineUsers,conversations, setCurrentChat}) {
     useEffect(()=> {
         getUsers()
         getMyOnlineFriends()        
-    },[user]) 
+    },[]) 
 
     return <>
         <div className='messagesRightbar'>

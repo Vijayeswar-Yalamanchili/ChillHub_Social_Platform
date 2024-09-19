@@ -11,12 +11,16 @@ function FriendsBar() {
   const [users, setUsers] = useState([])
   const [myFriends, setMyFriends] = useState([])
 
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
+
   const getUsers = async() => {
     try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})   
+      // let getToken = localStorage.getItem('loginToken')
+      // const decodedToken = jwtDecode(getToken)
+      // const id = decodedToken.id
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})   
       let usersResult = res.data.getusers
       let userFrdsResult = res.data.currentUserFrds.map((e)=> e.userId)
       const filteredNewFrds = usersResult.filter((e)=> {
@@ -33,10 +37,10 @@ function FriendsBar() {
 
   const getMyFriends = async() => {
     try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      // let getToken = localStorage.getItem('loginToken')
+      // const decodedToken = jwtDecode(getToken)
+      // const id = decodedToken.id
+      let res = await AxiosService.get(`${ApiRoutes.GETMYFRIENDS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       const result  = res.data.myFriendsList
       if(res.status === 200){
         setMyFriends(result)

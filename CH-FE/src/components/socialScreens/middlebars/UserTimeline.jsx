@@ -12,6 +12,7 @@ import Posts from '../others/Posts'
 
 
 function UserTimeline() {
+
   const [posts, setPosts] = useState([])
   const [showEmojis, setShowEmojis] = useState(false)
   const [editShow, setEditShow] = useState(false)
@@ -20,15 +21,19 @@ function UserTimeline() {
   const [editSelectedFile, setEditSelectedFile] = useState()
   const [currentPostId, setCurrentPostId] = useState()
 
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
+
   const handleEditClose = () => {
     setCurrentPostId('')
     setEditShow(false)
   }
 
-  const handleEditShow = (postId) => {
-    setEditShow(true)
-    setCurrentPostId(postId)
-  }
+  // const handleEditShow = (postId) => {
+  //   setEditShow(true)
+  //   setCurrentPostId(postId)
+  // }
   
   const handleEditSubmit = async(postId) => {
     try {
@@ -36,14 +41,14 @@ function UserTimeline() {
       formData.append('feededData', editInputStr)
       formData.append('imageUrl', editSelectedFile)
       const formProps = Object.fromEntries(formData)
-      console.log(formProps)
-      let token = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(token)
-      const id = decodedToken.id
+      // console.log(formProps)
+      // let token = localStorage.getItem('loginToken')
+      // const decodedToken = jwtDecode(token)
+      // const id = decodedToken.id
       let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
         headers:{
           "Content-Type" : "multipart/form-data",
-          "Authorization" : `${token}`
+          "Authorization" : `${getLoginToken}`
         }
       })
       setEditInputStr('')
@@ -59,10 +64,10 @@ function UserTimeline() {
 
   const getUserPostData = async() => {
     try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      // let getToken = localStorage.getItem('loginToken')
+      // const decodedToken = jwtDecode(getToken)
+      // const id = decodedToken.id
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       if(res.status === 200){
         setPosts(res.data.getuserpost.reverse())
       }
@@ -70,13 +75,10 @@ function UserTimeline() {
         toast.error(error.response.data.message || error.message)
     }
   }
-
-  let getDetailsToken = localStorage.getItem('loginToken')
-  const decodeduserDetailsToken = jwtDecode(getDetailsToken)
-
+  
   useEffect(() => {
     getUserPostData()
-  },[])
+  },[posts])
 
   return <>
     <div className='mt-4 px-4'>

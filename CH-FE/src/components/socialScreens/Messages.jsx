@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Container,Row, Col } from 'react-bootstrap'
+import { Navigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client'
+import { jwtDecode } from "jwt-decode"
 import NavbarAfterLogin from './common/NavbarAfterLogin'
 import Leftbar from './common/Leftbar'
 import ChatListBar from './others/ChatListBar'
 import MessageBar from './middlebars/MessageBar'
 import AxiosService from '../../utils/AxiosService'
 import ApiRoutes from '../../utils/ApiRoutes'
-import ErrorScreen from './common/ErrorScreen'
 
 function Messages() {
   
@@ -20,14 +21,16 @@ function Messages() {
   const [onlineUsers, setOnlineUsers] = useState([])
   const socket = useRef()
 
-  let getToken = localStorage.getItem('loginToken')
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
 
   const getUsers = async() => {
       try {
-          let getToken = localStorage.getItem('loginToken')
-          const decodedToken = jwtDecode(getToken)
-          const id = decodedToken.id
-          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+          // let getToken = localStorage.getItem('loginToken')
+          // const decodedToken = jwtDecode(getToken)
+          // const id = decodedToken.id
+          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
           let result = res.data.getusers
           let currentUser = result.filter((user)=> user._id === id)
           if(res.status === 200){
@@ -40,7 +43,7 @@ function Messages() {
 
   const getConversations = async() => {
     try {
-        let res = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+        let res = await AxiosService.get(`${ApiRoutes.GETCONVERSATIONS.path}/${user[0]?._id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
         let result = res.data.getConversations
         if(res.status === 200){
             setConversations(result)
@@ -52,7 +55,7 @@ function Messages() {
 
   const getMessages = async() => {
     try {
-      let res = await AxiosService.get(`${ApiRoutes.GETMESSAGES.path}/${currentChat?._id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      let res = await AxiosService.get(`${ApiRoutes.GETMESSAGES.path}/${currentChat?._id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       if(res.status === 200){
         setMessages(res.data.getmessage)        
       }
@@ -96,7 +99,7 @@ function Messages() {
 
   return <>
     {
-      getToken !== null ? <>
+      getLoginToken !== null ? <>
         <div style={{position : "fixed", width: "100vw",zIndex:"1"}}>
           <NavbarAfterLogin/>
         </div>
@@ -110,7 +113,7 @@ function Messages() {
             <Col sm={3} md={3}><ChatListBar onlineUsers={onlineUsers} conversations={conversations} setCurrentChat={setCurrentChat}/></Col>
           </Row>
         </Container>
-      </> : <ErrorScreen/> 
+      </> : <Navigate to={'/'}/>
     }    
   </>
 }

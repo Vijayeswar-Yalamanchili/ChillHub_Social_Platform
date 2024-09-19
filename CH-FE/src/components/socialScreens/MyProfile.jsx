@@ -1,12 +1,16 @@
 import React from 'react'
-import { Container,Row, Col } from 'react-bootstrap';
+import { Container,Row, Col } from 'react-bootstrap'
+import { Navigate } from 'react-router-dom'
 import NavbarAfterLogin from './common/NavbarAfterLogin'
-import Leftbar from './common/Leftbar';
+import Leftbar from './common/Leftbar'
 import Rightbar from './common/Rightbar'
 import MyProfileBar from  './middlebars/MyProfileBar'
 
 
 function MyProfile() {
+  
+  const getLoginToken = localStorage.getItem('loginToken')
+
   return <>
     {
       getLoginToken !== null ? <>
@@ -18,7 +22,7 @@ function MyProfile() {
             <Col sm={3} md={3}><Rightbar/></Col>
           </Row>
         </Container>
-      </> : <ErrorScreen/> 
+      </> : <Navigate to={'/'}/>
     }
   </>
 }

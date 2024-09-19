@@ -9,12 +9,18 @@ import ApiRoutes from '../../../utils/ApiRoutes'
 
 function MyProfileBar() {
 
+  let serverBaseURL = import.meta.env.VITE_SERVER_URL
+
   const [show, setShow] = useState(false)
   const [selectedFile, setSelectedFile] = useState()
   const [inputBio, setInputBio] = useState('')
   const [dob, setDob] = useState()
   const [userBioData, setUserBioData] = useState([])
   const [preview, setPreview] = useState()
+
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -27,19 +33,16 @@ function MyProfileBar() {
   const handleSubmit = async(e) => {
     try {
       e.preventDefault()
-      console.log(e)
       const formData = new FormData(e.target)
       formData.append('imageDP', selectedFile)
       formData.append('dob',dob)
       const formProps = Object.fromEntries(formData)
-      console.log(formProps);
       setInputBio('')
       setShow(false)
-      let LoginToken = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDUSERBIO.path}`,formProps,{
         headers:{
           "Content-Type" : "multipart/form-data",
-          "Authorization" : ` ${LoginToken}`        
+          "Authorization" : ` ${getLoginToken}`        
         }
       })
       if(res.status !== 200){
@@ -52,10 +55,10 @@ function MyProfileBar() {
 
   const getUsersData = async() => {
     try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      // let getToken = localStorage.getItem('loginToken')
+      // const decodedToken = jwtDecode(getToken)
+      // const id = decodedToken.id
+      let res = await AxiosService.get(`${ApiRoutes.GETUSERBIO.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       if(res.status === 200){
         setUserBioData(res.data.getData)
       }
@@ -66,13 +69,13 @@ function MyProfileBar() {
 
   useEffect(() => {
     getUsersData()
-  },[])
+  },[userBioData])
 
   return <>
     <div className='mt-4' style={{width:"100%"}}>
       <div className='profileDatas d-flex justify-content-between flex-row align-items' style={{gap: "5%"}}>
         <div className='profilePicImageArea'>
-          {userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} style={{padding: "1rem"}} className='imageFile' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${userBioData.imageDP}`} className='imageFile' roundedCircle/>}
+          {userBioData.imageDP ===" "|| userBioData.imageDP === undefined ? <Image src={userPic} style={{padding: "1rem"}} className='imageFile' roundedCircle/> : <Image src={`${serverBaseURL}/${userBioData.imageDP}`} className='imageFile' roundedCircle/>}
         </div>
         <div className='userBioData'>
           <div>{userBioData.bio}</div>

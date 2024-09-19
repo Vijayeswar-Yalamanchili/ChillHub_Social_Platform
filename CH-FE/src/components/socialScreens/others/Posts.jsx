@@ -10,7 +10,9 @@ import AxiosService from '../../../utils/AxiosService'
 import ApiRoutes from '../../../utils/ApiRoutes'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 
-function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
+function Posts({posts, setPosts, post, showEmojis, setShowEmojis}) {
+    
+    let serverBaseURL = import.meta.env.VITE_SERVER_URL
 
     const [editShow, setEditShow] = useState(false)
     const [editInputStr, setEditInputStr] = useState('')
@@ -20,6 +22,10 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
     const [comments,setComments] = useState([])
     const [commentsBlock,setCommentsBlock] = useState(false)
     const [currentPostId, setCurrentPostId] = useState()
+
+    let getLoginToken = localStorage.getItem('loginToken')
+    const decodedToken = jwtDecode(getLoginToken)
+    const id = decodedToken.id
     
     const handleEditClose = () => {
         setCurrentPostId('')
@@ -37,13 +43,13 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
             formData.append('feededData', editInputStr)
             formData.append('imageUrl', editSelectedFile)
             const formProps = Object.fromEntries(formData)
-            let token = localStorage.getItem('loginToken')
-            const decodedToken = jwtDecode(token)
-            const id = decodedToken.id
+            // let token = localStorage.getItem('loginToken')
+            // const decodedToken = jwtDecode(token)
+            // const id = decodedToken.id
             let res = await AxiosService.post(`${ApiRoutes.UPDATEPOST.path}/${id}/${postId}`,formProps,{
               headers:{
                 "Content-Type" : "multipart/form-data",
-                "Authorization" : `${token}`
+                "Authorization" : `${getLoginToken}`
               }
             })
             setEditInputStr('')
@@ -76,8 +82,8 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
             if(postId !== ""){
                 const updatedPosts = posts.filter((e)=> e._id !== postId)
                 setPosts(updatedPosts)
-                let token = localStorage.getItem('loginToken')
-                let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
+                // let token = localStorage.getItem('loginToken')
+                let res = await AxiosService.delete(`${ApiRoutes.DELETEUSERPOST.path}/${postId}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
                 if(res.status !== 200){
                     toast.success(error.message)
                 }
@@ -97,8 +103,8 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
                     return e
                 })
                 setPosts(updatedPosts)
-                let token = localStorage.getItem('loginToken')
-                let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : ` ${token}`}})
+                // let token = localStorage.getItem('loginToken')
+                let res = await AxiosService.put(`${ApiRoutes.POSTREACTION.path}/${postId}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
             }
         } catch (error) {
             toast.error(error.response.data.message || error.message)
@@ -108,8 +114,7 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
     const handleCommentBlock = async(postId) => {
         try {
             setCommentsBlock(!commentsBlock)
-            getComments(postId)
-            
+            getComments(postId)            
         } catch (error) {
             toast.error(error.response.data.message || error.message)
         }
@@ -123,13 +128,13 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
             if(formProps.commentText === ""){
                 toast.warning("Please enter some Comment")
             }else{
-                let token = localStorage.getItem('loginToken')
-                const decodedToken = jwtDecode(token)
-                const id = decodedToken.id
+                // let token = localStorage.getItem('loginToken')
+                // const decodedToken = jwtDecode(token)
+                // const id = decodedToken.id
                 let res = await AxiosService.post(`${ApiRoutes.COMMENTUSERPOST.path}/${id}/${postId}`,formProps,{
                   headers:{
                     "Content-Type" : "application/json",
-                    "Authorization" : `${token}`
+                    "Authorization" : `${getLoginToken}`
                   }
                 })
                 // console.log(res);
@@ -145,10 +150,10 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
     
     const getComments = async(postId) => { 
         try {
-            let getToken = localStorage.getItem('loginToken')
-            const decodedToken = jwtDecode(getToken)
-            const id = decodedToken.id
-            let res = await AxiosService.get(`${ApiRoutes.GETCOMMENTUSERPOST.path}/${id}/${postId}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            // let getToken = localStorage.getItem('loginToken')
+            // const decodedToken = jwtDecode(getToken)
+            // const id = decodedToken.id
+            let res = await AxiosService.get(`${ApiRoutes.GETCOMMENTUSERPOST.path}/${id}/${postId}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
 
             if(res.status === 200){
                 // toast.success(res.data.message)
@@ -158,9 +163,7 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
             toast.error(error.response.data.message || error.message)
         }
     }
-
-    let getDetailsToken = localStorage.getItem('loginToken')
-    const decodeduserDetailsToken = jwtDecode(getDetailsToken)
+    console.log(post)
 
     return <>
         <div key={post._id}>
@@ -168,10 +171,13 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
                 <Card className='mb-5 postFeed mx-auto' style={{ width: '100%'}}>
                     <div className='postHeader p-2 d-flex justify-content-between flex-row align-items-center'>
                         <div className='postUserDatas d-flex justify-content-start align-items-center' style={{width : "100%", gap : "3%"}}>
-                            {post.ownerImageDP ===" "|| post.ownerImageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${post.ownerImageDP}`} className='userImage' roundedCircle/>}
+                            {
+                                // post.ownerImageDP ===" "|| post.ownerImageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`https://chillhub-social-platform.onrender.com/${post.ownerImageDP}`} className='userImage' roundedCircle/>
+                                post.ownerImageDP === " " && post.ownerImageDP === undefined ? <Image src={userPic} style={{padding: "5px"}} className='userImage' roundedCircle/> : <Image src={`${serverBaseURL}/${post.ownerImageDP}`} className='userImage' roundedCircle/>
+                            }
                             <div className='postUserDataName' ><b>{post.ownerName}</b></div>
                         </div>
-                        {post.ownerName === decodeduserDetailsToken.name ? 
+                        {post.ownerName === decodedToken.name ? 
                             <div className='d-flex justify-content-between flex-row align-items-center'>
                                 <Button type='button' variant='none' onClick={() => handleEditPost(post._id)}>
                                     <FontAwesomeIcon icon={faEdit} style={{color: "black"}}/>
@@ -184,9 +190,13 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
                             null
                         }
                     </div>
-                    {post.imageUrl ? <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null}
+                    {
+                        post.imageUrl ? <Card.Img variant="top" src={`${serverBaseURL}/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null
+                    }
                     {/* {post.imageUrl ? <Card.Img variant="top" src={`http://localhost:8000/${post.imageUrl}`} alt='feedPost' className='postImage' style={{maxHeight:"300px"}}/> : null} */}
-                    {post.feededData?<Card.Text className='m-2'>{post.feededData}</Card.Text> : null}
+                    {
+                        post.feededData ? <Card.Text className='m-2'>{post.feededData}</Card.Text> : null
+                    }
                     <Card.Body className='p-0'>
                         <Row>
                             {
@@ -204,8 +214,8 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
                             <div className='commentSection mt-3'>
                                 <div className='px-2'>
                                     <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                                        <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
-                                        <div><b>{decodeduserDetailsToken.name}</b></div>
+                                        <Image src={decodedToken.imageDP} className='userImage' roundedCircle/>
+                                        <div><b>{decodedToken.name}</b></div>
                                     </div>
                                     <Form className='my-2 d-flex justify-content-between' style={{width : "100%"}}>
                                         <div className='commentArea'><input type="text" id='commentArea' name="commentText" placeholder="Enter your Comment"  value={commentInput} onChange={(e)=>setCommentInput(e.target.value)}/></div>
@@ -223,7 +233,7 @@ function Posts({posts, setPosts,post,showEmojis, setShowEmojis}) {
                                                     return <ul className="list-group list-group-flush" key={e._id}>
                                                         <li className='list-group-item'>
                                                             <div className='d-flex justify-content-start align-items-center' style={{width : "40%", gap : "3%"}}>
-                                                                <Image src={decodeduserDetailsToken.imageDP} className='userImage' roundedCircle/>
+                                                                <Image src={decodedToken.imageDP} className='userImage' roundedCircle/>
                                                                 <div><b>{e.ownerName}</b></div>
                                                             </div>
                                                             <div className='p-2'>{e.commentText}</div>

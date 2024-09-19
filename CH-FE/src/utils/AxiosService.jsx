@@ -1,8 +1,9 @@
 import axios from 'axios'
 
+let serverBaseURL = import.meta.env.VITE_SERVER_URL
+
 const AxiosService = axios.create({
-    // baseURL: "http://localhost:8000",
-    baseURL:"https://chillhub-social-platform.onrender.com",
+    baseURL : `${serverBaseURL}`,
     headers : {
         "Content-Type" : "application/json",
         Authorization:localStorage.getItem('loginToken')

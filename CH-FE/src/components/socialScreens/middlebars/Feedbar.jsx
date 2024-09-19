@@ -13,6 +13,7 @@ import Posts from '../others/Posts'
 
 function Feedbar() {
 
+  let serverBaseURL = import.meta.env.VITE_SERVER_URL
   const [user,setUser] = useState([])
   const [currentUser, setCurrentUser] = useState()
   const [show, setShow] = useState(false)
@@ -23,7 +24,9 @@ function Feedbar() {
   const [postImage, setPostImage] = useState()
   const [posts, setPosts] = useState([])
   
-  let getDetailsToken = localStorage.getItem('loginToken')
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -31,10 +34,10 @@ function Feedbar() {
     
   const getUsers = async() => {
       try {
-          let getToken = localStorage.getItem('loginToken')
-          const decodedToken = jwtDecode(getToken)
-          const id = decodedToken.id
-          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+          // let getToken = localStorage.getItem('loginToken')
+          // const decodedToken = jwtDecode(getToken)
+          // const id = decodedToken.id
+          let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
           let result = res.data.getusers
           let currentUser = result.filter((user)=> user._id === id)
           if(res.status === 200){
@@ -52,10 +55,9 @@ function Feedbar() {
       formData.append('feededData', inputStr)
       formData.append('imageUrl', selectedFile)
       const formProps = Object.fromEntries(formData)
-      let token = localStorage.getItem('loginToken')
       let res = await AxiosService.post(`${ApiRoutes.ADDPOST.path}`,formProps, {
         headers:{
-          "Authorization" : `${token}`,
+          "Authorization" : `${getLoginToken}`,
           'Content-Type': 'multipart/form-data'
         }
       })
@@ -74,10 +76,7 @@ function Feedbar() {
 
   const getPostData = async() => {
     try {
-      let getToken = localStorage.getItem('loginToken')
-      const decodedToken = jwtDecode(getToken)
-      const id = decodedToken.id
-      let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+      let res = await AxiosService.get(`${ApiRoutes.GETPOST.path}/${id}`,{ headers : { 'Authorization' : ` ${getLoginToken}`}})
       const getPostResult = res.data.flatPost
       const images = getPostResult.map((e)=>e.imageUrl)
       if(res.status === 200){
@@ -99,7 +98,7 @@ function Feedbar() {
     <div className='feed mt-4 p-3'>
       <div className='d-flex flex-row justify-content-between'>
         {
-          user[0]?.imageDP  ? <Image src={`https://chillhub-social-platform.onrender.com/${user[0].imageDP}`} className='userImage me-3' roundedCircle/>:
+          user[0]?.imageDP  ? <Image src={`${serverBaseURL}/${user[0].imageDP}`} className='userImage me-3' roundedCircle/>:
           <Image src={userPic} style={{padding: "5px"}} className='userImage p-1 me-3' roundedCircle/>
         }
         <input type="text" className='openAddFeedBtn px-3' onClick={handleShow} defaultValue={"Click here to Put your thoughts!!!"} readOnly/>

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Container,Row, Col } from 'react-bootstrap'
+import { Navigate } from 'react-router-dom'
 import NavbarAfterLogin from './common/NavbarAfterLogin'
 import Leftbar from './common/Leftbar'
 import Rightbar from './common/Rightbar'
 import Feedbar from './middlebars/Feedbar'
-import ErrorScreen from './common/ErrorScreen'
 
 function Home() {
 
@@ -21,7 +21,7 @@ function Home() {
             <Col sm={3} md={3}><Rightbar/></Col>
           </Row>
         </Container>
-      </> : <ErrorScreen/> 
+      </> : <Navigate to={'/'}/>
     }    
   </>
 }

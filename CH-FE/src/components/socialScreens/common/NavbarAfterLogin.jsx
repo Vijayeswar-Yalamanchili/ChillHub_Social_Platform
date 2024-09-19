@@ -12,6 +12,8 @@ import ApiRoutes from '../../../utils/ApiRoutes'
 
 function NavbarAfterLogin() {
 
+    let serverBaseURL = import.meta.env.VITE_SERVER_URL
+
     let logout = useLogout()
     const [user,setUser] = useState([])
     const [notify,setNotify] = useState(false);
@@ -22,16 +24,17 @@ function NavbarAfterLogin() {
     const handleNotify = () => setNotify(!notify)
     const handleMyProfile = () => setMyProfile(!myProfile)
     
-    // let tokenForUsername = localStorage.getItem('loginToken')
-    // const decodedUsernameToken = jwtDecode(tokenForUsername)
+    let getDetailsToken = localStorage.getItem('loginToken')
+    const decodedToken = jwtDecode(getDetailsToken)
+    const id = decodedToken.id
 
     
     const getUsers = async() => {
         try {
-            let getToken = localStorage.getItem('loginToken')
-            const decodedToken = jwtDecode(getToken)
-            const id = decodedToken.id
-            let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            // let getToken = localStorage.getItem('loginToken')
+            // const decodedToken = jwtDecode(getToken)
+            // const id = decodedToken.id
+            let res = await AxiosService.get(`${ApiRoutes.GETALLUSERS.path}/${id}`,{ headers : { 'Authorization' : ` ${getDetailsToken}`}})
             let result = res.data.getusers
             let currentUser = result.filter((user)=> user._id === id)
             if(res.status === 200){
@@ -44,10 +47,10 @@ function NavbarAfterLogin() {
 
     const handleLogout = async() => {
         try {
-            let getToken = localStorage.getItem('loginToken')
-            const decodedToken = jwtDecode(getToken)
-            const id = decodedToken.id
-            let res = await AxiosService.put(`${ApiRoutes.LOGOUT.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            // let getToken = localStorage.getItem('loginToken')
+            // const decodedToken = jwtDecode(getToken)
+            // const id = decodedToken.id
+            let res = await AxiosService.put(`${ApiRoutes.LOGOUT.path}/${id}`,{ headers : { 'Authorization' : ` ${getDetailsToken}`}})
             if(res.status === 200){
               logout()
             }
@@ -63,11 +66,11 @@ function NavbarAfterLogin() {
 
     const getSearchData = async(searchValue) => {
         try {
-            let getToken = localStorage.getItem('loginToken')
-            const decodedToken = jwtDecode(getToken)
-            const id = decodedToken.id
-            console.log(id,searchValue);
-            let res = await AxiosService.get(`${ApiRoutes.SEARCHDATA.path}/${id}`,{ headers : { 'Authorization' : ` ${getToken}`}})
+            // let getToken = localStorage.getItem('loginToken')
+            // const decodedToken = jwtDecode(getToken)
+            // const id = decodedToken.id
+            // console.log(id,searchValue);
+            let res = await AxiosService.get(`${ApiRoutes.SEARCHDATA.path}/${id}`,{ headers : { 'Authorization' : ` ${getDetailsToken}`}})
             let result = res.data.searchDatas
             let filteredData = result.filter((user)=> {
                 return searchValue && user && (user.firstName + user.lastName) && (user.firstName + user.lastName).toLowerCase().includes(searchValue)
@@ -115,8 +118,7 @@ function NavbarAfterLogin() {
                 
                 <div className='navbarMenu d-flex justify-content-between'>
                     <div className='d-flex justify-content-between flex-row align-items-center'>
-                        {/* <div className='userName' style={{color: "white", fontSize : "18px"}}>Hi, {decodedUsernameToken.name}</div> */}
-                        <div className='userName' style={{color: "white", fontSize : "18px"}}>Hi</div>
+                        <div className='userName' style={{color: "white", fontSize : "18px"}}>Hi, {decodedToken.name}</div>
                         <Nav className='ms-auto'>
                             <Nav.Link>
                                 <Button className='NavIcon mx-2' onClick={()=>handleMyProfile()}>
@@ -136,9 +138,8 @@ function NavbarAfterLogin() {
             myProfile ? 
                 <div className="myProfileDrpdwn list-group list-group-flush mt-3">
                     <div className='listMenuUserName list-group-item list-group-item-action'>
-                        <Image className="userImage my-2" src={`https://chillhub-social-platform.onrender.com/${user[0].imageDP}`} roundedCircle/>
-                        <div><b>Welcome</b></div>
-                        {/* <div><b>Welcome, {decodedUsernameToken.name}</b></div> */}
+                        <Image className="userImage my-2" src={`${serverBaseURL}/${user[0].imageDP}`} roundedCircle/>
+                        <div><b>Welcome, {decodedToken.name}</b></div>
                     </div>
                     <Link to={'/myProfile'} className="listMenu list-group-item list-group-item-action">
                         <span className='d-flex align-items-center' style={{gap:"15px"}}>

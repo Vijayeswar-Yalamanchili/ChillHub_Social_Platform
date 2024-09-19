@@ -7,16 +7,21 @@ import ApiRoutes from '../../../utils/ApiRoutes'
 import userPic from '../../../assets/svg/userProfilePic.svg'
 
 function MyFriends({myFriends,setMyFriends,users, setUsers}) {
+  
+  let serverBaseURL = import.meta.env.VITE_SERVER_URL
+  let getLoginToken = localStorage.getItem('loginToken')
+  const decodedToken = jwtDecode(getLoginToken)
+  const id = decodedToken.id
 
   const handleRemoveFriend = async(friendId) => {
     try {
       if(friendId !== ""){
         const updatedFriends = myFriends.filter((e)=> e._id !== friendId)
         setMyFriends(updatedFriends)
-        let getToken = localStorage.getItem('loginToken')
-        const decodedToken = jwtDecode(getToken)
-        const id = decodedToken.id
-        let res = await AxiosService.put(`${ApiRoutes.REMOVEFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getToken}`}})     
+        // let getToken = localStorage.getItem('loginToken')
+        // const decodedToken = jwtDecode(getToken)
+        // const id = decodedToken.id
+        let res = await AxiosService.put(`${ApiRoutes.REMOVEFRIEND.path}/${id}/${friendId}`,{ headers : {'Authorization' : ` ${getLoginToken}`}})     
         let frds = [...users,res.data.removeFriendInFriend]
         if(res.status === 200){
           setUsers(frds)
@@ -36,7 +41,7 @@ function MyFriends({myFriends,setMyFriends,users, setUsers}) {
               return <div key={e._id} className='mt-3'>
                 <Col >
                   <Card style={{ width: '100%' }} >
-                    {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic} style={{padding: "5px"}}/> : <Card.Img variant="top" src={`https://chillhub-social-platform.onrender.com/${e.imageDP}`} />}
+                    {e.imageDP ===" "|| e.imageDP === undefined ? <Card.Img variant="top" src={userPic} style={{padding: "5px"}}/> : <Card.Img variant="top" src={`${serverBaseURL}/${e.imageDP}`} />}
                     <Card.Body>
                       <Card.Title>{e.firstName} {e.lastName}</Card.Title>
                       <Button variant="danger" onClick={()=>handleRemoveFriend(e._id)}>UnFriend</Button>

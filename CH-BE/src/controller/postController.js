@@ -99,11 +99,20 @@ const getUserPosts = async(req,res) => {
 
 const updatePost = async(req,res) => {
     try {
-        let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : req.body.feededData, "imageUrl" : req.file.filename }})
-        res.status(200).send({
-            message:"Post Updated",
-            postToBeUpdate
-        })
+        if(req?.file === undefined){
+            let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : req.body.feededData, }})
+            res.status(200).send({
+                message:"Post Updated",
+                postToBeUpdate
+            })
+        }
+        else{
+            let postToBeUpdate = await FeedDatasModel.findOneAndUpdate({_id : req.params.postId},{$set : {"feededData" : req.body.feededData, "imageUrl" : req.file.filename }})
+            res.status(200).send({
+                message:"Post Updated",
+                postToBeUpdate
+            })
+        }        
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error in updating Userposts"
